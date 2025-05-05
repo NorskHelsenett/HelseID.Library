@@ -1,3 +1,4 @@
+using HelseID.Standard.Configuration;
 using HelseID.Standard.Interfaces.Endpoints;
 using IdentityModel.Client;
 using Microsoft.Extensions.Caching.Memory;
@@ -16,6 +17,12 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
     public DiscoveryDocumentGetter(string stsUrl, IMemoryCache memoryCache)
     {
         _stsUrl = stsUrl;
+        _memoryCache = memoryCache;
+    }
+
+    public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IMemoryCache memoryCache)
+    {
+        _stsUrl = helseIdConfiguration.StsUrl;
         _memoryCache = memoryCache;
     }
 

@@ -9,6 +9,10 @@ public class AssertionDetailsCreator : DetailsCreator, IAssertionDetailsCreator
     {
         DetailsName = "assertion_details";
     }
+    public AssertionDetailsCreator(IEnumerable<IStructuredClaimsCreator> structuredClaimsCreators) : base(structuredClaimsCreators.ToList())
+    {
+        DetailsName = "assertion_details";
+    }
     
     public PayloadClaim CreateAssertionDetails(PayloadClaimParameters payloadClaimParameters)
     {

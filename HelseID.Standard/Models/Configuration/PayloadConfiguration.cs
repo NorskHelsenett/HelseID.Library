@@ -2,5 +2,5 @@ namespace HelseID.Standard.Models.Configuration;
 
 public static class PayloadConfiguration
 {
-    public const int TokenExpirationTimeInSeconds = 30;
+    public const int TokenExpirationTimeInSeconds = 3000;
 }
