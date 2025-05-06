@@ -24,6 +24,7 @@ public class SigningTokenCreator : ISigningTokenCreator
         {
             Claims = claims,
             SigningCredentials = _helseIdConfiguration.SigningCredentials,
+            TokenType = payloadClaimParameters.TokenType
         };
 
         // This creates a (signed) jwt token which is used for the client assertion.

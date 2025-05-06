@@ -61,7 +61,7 @@ public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests
         claims[2].Value.Should().Be(StsUrl);
         
         claims[3].Key.Should().Be("exp");
-        claims[3].Value.Should().Be(1735648650);
+        claims[3].Value.Should().Be(1735648630);
         
         claims[4].Key.Should().Be("iat");
         claims[4].Value.Should().Be(1735648620);

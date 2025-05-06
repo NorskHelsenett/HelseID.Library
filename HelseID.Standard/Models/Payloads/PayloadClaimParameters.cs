@@ -30,4 +30,6 @@ public class PayloadClaimParameters
     public string ChildOrganizationNumber { get; set; } = string.Empty;
     
     public string SfmJournalId { get; set; } = string.Empty;
+
+    public string TokenType { get; set; } = "client-authentication+jwt";
 }

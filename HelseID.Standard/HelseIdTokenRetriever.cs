@@ -13,7 +13,7 @@ public interface IHelseIdTokenRetriever
 }
 
 public class HelseIdTokenRetriever : IHelseIdTokenRetriever
-{
+{   
     private readonly IClientCredentialsTokenRequestBuilder _clientCredentialsTokenRequestBuilder;
     private readonly IPayloadClaimsCreator _payloadClaimsCreator;
 
@@ -32,6 +32,9 @@ public class HelseIdTokenRetriever : IHelseIdTokenRetriever
  
         var result = await new HttpClient().RequestClientCredentialsTokenAsync(request);
         
+        request = await _clientCredentialsTokenRequestBuilder.CreateTokenRequest(_payloadClaimsCreator, clientCredentialsTokenRequestParameters, result.DPoPNonce);
+        
+        result = await new HttpClient().RequestClientCredentialsTokenAsync(request);
         return result.AccessToken!;
     }
 }

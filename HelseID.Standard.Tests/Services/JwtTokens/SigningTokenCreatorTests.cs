@@ -2,6 +2,7 @@ using FluentAssertions;
 using HelseID.Standard.Services.JwtTokens;
 using HelseID.Standard.Tests.Configuration;
 using HelseID.Standard.Tests.Mocks;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace HelseID.Standard.Tests.Services.JwtTokens;
 
@@ -35,6 +36,16 @@ public class SigningTokenCreatorTests : ConfigurationTests
         var jwt = _signingTokenCreator.CreateSigningToken(_claimsCreatorMock, PayloadClaimParameters);
 
         jwt.Should().NotBeNullOrEmpty();
-        jwt.Should().Be("eyJhbGciOiJSUzM4NCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkMDYxMmIyNy0xNzFkLTRlNjEtODdmMS05YjU3NGMwMmQxOTUiLCJzdWIiOiJkMDYxMmIyNy0xNzFkLTRlNjEtODdmMS05YjU3NGMwMmQxOTUiLCJqdGkiOiIzYWZiM2Y1Zi04MzVlLTQ5YzAtOTczNi1kN2JhNTUwMmE4M2EifQ.bOgX616YAJzGj6r4PyOQQ4PXsAt1wWT6se7-wLmnNlZ09TzsCR_hECOqKRe7DZxmi_mIq7iMZ9F58ZLM96CqmMx7BqQwXSMc4iUNCXrIqxgYtbGaVo4HxEpKvfxfJUjNoGmwjmKrOZ_TUAiiXKkcIHJ9ZKHjg_TwovUActXMZTkFlGSXBgaLlFZZGiVxOwz4DmRkaQ2rO4IS-Oao2CyWqvgyBbMaYDmWcTzYZ0Al5LN0pySFeMUNDhedPbZIGgmnFgH-4qRWB1HUd1o5NLgoS--6gLCjvj38E9sEGhBDm8-Eua-ZnwHXFcDJ25daiutupuo96u8-3eVXJc2wRp2KIg");
+        jwt.Should().Be("eyJhbGciOiJSUzM4NCIsInR5cCI6ImNsaWVudC1hdXRoZW50aWNhdGlvbitqd3QifQ.eyJpc3MiOiJkMDYxMmIyNy0xNzFkLTRlNjEtODdmMS05YjU3NGMwMmQxOTUiLCJzdWIiOiJkMDYxMmIyNy0xNzFkLTRlNjEtODdmMS05YjU3NGMwMmQxOTUiLCJqdGkiOiIzYWZiM2Y1Zi04MzVlLTQ5YzAtOTczNi1kN2JhNTUwMmE4M2EifQ.PQhRkjeS899WxFDYJYjlA5ejnTAjzSdr9kwjmYojApLhbqLYWhm3FbRr8Pc1_YjWUf8jgPmVIKo321xBLAjzCWdXram_Iqy4DcA9WbbxJOEiFE4wQzCI8RmNy9QAWvoqih1FgRoltzKEyfsxPkquMNxjuIknZMEICm-Wxf7RFk1xxg5AdaVfh0iCVHwQfEbhM88mGz4ESCo02Bx5L6SUgBlYTgzcWU8rMcbQHVByrymNsEYVvjvsSJ0jhpcmR_vTiobkR98INomSMd_XEh0E8xF3TQQqswfwYYj4h0w1F7fzF6AA71U7UFBzJn23KBVFc5H64Lk2_8CkB-RV7TZKTQ");
+    }
+    
+    [Test]
+    public void CreateSigningToken_sets_type_header_from_parameters()
+    {
+        PayloadClaimParameters.TokenType = "123";
+        var jwt = _signingTokenCreator.CreateSigningToken(_claimsCreatorMock, PayloadClaimParameters);
+        var parsedJwt = new JsonWebTokenHandler().ReadJsonWebToken(jwt);
+        parsedJwt.Typ.Should().Be("123");
+
     }
 }

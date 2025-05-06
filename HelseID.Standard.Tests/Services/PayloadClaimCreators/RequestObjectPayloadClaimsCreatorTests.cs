@@ -74,7 +74,7 @@ public class RequestObjectPayloadClaimsCreatorTests : ConfigurationTests
         claims[1].Value.Should().Be(StsUrl);
         
         claims[2].Key.Should().Be("exp");
-        claims[2].Value.Should().Be(1735648651);
+        claims[2].Value.Should().Be(1735648631);
         
         claims[3].Key.Should().Be("nbf");
         claims[3].Value.Should().Be(1735648621);

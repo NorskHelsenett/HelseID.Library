@@ -40,7 +40,7 @@ public class ClientAssertionPayloadClaimsCreator : IPayloadClaimsCreatorForClien
     private Dictionary<string, object> AddStandardClaims(HelseIdConfiguration configuration)
     {
         // Time values are converted to epoch (UNIX) time format
-        var tokenIssuedAtEpochTime = EpochTime.GetIntDate(_timeProvider.GetUtcNow().DateTime);
+        var tokenIssuedAtEpochTime = _timeProvider.GetUtcNow().ToUnixTimeSeconds();
         // This class contains JSON objects representing the claims contained in the JWT.
         return new Dictionary<string, object>
         {

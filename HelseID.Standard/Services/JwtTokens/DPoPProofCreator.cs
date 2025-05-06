@@ -42,7 +42,7 @@ public class DPoPProofCreator : IDPoPProofCreator
             Claims = claims,
             SigningCredentials = _signingCredentials,
             // TODO: check this!
-            IssuedAt = _timeProvider.GetUtcNow().DateTime,
+            IssuedAt = _timeProvider.GetLocalNow().DateTime,
         };
 
         return tokenHandler.CreateToken(securityTokenDescriptor);    
