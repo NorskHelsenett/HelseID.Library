@@ -49,31 +49,16 @@ public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests
         var claims = _clientAssertionPayloadClaimsCreator.CreatePayloadClaims(HelseIdConfiguration, PayloadClaimParameters).ToArray();
         
         claims.Should().NotBeNull();
-        claims.Length.Should().Be(7);
+        claims.Length.Should().Be(8);
         
-        claims[0].Key.Should().Be("iss");
-        claims[0].Value.Should().Be(ClientId);
-        
-        claims[1].Key.Should().Be("sub");
-        claims[1].Value.Should().Be(ClientId);
-        
-        claims[2].Key.Should().Be("aud");
-        claims[2].Value.Should().Be(StsUrl);
-        
-        claims[3].Key.Should().Be("exp");
-        claims[3].Value.Should().Be(1735648630);
-        
-        claims[4].Key.Should().Be("iat");
-        claims[4].Value.Should().Be(1735648620);
-        
-        claims[5].Key.Should().Be("jti");
-        claims[5].Value.Should().BeOfType<string>();
-        var jti = claims[5].Value as string;
-        jti.Should().HaveLength(32);
-        
-        claims[6].Key.Should().Be("assertion_details");
-        claims[6].Value.Should().BeOfType<string>();
-        claims[6].Value.Should().Be("some_object_value");
+        claims.Should().Contain(c => c.Key == "iss" && (string)c.Value == ClientId);
+        claims.Should().Contain(c => c.Key == "sub" && (string)c.Value == ClientId);
+        claims.Should().Contain(c => c.Key == "aud" && (string)c.Value == StsUrl);
+        claims.Should().Contain(c => c.Key == "exp" && (long)c.Value == 1735648630);
+        claims.Should().Contain(c => c.Key == "iat" && (long)c.Value == 1735648620);
+        claims.Should().Contain(c => c.Key == "jti" && ((string)c.Value).Length == 32);
+        claims.Should().Contain(c => c.Key == "assertion_details" && (string)c.Value == "some_object_value");
+        claims.Should().Contain(c => c.Key == "nbf" && (long)c.Value == 1735648620);
     }
 
     [Test]
@@ -83,7 +68,7 @@ public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests
         
         var claims = _clientAssertionPayloadClaimsCreator.CreatePayloadClaims(HelseIdConfiguration, PayloadClaimParameters).ToArray();
         
-        claims.Length.Should().Be(6);
+        claims.Length.Should().Be(7);
         _assertionDetailsCreatorMock.PayloadClaimParameters.Should().BeNull();
     }
     
@@ -94,7 +79,7 @@ public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests
         
         var claims = _clientAssertionPayloadClaimsCreator.CreatePayloadClaims(HelseIdConfiguration, PayloadClaimParameters).ToArray();
         
-        claims.Length.Should().Be(6);
+        claims.Length.Should().Be(7);
         _assertionDetailsCreatorMock.PayloadClaimParameters.Should().BeNull();
     }
 }

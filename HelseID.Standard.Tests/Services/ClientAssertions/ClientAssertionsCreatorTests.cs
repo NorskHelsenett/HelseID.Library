@@ -12,7 +12,7 @@ public class ClientAssertionsCreatorTests
     private PayloadClaimsCreatorMock _payloadClaimsCreatorMock = null!;
     private ClientAssertionsCreator _assertionsCreator = null!;
     private PayloadClaimParameters _payloadClaimParameters = null!;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -34,13 +34,15 @@ public class ClientAssertionsCreatorTests
         _signingTokenCreatorMock.PayloadClaimsCreator.Should().Be(_payloadClaimsCreatorMock);
         _signingTokenCreatorMock.PayloadClaimParameters.Should().Be(_payloadClaimParameters);
     }
-    
+
     [Test]
     public void CreateClientAssertion_returns_client_assertion()
     {
         var result = _assertionsCreator.CreateClientAssertion(_payloadClaimsCreatorMock, _payloadClaimParameters);
 
         result.Type.Should().Be("urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
-        result.Value.Should().Contain("eyJhbGciOiJFUzM4NCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0YTg2MzkwNS0zNjQ4LTQzY2ItYTBmZi03MTBhMTZmMjgxNjQifQ.");
+        result.Value.Should()
+            .Contain("eyJhbGciOiJFUzM4NCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0YTg2MzkwNS0zNjQ4LTQzY2ItYTBmZi03MTBhMTZmMjgxNjQifQ.");
     }
+    
 }

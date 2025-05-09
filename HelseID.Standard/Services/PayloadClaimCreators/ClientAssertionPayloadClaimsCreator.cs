@@ -55,6 +55,8 @@ public class ClientAssertionPayloadClaimsCreator : IPayloadClaimsCreatorForClien
             { JwtRegisteredClaimNames.Exp, tokenIssuedAtEpochTime + PayloadConfiguration.TokenExpirationTimeInSeconds },
             // "iat" (issued at time): this describes the time when the token was issued
             { JwtRegisteredClaimNames.Iat, tokenIssuedAtEpochTime },
+            // "nbf (not before)"
+            { JwtRegisteredClaimNames.Nbf, tokenIssuedAtEpochTime },
             // "jti" a unique identifier for the token, which can be used to prevent reuse of the token.
             { JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N") },
         };
