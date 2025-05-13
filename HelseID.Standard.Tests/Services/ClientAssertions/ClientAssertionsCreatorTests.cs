@@ -39,9 +39,8 @@ public class ClientAssertionsCreatorTests
     public void CreateClientAssertion_returns_client_assertion()
     {
         var result = _assertionsCreator.CreateClientAssertion(_payloadClaimsCreatorMock, _payloadClaimParameters);
-
-        result.Type.Should().Be("urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
-        result.Value.Should()
+        
+        result.Should()
             .Contain("eyJhbGciOiJFUzM4NCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0YTg2MzkwNS0zNjQ4LTQzY2ItYTBmZi03MTBhMTZmMjgxNjQifQ.");
     }
     

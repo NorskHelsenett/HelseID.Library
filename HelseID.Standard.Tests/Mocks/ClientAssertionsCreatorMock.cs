@@ -12,15 +12,11 @@ public class ClientAssertionsCreatorMock : IClientAssertionsCreator
     public IPayloadClaimsCreator PayloadClaimsCreator { get; set; } = null!;
     public PayloadClaimParameters PayloadClaimParameters { get; set; } = null!;
     
-    public ClientAssertion CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
+    public string CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
     {
         PayloadClaimsCreator = payloadClaimsCreator;
         PayloadClaimParameters = payloadClaimParameters;
-        
-        return new ClientAssertion()
-        {
-            Type = "client_assertion",
-            Value = Value,
-        };
+
+        return Value;
     }
 }

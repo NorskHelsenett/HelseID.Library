@@ -15,10 +15,10 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
     private readonly HelseIdConfiguration _helseIdConfiguration;
 
     public AuthorizationCodeTokenRequestBuilder(
-        IClientAssertionsCreator clientAssertionsCreator,
+        ISigningTokenCreator signingTokenCreator,
         IDPoPProofCreator dPoPProofCreator,
         IHelseIdEndpointsDiscoverer helseIdEndpointsDiscoverer,
-        HelseIdConfiguration helseIdConfiguration) : base(clientAssertionsCreator, dPoPProofCreator, helseIdEndpointsDiscoverer)
+        HelseIdConfiguration helseIdConfiguration) : base(signingTokenCreator, dPoPProofCreator, helseIdEndpointsDiscoverer)
     {
         _helseIdConfiguration = helseIdConfiguration;
     }
@@ -35,7 +35,11 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
         return new AuthorizationCodeTokenRequest
         {
             Address = tokenEndpoint,
-            ClientAssertion = clientAssertion,
+            ClientAssertion = new ClientAssertion
+            {
+                Type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+                Value = clientAssertion
+            },
             ClientId = _helseIdConfiguration.ClientId,
             ClientCredentialStyle = ClientCredentialStyle.PostBody,
             Resource = tokenRequestParameters.Resource,

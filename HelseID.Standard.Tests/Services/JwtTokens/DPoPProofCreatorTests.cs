@@ -14,7 +14,6 @@ public class DPoPProofCreatorTests : ConfigurationTests
 {
     private const string Url = "https://helseid-sts.nhn.no/connect/token";
     private const string HttpMethod = "POST";
-    private JtiClaimCreatorMock _jtiClaimCreatorMock = null!;
     private FakeTimeProvider _fakeTimeProvider = null!;    
     private DPoPProofCreator _dPoPProofCreator = null!;
     
@@ -23,10 +22,8 @@ public class DPoPProofCreatorTests : ConfigurationTests
     {
         _fakeTimeProvider = new FakeTimeProvider();
         _fakeTimeProvider.SetUtcNow(new DateTime(2025, 1, 4, 13, 37, 00));
-
-        _jtiClaimCreatorMock = new JtiClaimCreatorMock();
         
-        _dPoPProofCreator = new DPoPProofCreator(HelseIdConfiguration, _fakeTimeProvider, _jtiClaimCreatorMock);
+        _dPoPProofCreator = new DPoPProofCreator(HelseIdConfiguration, _fakeTimeProvider);
     }
     
     [Test]
@@ -74,7 +71,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public void CreateDPoPProof_sets_standard_dpop_proof_with_elliptic_curve()
     {
-        _dPoPProofCreator = new DPoPProofCreator(HelseIdConfigurationWithEcKey, _fakeTimeProvider, _jtiClaimCreatorMock);
+        _dPoPProofCreator = new DPoPProofCreator(HelseIdConfigurationWithEcKey, _fakeTimeProvider);
         
         var dPoPProof = _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
 
@@ -87,7 +84,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public void CreateDPoPProof_throws_when_an_invalid_key_is_used()
     {
-        _dPoPProofCreator = new DPoPProofCreator(HelseIdConfigurationWithInvalidKey, _fakeTimeProvider, _jtiClaimCreatorMock);
+        _dPoPProofCreator = new DPoPProofCreator(HelseIdConfigurationWithInvalidKey, _fakeTimeProvider);
         
         Action createDPoPProof = () => _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
         
@@ -97,7 +94,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public void CreateDPoPProof_sets_standard_dpop_proof_with_x509_certificate()
     {
-        _dPoPProofCreator = new DPoPProofCreator(SetHelseIdConfigurationWithX509(), _fakeTimeProvider, _jtiClaimCreatorMock);
+        _dPoPProofCreator = new DPoPProofCreator(SetHelseIdConfigurationWithX509(), _fakeTimeProvider);
         
         var dPoPProof = _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
 

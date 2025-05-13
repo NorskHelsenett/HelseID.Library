@@ -24,7 +24,7 @@ public class AuthorizationCodeTokenRequestBuilderTests : TokenRequestBuilderTest
     [SetUp]
     public void Setup()
     {
-        _authorizationCodeTokenRequestBuilder = new AuthorizationCodeTokenRequestBuilder(ClientAssertionsCreatorMock,
+        _authorizationCodeTokenRequestBuilder = new AuthorizationCodeTokenRequestBuilder(SigningTokenCreatorMock,
             DpoPProofCreatorMock,
             HelseIdEndpointsDiscovererMock,
             HelseIdConfiguration);
@@ -61,8 +61,8 @@ public class AuthorizationCodeTokenRequestBuilderTests : TokenRequestBuilderTest
             PayloadClaimsCreatorMock,
             _authorizationCodeTokenRequestParameters);
 
-        ClientAssertionsCreatorMock.PayloadClaimsCreator.Should().Be(PayloadClaimsCreatorMock);
-        ClientAssertionsCreatorMock.PayloadClaimParameters.Should().BeEquivalentTo(PayloadClaimParameters);
+        SigningTokenCreatorMock.PayloadClaimsCreator.Should().Be(PayloadClaimsCreatorMock);
+        SigningTokenCreatorMock.PayloadClaimParameters.Should().BeEquivalentTo(PayloadClaimParameters);
     }
     
     [Test]
@@ -100,8 +100,8 @@ public class AuthorizationCodeTokenRequestBuilderTests : TokenRequestBuilderTest
         
         request.Should().NotBeNull();
         request.Address.Should().Be(HelseIdEndpointsDiscovererMock.TokenEndpoint);
-        request.ClientAssertion.Type.Should().Be("client_assertion");
-        request.ClientAssertion.Value.Should().Be(ClientAssertionsCreatorMock.Value);
+        request.ClientAssertion.Type.Should().Be("urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
+        request.ClientAssertion.Value.Should().Be(SigningTokenCreatorMock.Value);
         request.ClientCredentialStyle.Should().Be(ClientCredentialStyle.PostBody);
         request.ClientId.Should().Be(ClientId);
         request.Resource.Should().BeEquivalentTo(_resource);

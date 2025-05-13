@@ -9,16 +9,16 @@ namespace HelseID.Standard.Services.TokenRequests;
 
 public abstract class TokenRequestBuilder
 {
-    private readonly IClientAssertionsCreator _clientAssertionsCreator;
+    private readonly ISigningTokenCreator _signingTokenCreator;
     private readonly IDPoPProofCreator _dPoPProofCreator;
     private readonly IHelseIdEndpointsDiscoverer _helseIdEndpointsDiscoverer;
 
     protected TokenRequestBuilder(
-        IClientAssertionsCreator clientAssertionsCreator,
+        ISigningTokenCreator signingTokenCreator,
         IDPoPProofCreator dPoPProofCreator,
         IHelseIdEndpointsDiscoverer helseIdEndpointsDiscoverer)
     {
-        _clientAssertionsCreator = clientAssertionsCreator;
+        _signingTokenCreator = signingTokenCreator;
         _dPoPProofCreator = dPoPProofCreator;
         _helseIdEndpointsDiscoverer = helseIdEndpointsDiscoverer;
     }
@@ -28,10 +28,10 @@ public abstract class TokenRequestBuilder
         return await _helseIdEndpointsDiscoverer.GetTokenEndpointFromHelseId();
     }
     
-    protected ClientAssertion CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
+    protected string CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
     {
         // HelseID requires a client assertion in order to recognize this client
-        return _clientAssertionsCreator.CreateClientAssertion(payloadClaimsCreator, payloadClaimParameters);
+        return _signingTokenCreator.CreateSigningToken(payloadClaimsCreator, payloadClaimParameters);
     }
 
     protected string CreateDPoPProof(string tokenEndpoint, string? dPoPNonce = null)

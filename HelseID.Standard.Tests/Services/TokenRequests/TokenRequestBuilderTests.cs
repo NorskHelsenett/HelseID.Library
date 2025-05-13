@@ -6,6 +6,7 @@ namespace HelseID.Standard.Tests.Services.TokenRequests;
 public abstract class TokenRequestBuilderTests : ConfigurationTests
 {
     protected ClientAssertionsCreatorMock ClientAssertionsCreatorMock { get; set; } = null!;
+    protected SigningTokenCreatorMock SigningTokenCreatorMock { get; set; } = null!;
     protected DPoPProofCreatorMock DpoPProofCreatorMock { get; set; } = null!;
     protected HelseIdEndpointsDiscovererMock HelseIdEndpointsDiscovererMock { get; set; } = null!;
     protected PayloadClaimsCreatorMock PayloadClaimsCreatorMock { get; set; } = null!;
@@ -13,6 +14,7 @@ public abstract class TokenRequestBuilderTests : ConfigurationTests
     [SetUp]
     public void SetupForTokenRequestBuilderTest()
     {
+        SigningTokenCreatorMock = new SigningTokenCreatorMock();
         ClientAssertionsCreatorMock = new ClientAssertionsCreatorMock();
         DpoPProofCreatorMock = new DPoPProofCreatorMock();
         HelseIdEndpointsDiscovererMock = new HelseIdEndpointsDiscovererMock();

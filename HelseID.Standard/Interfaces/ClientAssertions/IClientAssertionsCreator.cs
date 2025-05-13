@@ -6,5 +6,5 @@ namespace HelseID.Standard.Interfaces.ClientAssertions;
 
 public interface IClientAssertionsCreator
 {
-    ClientAssertion CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters);
+    string CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters);
 }

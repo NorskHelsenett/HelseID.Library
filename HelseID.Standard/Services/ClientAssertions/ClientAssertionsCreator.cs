@@ -21,19 +21,8 @@ public class ClientAssertionsCreator : IClientAssertionsCreator
         _signingTokenCreator = signingTokenCreator;
     }
 
-    public ClientAssertion CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
+    public string CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
     {
-        var token = _signingTokenCreator.CreateSigningToken(payloadClaimsCreator, payloadClaimParameters);
-        
-        // TODO: create logging for this
-        // Console.WriteLine("This is the security token that is sent to HelseID as part of the client assertion:");
-        // Console.WriteLine(token);
-        // Console.WriteLine("-----");
-        
-        return new ClientAssertion
-        {
-            Value = token,
-            Type = OidcConstants.ClientAssertionTypes.JwtBearer
-        };
+        return _signingTokenCreator.CreateSigningToken(payloadClaimsCreator, payloadClaimParameters);
     }
 }

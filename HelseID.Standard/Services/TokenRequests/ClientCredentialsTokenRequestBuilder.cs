@@ -15,10 +15,10 @@ public class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClient
     private readonly HelseIdConfiguration _helseIdConfiguration;
 
     public ClientCredentialsTokenRequestBuilder(
-        IClientAssertionsCreator clientAssertionsCreator,
+        ISigningTokenCreator signingTokenCreator,
         IDPoPProofCreator dPoPProofCreator,
         IHelseIdEndpointsDiscoverer helseIdEndpointsDiscoverer,
-        HelseIdConfiguration helseIdConfiguration) : base(clientAssertionsCreator, dPoPProofCreator, helseIdEndpointsDiscoverer)
+        HelseIdConfiguration helseIdConfiguration) : base(signingTokenCreator, dPoPProofCreator, helseIdEndpointsDiscoverer)
     {
         _helseIdConfiguration = helseIdConfiguration;
     }
@@ -36,7 +36,11 @@ public class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClient
         return new ClientCredentialsTokenRequest
         {
             Address = tokenEndpoint,
-            ClientAssertion = clientAssertion,
+            ClientAssertion = new ClientAssertion
+            {
+                Type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+                Value = clientAssertion
+            },
             ClientId = _helseIdConfiguration.ClientId,
             Scope = _helseIdConfiguration.Scope,
             GrantType = OidcConstants.GrantTypes.ClientCredentials,

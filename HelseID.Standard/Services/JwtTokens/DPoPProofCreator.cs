@@ -12,16 +12,13 @@ namespace HelseID.Standard.Services.JwtTokens;
 public class DPoPProofCreator : IDPoPProofCreator
 {
     private readonly TimeProvider _timeProvider;
-    private readonly IJtiClaimCreator _jtiClaimCreator;
     private readonly SigningCredentials _signingCredentials;
     
     public DPoPProofCreator(
         HelseIdConfiguration helseIdConfiguration,
-        TimeProvider timeProvider,
-        IJtiClaimCreator jtiClaimCreator)
+        TimeProvider timeProvider)
     {
         _timeProvider = timeProvider;
-        _jtiClaimCreator = jtiClaimCreator;
         
         _signingCredentials = helseIdConfiguration.SigningCredentials;
     }
@@ -48,7 +45,7 @@ public class DPoPProofCreator : IDPoPProofCreator
         return tokenHandler.CreateToken(securityTokenDescriptor);    
     }
 
-    private Dictionary<string, object> SetClaims(string url, string httpMethod, string? dPoPNonce, string? accessToken)
+    private static Dictionary<string, object> SetClaims(string url, string httpMethod, string? dPoPNonce, string? accessToken)
     {
         var claims = SetGeneralClaims(url, httpMethod);
 
@@ -59,11 +56,12 @@ public class DPoPProofCreator : IDPoPProofCreator
         return claims;
     }
 
-    private Dictionary<string, object> SetGeneralClaims(string url, string httpMethod)
+    private static Dictionary<string, object> SetGeneralClaims(string url, string httpMethod)
     {
+        
         return new Dictionary<string, object>()
         {
-            [JwtRegisteredClaimNames.Jti] = _jtiClaimCreator.CreateJti(),
+            [JwtRegisteredClaimNames.Jti] = Guid.NewGuid().ToString(),
             ["htm"] = httpMethod,
             ["htu"] = url,
         };
