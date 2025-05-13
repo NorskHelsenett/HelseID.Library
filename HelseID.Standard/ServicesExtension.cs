@@ -22,17 +22,16 @@ public static class ServicesExtension
     {
         services.AddSingleton<IHelseIdTokenRetriever, HelseIdTokenRetriever>();
         services.AddSingleton<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
-        //services.AddSingleton<IClientAssertionsCreator, ClientAssertionsCreator>();
         services.AddSingleton<IDPoPProofCreator, DPoPProofCreator>();
         services.AddSingleton<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
         services.AddSingleton<ISigningTokenCreator, SigningTokenCreator>();
-        //services.AddSingleton<IJtiClaimCreator, JtiClaimCreator>();
         services.AddSingleton<IDiscoveryDocumentGetter, DiscoveryDocumentGetter>();
         services.AddSingleton<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
         services.AddSingleton<IAssertionDetailsCreator, AssertionDetailsCreator>();
         services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
         services.AddSingleton(TimeProvider.System);
         services.AddMemoryCache();
+        services.AddHttpClient();
         services.AddSingleton(helseIdConfiguration);
         
         return services;
