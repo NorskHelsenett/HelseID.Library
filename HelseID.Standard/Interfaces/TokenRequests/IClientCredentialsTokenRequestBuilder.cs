@@ -4,4 +4,4 @@ using IdentityModel.Client;
 namespace HelseID.Standard.Interfaces.TokenRequests;
 
 public interface IClientCredentialsTokenRequestBuilder 
-    : ITokenRequestBuilder<ClientCredentialsTokenRequest, ClientCredentialsTokenRequestParameters> { }
+    : ITokenRequestBuilder<ClientCredentialsTokenRequestParameters> { }

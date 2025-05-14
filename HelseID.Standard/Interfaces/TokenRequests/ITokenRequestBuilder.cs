@@ -1,16 +1,16 @@
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
+using HelseID.Standard.Models;
 using HelseID.Standard.Models.TokenRequests;
 using IdentityModel.Client;
 
 namespace HelseID.Standard.Interfaces.TokenRequests;
 
-public interface ITokenRequestBuilder<T, TT> 
-    where T : TokenRequest
-    where TT : TokenRequestParameters
+public interface ITokenRequestBuilder<T> 
+    where T : TokenRequestParameters
 {
-    Task<T> CreateTokenRequest(
+    Task<HelseIdTokenRequest> CreateTokenRequest(
         IPayloadClaimsCreator payloadClaimsCreator,
-        TT tokenRequestParameters,
+        T tokenRequestParameters,
         string? dPoPNonce = null);
 
 }

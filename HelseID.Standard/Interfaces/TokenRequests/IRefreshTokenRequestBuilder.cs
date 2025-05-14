@@ -3,4 +3,4 @@ using IdentityModel.Client;
 
 namespace HelseID.Standard.Interfaces.TokenRequests;
 
-public interface IRefreshTokenRequestBuilder : ITokenRequestBuilder<RefreshTokenRequest, RefreshTokenRequestParameters> { }
+public interface IRefreshTokenRequestBuilder : ITokenRequestBuilder<RefreshTokenRequestParameters> { }

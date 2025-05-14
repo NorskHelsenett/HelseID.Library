@@ -84,12 +84,10 @@ public class ClientCredentialsTokenRequestBuilderTests : TokenRequestBuilderTest
         
         request.Should().NotBeNull();
         request.Address.Should().Be(HelseIdEndpointsDiscovererMock.TokenEndpoint);
-        request.ClientAssertion.Type.Should().Be("urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
-        request.ClientAssertion.Value.Should().Be(SigningTokenCreatorMock.Value);
+        request.ClientAssertion.Should().Be(SigningTokenCreatorMock.Value);
         request.ClientId.Should().Be(ClientId);
         request.Scope.Should().Be(Scope);
         request.GrantType.Should().Be("client_credentials");
-        request.ClientCredentialStyle.Should().Be(ClientCredentialStyle.PostBody);
         request.DPoPProofToken.Should().Be(DPoPProofCreatorMock.DPoPProof);
     }
 }

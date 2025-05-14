@@ -4,6 +4,7 @@ using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
+using HelseID.Standard.Models;
 using HelseID.Standard.Models.TokenRequests;
 using IdentityModel;
 using IdentityModel.Client;
@@ -23,7 +24,7 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
         _helseIdConfiguration = helseIdConfiguration;
     }
 
-    public async Task<AuthorizationCodeTokenRequest> CreateTokenRequest(
+    public async Task<HelseIdTokenRequest> CreateTokenRequest(
         IPayloadClaimsCreator payloadClaimsCreator,
         AuthorizationCodeTokenRequestParameters tokenRequestParameters,
         string? dPoPNonce = null)
@@ -32,20 +33,15 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
         var clientAssertion = CreateClientAssertion(payloadClaimsCreator, tokenRequestParameters.PayloadClaimParameters);
         var dpopProof = CreateDPoPProof(tokenEndpoint, dPoPNonce);
 
-        return new AuthorizationCodeTokenRequest
+        return new HelseIdTokenRequest()
         {
             Address = tokenEndpoint,
-            ClientAssertion = new ClientAssertion
-            {
-                Type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-                Value = clientAssertion
-            },
+            ClientAssertion = clientAssertion,
             ClientId = _helseIdConfiguration.ClientId,
-            ClientCredentialStyle = ClientCredentialStyle.PostBody,
-            Resource = tokenRequestParameters.Resource,
-            Code = tokenRequestParameters.Code,
-            RedirectUri = tokenRequestParameters.RedirectUri,
-            CodeVerifier = tokenRequestParameters.CodeVerifier,
+            //Resource = tokenRequestParameters.Resource,
+            //Code = tokenRequestParameters.Code,
+            //RedirectUri = tokenRequestParameters.RedirectUri,
+            //CodeVerifier = tokenRequestParameters.CodeVerifier,
             GrantType = OidcConstants.GrantTypes.AuthorizationCode,
             DPoPProofToken = dpopProof,
         };

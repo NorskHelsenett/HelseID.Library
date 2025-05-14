@@ -4,6 +4,7 @@ using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
+using HelseID.Standard.Models;
 using HelseID.Standard.Models.TokenRequests;
 using IdentityModel;
 using IdentityModel.Client;
@@ -23,7 +24,7 @@ public class RefreshTokenRequestBuilder : TokenRequestBuilder, IRefreshTokenRequ
         _helseIdConfiguration = helseIdConfiguration;
     }
 
-    public async Task<RefreshTokenRequest> CreateTokenRequest(
+    public async Task<HelseIdTokenRequest> CreateTokenRequest(
         IPayloadClaimsCreator payloadClaimsCreator,
         RefreshTokenRequestParameters tokenRequestParameters,
         string? dPoPNonce = null)
@@ -32,23 +33,18 @@ public class RefreshTokenRequestBuilder : TokenRequestBuilder, IRefreshTokenRequ
         var clientAssertion = CreateClientAssertion(payloadClaimsCreator, tokenRequestParameters.PayloadClaimParameters);
         var dpopProof = CreateDPoPProof(tokenEndpoint, dPoPNonce);
 
-        var request = new RefreshTokenRequest
+        var request = new HelseIdTokenRequest
         {
             Address = tokenEndpoint,
-            ClientAssertion = new ClientAssertion
-            {
-                Type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-                Value = clientAssertion
-            },
+            ClientAssertion = clientAssertion,
             ClientId = _helseIdConfiguration.ClientId,
             GrantType = OidcConstants.GrantTypes.RefreshToken,
-            ClientCredentialStyle = ClientCredentialStyle.PostBody,
-            RefreshToken = tokenRequestParameters.RefreshToken,
+            //RefreshToken = tokenRequestParameters.RefreshToken,
             DPoPProofToken = dpopProof,
         };
         if (tokenRequestParameters.HasResourceIndicator)
         {
-            request.Resource = tokenRequestParameters.Resource;
+            //request.Resource = tokenRequestParameters.Resource;
         }
         return request;
     }

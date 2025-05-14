@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
+using HelseID.Standard.Models;
 using HelseID.Standard.Models.Payloads;
 using HelseID.Standard.Models.TokenRequests;
 using HelseID.Standard.Services.TokenRequests;
@@ -43,14 +44,14 @@ public class HelseIdTokenRetriever : IHelseIdTokenRetriever
         return result;
     }
 
-    private async Task<TokenResponse> GetClientCredentialsTokenResponse(ClientCredentialsTokenRequest request)
+    private async Task<TokenResponse> GetClientCredentialsTokenResponse(HelseIdTokenRequest request)
     {
         var content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
             {"client_id", request.ClientId},
             {"scope", request.Scope},
-            {"client_assertion", request.ClientAssertion.Value},
-            {"client_assertion_type", request.ClientAssertion.Type},
+            {"client_assertion", request.ClientAssertion},
+            {"client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"},
             {"grant_type", request.GrantType},
             
         });

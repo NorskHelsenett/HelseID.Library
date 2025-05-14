@@ -10,5 +10,4 @@ public class TokenResponse
     public int ExpiresIn { get; init; }
     public string? DPoPNonce { get; init; }
     
-    
 }

@@ -4,4 +4,4 @@ using IdentityModel.Client;
 namespace HelseID.Standard.Interfaces.TokenRequests;
 
 public interface IAuthorizationCodeTokenRequestBuilder 
-    : ITokenRequestBuilder<AuthorizationCodeTokenRequest, AuthorizationCodeTokenRequestParameters> { }
+    : ITokenRequestBuilder<AuthorizationCodeTokenRequestParameters> { }
