@@ -1,9 +1,7 @@
-using HelseID.Standard.Interfaces.ClientAssertions;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Models.Payloads;
-using IdentityModel.Client;
 
 namespace HelseID.Standard.Services.TokenRequests;
 

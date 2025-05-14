@@ -1,13 +1,10 @@
 using HelseID.Standard.Configuration;
-using HelseID.Standard.Interfaces.ClientAssertions;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.TokenRequests;
-using IdentityModel;
-using IdentityModel.Client;
 
 namespace HelseID.Standard.Services.TokenRequests;
 
@@ -38,7 +35,7 @@ public class RefreshTokenRequestBuilder : TokenRequestBuilder, IRefreshTokenRequ
             Address = tokenEndpoint,
             ClientAssertion = clientAssertion,
             ClientId = _helseIdConfiguration.ClientId,
-            GrantType = OidcConstants.GrantTypes.RefreshToken,
+            GrantType = "refresh_token",
             //RefreshToken = tokenRequestParameters.RefreshToken,
             DPoPProofToken = dpopProof,
         };

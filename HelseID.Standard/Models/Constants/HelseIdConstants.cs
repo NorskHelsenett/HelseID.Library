@@ -6,4 +6,15 @@ public static class HelseIdConstants {
     
     // The name of the claim for the client id in use for request objects
     public const string ClientIdClaimName = "client_id";
+    
+    
+}
+
+public static class ClaimTypes
+{
+    public const string Nonce = "nonce";
+
+    public const string AccessTokenHash = "ath";
+    
+    public const string JsonWebKey = "jwk";
 }

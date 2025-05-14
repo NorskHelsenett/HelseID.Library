@@ -3,7 +3,7 @@ using System.Text;
 using HelseID.Standard.Configuration;
 using HelseID.Standard.Exceptions;
 using HelseID.Standard.Interfaces.JwtTokens;
-using IdentityModel;
+using HelseID.Standard.Models.Constants;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
@@ -73,7 +73,7 @@ public class DPoPProofCreator : IDPoPProofCreator
         if (!string.IsNullOrEmpty(dPoPNonce))
         {
             // nonce: A recent nonce provided via the DPoP-Nonce HTTP header.
-            claims[JwtClaimTypes.Nonce] = dPoPNonce;
+            claims[ClaimTypes.Nonce] = dPoPNonce;
         }
     }
     
@@ -85,9 +85,9 @@ public class DPoPProofCreator : IDPoPProofCreator
             // ath: hash of the access token. The value MUST be the result of a base64url encoding
             // the SHA-256 [SHS] hash of the ASCII encoding of the associated access token's value.
             var hash = SHA256.HashData(Encoding.ASCII.GetBytes(accessToken));
-            var ath = Base64Url.Encode(hash);
+            var ath = Base64UrlEncoder.Encode(hash);
 
-            claims[JwtClaimTypes.DPoPAccessTokenHash] = ath;
+            claims[ClaimTypes.AccessTokenHash] = ath;
         }
     }
     
@@ -95,8 +95,8 @@ public class DPoPProofCreator : IDPoPProofCreator
     {
         return new Dictionary<string, object>()
         {
-            [JwtClaimTypes.TokenType] = "dpop+jwt",
-            [JwtClaimTypes.JsonWebKey] = SetJwkForHeader(),
+            [JwtRegisteredClaimNames.Typ] = "dpop+jwt",
+            [ClaimTypes.JsonWebKey] = SetJwkForHeader(),
         };
     }
     

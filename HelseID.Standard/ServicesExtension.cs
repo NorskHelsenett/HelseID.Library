@@ -1,10 +1,8 @@
 ﻿using HelseID.Standard.Configuration;
-using HelseID.Standard.Interfaces.ClientAssertions;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
-using HelseID.Standard.Services.ClientAssertions;
 using HelseID.Standard.Services.Endpoints;
 using HelseID.Standard.Services.JwtTokens;
 using HelseID.Standard.Services.PayloadClaimCreators;
@@ -12,13 +10,12 @@ using HelseID.Standard.Services.PayloadClaimCreators.DetailsCreators;
 using HelseID.Standard.Services.PayloadClaimCreators.StructuredClaims;
 using HelseID.Standard.Services.TokenRequests;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace HelseID.Standard;
 
 public static class ServicesExtension
 {
-    public static IServiceCollection AddHelseId(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
+    public static void AddHelseId(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
     {
         services.AddSingleton<IHelseIdTokenRetriever, HelseIdTokenRetriever>();
         services.AddSingleton<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
@@ -33,7 +30,5 @@ public static class ServicesExtension
         services.AddMemoryCache();
         services.AddHttpClient();
         services.AddSingleton(helseIdConfiguration);
-        
-        return services;
     }
 }

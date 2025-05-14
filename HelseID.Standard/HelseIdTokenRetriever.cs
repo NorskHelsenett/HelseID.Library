@@ -4,9 +4,6 @@ using HelseID.Standard.Interfaces.TokenRequests;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.Payloads;
 using HelseID.Standard.Models.TokenRequests;
-using HelseID.Standard.Services.TokenRequests;
-using IdentityModel.Client;
-using TokenResponse = HelseID.Standard.Models.TokenResponse;
 
 namespace HelseID.Standard;
 

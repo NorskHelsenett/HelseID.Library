@@ -2,7 +2,6 @@ using FluentAssertions;
 using HelseID.Standard.Models.TokenRequests;
 using HelseID.Standard.Services.TokenRequests;
 using HelseID.Standard.Tests.Mocks;
-using IdentityModel.Client;
 
 namespace HelseID.Standard.Tests.Services.TokenRequests;
 

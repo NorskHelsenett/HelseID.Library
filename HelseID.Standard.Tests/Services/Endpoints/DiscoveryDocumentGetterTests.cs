@@ -1,6 +1,6 @@
 using FluentAssertions;
+using HelseID.Standard.Models;
 using HelseID.Standard.Tests.Mocks;
-using IdentityModel.Client;
 
 namespace HelseID.Standard.Tests.Services.Endpoints;
 
@@ -42,7 +42,7 @@ public class DiscoveryDocumentGetterTests
         _memoryCacheMock.Entries.Should().HaveCount(1);
         MockCacheEntry cacheEntry = _memoryCacheMock.Entries["DiscoveryDocument"];
         cacheEntry.Should().NotBeNull();
-        DiscoveryDocumentResponse? response = cacheEntry.Value as DiscoveryDocumentResponse;
+        DiscoveryDocument? response = cacheEntry.Value as DiscoveryDocument;
         response!.AuthorizeEndpoint.Should().Be("https://helseid-sts.nhn.no/connect/authorize");
     }
     

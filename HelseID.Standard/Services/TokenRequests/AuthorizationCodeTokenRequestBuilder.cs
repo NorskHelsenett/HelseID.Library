@@ -1,13 +1,10 @@
 using HelseID.Standard.Configuration;
-using HelseID.Standard.Interfaces.ClientAssertions;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.TokenRequests;
-using IdentityModel;
-using IdentityModel.Client;
 
 namespace HelseID.Standard.Services.TokenRequests;
 
@@ -42,7 +39,7 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
             //Code = tokenRequestParameters.Code,
             //RedirectUri = tokenRequestParameters.RedirectUri,
             //CodeVerifier = tokenRequestParameters.CodeVerifier,
-            GrantType = OidcConstants.GrantTypes.AuthorizationCode,
+            GrantType = "authorization_code",
             DPoPProofToken = dpopProof,
         };
     }

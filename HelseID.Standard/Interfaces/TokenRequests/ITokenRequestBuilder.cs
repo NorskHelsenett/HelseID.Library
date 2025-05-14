@@ -1,7 +1,6 @@
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.TokenRequests;
-using IdentityModel.Client;
 
 namespace HelseID.Standard.Interfaces.TokenRequests;
 

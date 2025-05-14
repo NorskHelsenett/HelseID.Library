@@ -1,8 +1,8 @@
-using IdentityModel.Client;
+using HelseID.Standard.Models;
 
 namespace HelseID.Standard.Interfaces.Endpoints;
 
 public interface IDiscoveryDocumentGetter
 {
-    Task<DiscoveryDocumentResponse> GetDiscoveryDocument();
+    Task<DiscoveryDocument> GetDiscoveryDocument();
 }

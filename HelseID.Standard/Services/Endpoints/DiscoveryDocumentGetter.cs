@@ -1,6 +1,7 @@
+using System.Net.Http.Json;
 using HelseID.Standard.Configuration;
 using HelseID.Standard.Interfaces.Endpoints;
-using IdentityModel.Client;
+using HelseID.Standard.Models;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace HelseID.Standard.Services.Endpoints;
@@ -10,25 +11,24 @@ namespace HelseID.Standard.Services.Endpoints;
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 {
     private const string DiscoveryDocumentKey = "DiscoveryDocument";
-
     private readonly IMemoryCache _memoryCache;
-    private readonly string _stsUrl;
+    private readonly string _discoveryUrl;
 
     public DiscoveryDocumentGetter(string stsUrl, IMemoryCache memoryCache)
     {
-        _stsUrl = stsUrl;
+        _discoveryUrl = stsUrl + "/.well-known/openid-configuration";
         _memoryCache = memoryCache;
     }
 
     public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IMemoryCache memoryCache)
     {
-        _stsUrl = helseIdConfiguration.StsUrl;
+        _discoveryUrl = helseIdConfiguration.StsUrl + "/.well-known/openid-configuration";
         _memoryCache = memoryCache;
     }
 
-    public async Task<DiscoveryDocumentResponse> GetDiscoveryDocument()
+    public async Task<DiscoveryDocument> GetDiscoveryDocument()
     {
-        if (_memoryCache.TryGetValue(DiscoveryDocumentKey, out DiscoveryDocumentResponse? result))
+        if (_memoryCache.TryGetValue(DiscoveryDocumentKey, out DiscoveryDocument? result))
         {
             return result!;
         }
@@ -36,7 +36,7 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
         return await UpdateCacheWithNewDocument();
     }
 
-    private async Task<DiscoveryDocumentResponse> UpdateCacheWithNewDocument()
+    private async Task<DiscoveryDocument> UpdateCacheWithNewDocument()
     {
         var discoveryDocument = await CallTheMetadataUrl();
 
@@ -45,17 +45,23 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
         return discoveryDocument;
     }
 
-    private async Task<DiscoveryDocumentResponse> CallTheMetadataUrl()
+    private async Task<DiscoveryDocument> CallTheMetadataUrl()
     {
         using var httpClient = SetupHttpClient();
         // This extension from the IdentityModel library calls the discovery document on the HelseID server
-        var discoveryDocumentResponse = await httpClient.GetDiscoveryDocumentAsync(_stsUrl);
-        if (discoveryDocumentResponse.IsError)
+        var discoveryDocumentResponse = await httpClient.GetAsync(_discoveryUrl);
+        if (!discoveryDocumentResponse.IsSuccessStatusCode)
         {
-            throw new Exception(discoveryDocumentResponse.Error);
+            throw new Exception("Error getting discovery document");
         }
-        return discoveryDocumentResponse;
+        return await GetDiscoveryDocumentFromResponse(discoveryDocumentResponse);
     }
+
+    private static async Task<DiscoveryDocument> GetDiscoveryDocumentFromResponse(HttpResponseMessage discoveryDocumentResponse)
+    {
+        return await discoveryDocumentResponse.Content.ReadFromJsonAsync<DiscoveryDocument>();
+    }
+
 
     protected virtual HttpClient SetupHttpClient()
     {
