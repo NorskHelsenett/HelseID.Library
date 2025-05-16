@@ -1,9 +1,11 @@
-﻿namespace HelseID.Standard.Models;
+﻿using HelseID.Standard.Models.Constants;
+
+namespace HelseID.Standard.Models;
 
 
 public class HelseIdTokenRequest
 {
-    public string GrantType { get; set; } = "client_credentials";
+    public string GrantType { get; set; } = GrantTypes.GrantType;
     
     public string? Address { get; set; }
     

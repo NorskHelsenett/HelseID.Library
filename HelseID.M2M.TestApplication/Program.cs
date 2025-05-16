@@ -41,9 +41,13 @@ public class TestService : IHostedService
     }
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        while (true)
+        {
+            var test = await _helseIdTokenRetriever.GetTokenAsync();
+            Console.WriteLine(test.AccessToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+        }
         
-        var test = await _helseIdTokenRetriever.GetTokenAsync();
-        Console.WriteLine(test);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
