@@ -1,36 +1,36 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.Constants;
 using HelseID.Standard.Models.Payloads;
 using HelseID.Standard.Models.TokenRequests;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace HelseID.Standard;
-
-public interface IHelseIdTokenRetriever
-{
-    Task<TokenResponse> GetTokenAsync();
-}
 
 public class HelseIdTokenRetriever : IHelseIdTokenRetriever
 {   
     private readonly IClientCredentialsTokenRequestBuilder _clientCredentialsTokenRequestBuilder;
     private readonly IPayloadClaimsCreator _payloadClaimsCreator;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IMemoryCache _memoryCache;
+    private readonly IDistributedCache _cache;
 
-    public HelseIdTokenRetriever(IClientCredentialsTokenRequestBuilder clientCredentialsTokenRequestBuilder, IPayloadClaimsCreator payloadClaimsCreator, IHttpClientFactory httpClientFactory, IMemoryCache memoryCache)
+    public HelseIdTokenRetriever(
+        IClientCredentialsTokenRequestBuilder clientCredentialsTokenRequestBuilder, 
+        IPayloadClaimsCreator payloadClaimsCreator, 
+        IHttpClientFactory httpClientFactory, 
+        IDistributedCache cache)
     {
         _clientCredentialsTokenRequestBuilder = clientCredentialsTokenRequestBuilder;
         _payloadClaimsCreator = payloadClaimsCreator;
         _httpClientFactory = httpClientFactory;
-        _memoryCache = memoryCache;
+        _cache = cache;
     }
     public async Task<TokenResponse> GetTokenAsync()
     {
-        var cachedResponse = GetCachedToken();
+        var cachedResponse = await GetCachedToken();
         if (cachedResponse != null)
         {
             return cachedResponse;
@@ -38,7 +38,7 @@ public class HelseIdTokenRetriever : IHelseIdTokenRetriever
         
         var result = await GetClientCredentialsToken();
 
-        AddTokenToCache(result);
+        await AddTokenToCache(result);
         
         return result;
     }
@@ -58,21 +58,28 @@ public class HelseIdTokenRetriever : IHelseIdTokenRetriever
         return await GetClientCredentialsTokenResponse(request);
     }
 
-    private void AddTokenToCache(TokenResponse tokenResponse)
+    private async Task AddTokenToCache(TokenResponse tokenResponse)
     {
-        _memoryCache.Set(HelseIdConstants.TokenResponseCacheKey, tokenResponse,
-            DateTimeOffset.Now.AddSeconds(tokenResponse.ExpiresIn - HelseIdConstants.TokenResponseLeewayInSeconds));
+        var serializedTokenResponse = JsonSerializer.SerializeToUtf8Bytes(tokenResponse);
+        await _cache.SetAsync(HelseIdConstants.TokenResponseCacheKey,
+            serializedTokenResponse,
+            new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(tokenResponse.ExpiresIn - HelseIdConstants.TokenResponseLeewayInSeconds)
+            });
     }
 
-    private TokenResponse? GetCachedToken()
+    private async Task<TokenResponse?> GetCachedToken()
     {
-        if(_memoryCache.TryGetValue(HelseIdConstants.TokenResponseCacheKey, out TokenResponse? tokenResponse))
+        var cachedTokenResponse = await _cache.GetAsync(HelseIdConstants.TokenResponseCacheKey);
+
+        if (cachedTokenResponse == null)
         {
-            return tokenResponse;
+            return null;
         }
-        return null;
+
+        return JsonSerializer.Deserialize<TokenResponse>(cachedTokenResponse);
     }
-    
 
     private async Task<TokenResponse> GetClientCredentialsTokenResponse(HelseIdTokenRequest request)
     {
@@ -83,16 +90,15 @@ public class HelseIdTokenRetriever : IHelseIdTokenRetriever
             {ParameterNames.ClientAssertion, request.ClientAssertion},
             {ParameterNames.ClientAssertionType, HelseIdConstants.ClientAssertionType},
             {ParameterNames.GrantType, request.GrantType},
-            
         });
+        
         var httpClient = _httpClientFactory.CreateClient();
-        var url = request.Address;
+        
         httpClient.DefaultRequestHeaders.Add(HeaderNames.DPoP, request.DPoPProofToken);
-        var response = await httpClient.PostAsync(url, content);
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var response = await httpClient.PostAsync(request.Address, content);
         if (response.IsSuccessStatusCode)
         {
-            return await response.Content.ReadFromJsonAsync<TokenResponse>();
+            return await response.Content.ReadFromJsonAsync<TokenResponse>() ?? new TokenResponse();
         }
 
         if (response.Headers.TryGetValues(HeaderNames.DPoPNonce, out var values))

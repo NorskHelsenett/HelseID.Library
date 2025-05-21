@@ -27,7 +27,7 @@ public static class ServicesExtension
         services.AddSingleton<IAssertionDetailsCreator, AssertionDetailsCreator>();
         services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
         services.AddSingleton(TimeProvider.System);
-        services.AddMemoryCache();
+        services.AddDistributedMemoryCache();
         services.AddHttpClient();
         services.AddSingleton(helseIdConfiguration);
     }

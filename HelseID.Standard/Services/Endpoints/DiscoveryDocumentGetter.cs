@@ -1,7 +1,9 @@
 using System.Net.Http.Json;
+using System.Text.Json;
 using HelseID.Standard.Configuration;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Models;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace HelseID.Standard.Services.Endpoints;
@@ -11,44 +13,55 @@ namespace HelseID.Standard.Services.Endpoints;
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 {
     private const string DiscoveryDocumentKey = "DiscoveryDocument";
-    private readonly IMemoryCache _memoryCache;
+    private readonly IDistributedCache _cache;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly string _discoveryUrl;
 
-    public DiscoveryDocumentGetter(string stsUrl, IMemoryCache memoryCache)
+    public DiscoveryDocumentGetter(string stsUrl, IDistributedCache cache, IHttpClientFactory httpClientFactory)
     {
         _discoveryUrl = stsUrl + "/.well-known/openid-configuration";
-        _memoryCache = memoryCache;
+        _cache = cache;
+        _httpClientFactory = httpClientFactory;
     }
 
-    public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IMemoryCache memoryCache)
+    public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IDistributedCache cache, IHttpClientFactory httpClientFactory)
     {
         _discoveryUrl = helseIdConfiguration.StsUrl + "/.well-known/openid-configuration";
-        _memoryCache = memoryCache;
+        _cache = cache;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<DiscoveryDocument> GetDiscoveryDocument()
     {
-        if (_memoryCache.TryGetValue(DiscoveryDocumentKey, out DiscoveryDocument? result))
+        var discoveryDocumentBytes = await _cache.GetAsync(DiscoveryDocumentKey);
+        if (discoveryDocumentBytes == null)
         {
-            return result!;
+            return await UpdateCacheWithNewDocument();
         }
-
-        return await UpdateCacheWithNewDocument();
+        
+        var discoveryDocument = JsonSerializer.Deserialize<DiscoveryDocument>(discoveryDocumentBytes);
+        if (discoveryDocument == null)
+        {
+            return await UpdateCacheWithNewDocument();
+        }
+        
+        return discoveryDocument;
     }
 
     private async Task<DiscoveryDocument> UpdateCacheWithNewDocument()
     {
         var discoveryDocument = await CallTheMetadataUrl();
-
-        _memoryCache.Set(DiscoveryDocumentKey, discoveryDocument);
+        var discoveryDocumentBytes = JsonSerializer.SerializeToUtf8Bytes(discoveryDocument);
+        
+        await _cache.SetAsync(DiscoveryDocumentKey, discoveryDocumentBytes);
 
         return discoveryDocument;
     }
 
     private async Task<DiscoveryDocument> CallTheMetadataUrl()
     {
-        using var httpClient = SetupHttpClient();
-        // This extension from the IdentityModel library calls the discovery document on the HelseID server
+        using var httpClient = _httpClientFactory.CreateClient();
+
         var discoveryDocumentResponse = await httpClient.GetAsync(_discoveryUrl);
         if (!discoveryDocumentResponse.IsSuccessStatusCode)
         {
@@ -59,12 +72,12 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 
     private static async Task<DiscoveryDocument> GetDiscoveryDocumentFromResponse(HttpResponseMessage discoveryDocumentResponse)
     {
-        return await discoveryDocumentResponse.Content.ReadFromJsonAsync<DiscoveryDocument>();
-    }
+        var discoveryDocument = await discoveryDocumentResponse.Content.ReadFromJsonAsync<DiscoveryDocument>();
+        if (discoveryDocument == null)
+        {
+            throw new Exception("Did not get a discovery document");
+        }
 
-
-    protected virtual HttpClient SetupHttpClient()
-    {
-        return new HttpClient();
+        return discoveryDocument;
     }
 }

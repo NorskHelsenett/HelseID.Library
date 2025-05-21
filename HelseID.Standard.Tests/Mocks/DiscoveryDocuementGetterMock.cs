@@ -7,7 +7,7 @@ public class DiscoveryDocumentGetterMock : IDiscoveryDocumentGetter
 {
     public async Task<DiscoveryDocument> GetDiscoveryDocument()
     {
-        var discoveryDocumentGetter = new DiscoveryDocumentGetterWithMockHttpClient("https://helseid-sts.nhn.no", new MemoryCacheMock());
+        var discoveryDocumentGetter = new DiscoveryDocumentGetterWithMockHttpClient();
         return await discoveryDocumentGetter.GetDiscoveryDocument();
     }
 }
