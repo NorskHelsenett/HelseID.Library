@@ -33,8 +33,4 @@
       <ProjectReference Include="..\HelseID.Standard\HelseID.Standard.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\ClientAssertions\" />
-    </ItemGroup>
-
 </Project>

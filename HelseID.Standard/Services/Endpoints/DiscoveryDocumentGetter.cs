@@ -7,8 +7,6 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace HelseID.Standard.Services.Endpoints;
 
-// This class encapsulates the 'GetDiscoveryDocumentAsync' method from
-// the IdentityModel library, and caches the results
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 {
     private const string DiscoveryDocumentKey = "DiscoveryDocument";
@@ -18,7 +16,7 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 
     public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IDistributedCache cache, IHttpClientFactory httpClientFactory)
     {
-        _discoveryUrl = helseIdConfiguration.StsUrl + "/.well-known/openid-configuration";
+        _discoveryUrl = helseIdConfiguration.MetadataUrl;
         _cache = cache;
         _httpClientFactory = httpClientFactory;
     }

@@ -13,8 +13,4 @@
       <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.6.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\ClientAssertions\" />
-    </ItemGroup>
-
 </Project>

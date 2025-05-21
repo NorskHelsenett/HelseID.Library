@@ -92,6 +92,14 @@ public class HelseIdConfiguration
         ClientId = clientId;
         Scope = scope;
         StsUrl = stsUrl;
+ 
+        MetadataUrl = stsUrl;
+        if (MetadataUrl.EndsWith('/'))
+        {
+            MetadataUrl = MetadataUrl.TrimEnd('/');
+        }
+        MetadataUrl += "/.well-known/openid-configuration";
+        
         if (resourceIndicators != null)
         {
             ResourceIndicators = resourceIndicators;
@@ -107,6 +115,7 @@ public class HelseIdConfiguration
     public string Scope { get; private set; }
 
     public string StsUrl { get; private set; }
+    public string MetadataUrl { get; private set; }
     
     // Multitenant
 
