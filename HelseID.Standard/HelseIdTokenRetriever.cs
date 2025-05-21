@@ -73,7 +73,7 @@ public class HelseIdTokenRetriever : IHelseIdTokenRetriever
     {
         var cachedTokenResponse = await _cache.GetAsync(HelseIdConstants.TokenResponseCacheKey);
 
-        if (cachedTokenResponse == null)
+        if (cachedTokenResponse == null || cachedTokenResponse.Length == 0)
         {
             return null;
         }
