@@ -67,6 +67,16 @@ public class HelseIdConfiguration
     {
         return new HelseIdConfiguration(jsonWebKey, algorithm, clientId, scope, stsUrl, resourceIndicators);
     }
+    public static HelseIdConfiguration ConfigurationForJsonWebKey(
+        string jsonWebKey,
+        string algorithm,
+        string clientId,
+        string scope,
+        string stsUrl,
+        List<string>? resourceIndicators = null)
+    {
+        return new HelseIdConfiguration(new JsonWebKey(jsonWebKey), algorithm, clientId, scope, stsUrl, resourceIndicators);
+    }
     
     private HelseIdConfiguration(
         JsonWebKey jsonWebKey,

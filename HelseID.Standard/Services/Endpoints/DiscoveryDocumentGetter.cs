@@ -4,7 +4,6 @@ using HelseID.Standard.Configuration;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Models;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace HelseID.Standard.Services.Endpoints;
 
@@ -17,13 +16,6 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly string _discoveryUrl;
 
-    public DiscoveryDocumentGetter(string stsUrl, IDistributedCache cache, IHttpClientFactory httpClientFactory)
-    {
-        _discoveryUrl = stsUrl + "/.well-known/openid-configuration";
-        _cache = cache;
-        _httpClientFactory = httpClientFactory;
-    }
-
     public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IDistributedCache cache, IHttpClientFactory httpClientFactory)
     {
         _discoveryUrl = helseIdConfiguration.StsUrl + "/.well-known/openid-configuration";
@@ -34,7 +26,7 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
     public async Task<DiscoveryDocument> GetDiscoveryDocument()
     {
         var discoveryDocumentBytes = await _cache.GetAsync(DiscoveryDocumentKey);
-        if (discoveryDocumentBytes == null)
+        if (discoveryDocumentBytes == null || discoveryDocumentBytes.Length == 0)
         {
             return await UpdateCacheWithNewDocument();
         }
