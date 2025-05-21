@@ -30,7 +30,7 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
         var clientAssertion = CreateClientAssertion(payloadClaimsCreator, tokenRequestParameters.PayloadClaimParameters);
         var dpopProof = CreateDPoPProof(tokenEndpoint, dPoPNonce);
 
-        return new HelseIdTokenRequest()
+        return new HelseIdTokenRequest
         {
             Address = tokenEndpoint,
             ClientAssertion = clientAssertion,
@@ -41,6 +41,7 @@ public class AuthorizationCodeTokenRequestBuilder : TokenRequestBuilder, IAuthor
             //CodeVerifier = tokenRequestParameters.CodeVerifier,
             GrantType = "authorization_code",
             DPoPProofToken = dpopProof,
+            Scope = "",
         };
     }
 }

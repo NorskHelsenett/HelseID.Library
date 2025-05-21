@@ -50,5 +50,5 @@ public static class JsonProperties
 
 public static class GrantTypes
 {
-    public const string GrantType = "client_credentials";
+    public const string ClientCredentials = "client_credentials";
 }

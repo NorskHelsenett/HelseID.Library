@@ -4,6 +4,7 @@ using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
 using HelseID.Standard.Models;
+using HelseID.Standard.Models.Constants;
 using HelseID.Standard.Models.TokenRequests;
 
 namespace HelseID.Standard.Services.TokenRequests;
@@ -37,6 +38,7 @@ public class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClient
             ClientId = _helseIdConfiguration.ClientId,
             Scope = _helseIdConfiguration.Scope,
             DPoPProofToken = dpopProof,
+            GrantType = GrantTypes.ClientCredentials
         };
     }
 }

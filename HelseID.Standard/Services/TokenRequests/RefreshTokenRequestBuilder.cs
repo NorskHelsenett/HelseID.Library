@@ -38,6 +38,7 @@ public class RefreshTokenRequestBuilder : TokenRequestBuilder, IRefreshTokenRequ
             GrantType = "refresh_token",
             //RefreshToken = tokenRequestParameters.RefreshToken,
             DPoPProofToken = dpopProof,
+            Scope = "",
         };
         if (tokenRequestParameters.HasResourceIndicator)
         {

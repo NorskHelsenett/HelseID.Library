@@ -5,15 +5,15 @@ namespace HelseID.Standard.Models;
 
 public class HelseIdTokenRequest
 {
-    public string GrantType { get; set; } = GrantTypes.GrantType;
+    public required string GrantType { get; init; }
     
-    public string? Address { get; set; }
+    public required string Address { get; init; }
     
-    public string? ClientId { get; set; }
+    public required string ClientId { get; init; }
     
-    public string? ClientAssertion { get; set; }
+    public required string ClientAssertion { get; init; }
     
-    public string? DPoPProofToken { get; set; }
+    public required string DPoPProofToken { get; init; }
     
-    public string? Scope { get; set; }
+    public required string Scope { get; init; }
 }
