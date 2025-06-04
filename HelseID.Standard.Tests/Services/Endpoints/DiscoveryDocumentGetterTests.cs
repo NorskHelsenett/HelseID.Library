@@ -2,6 +2,7 @@ using FluentAssertions;
 using HelseID.Standard.Configuration;
 using HelseID.Standard.Services.Endpoints;
 using HelseID.Standard.Tests.Mocks;
+using HelseID.Standard.Tests.Services.Caching;
 using RichardSzalay.MockHttp;
 
 namespace HelseID.Standard.Tests.Services.Endpoints;
@@ -10,7 +11,7 @@ namespace HelseID.Standard.Tests.Services.Endpoints;
 public class DiscoveryDocumentGetterTests 
 {
     private const string StsUrl = "https://helseid-sts.nhn.no";
-    private DistributedMemoryCacheMock _cacheMock = null!;
+    private DiscoveryDocumentCacheMock _discoveryDocumentCacheMock = null!;
     private DiscoveryDocumentGetter _discoveryDocumentGetter = null!;
     private HttpClientFactoryMock _httpClientFactoryMock = null!;
     
@@ -46,8 +47,8 @@ public class DiscoveryDocumentGetterTests
     [SetUp]
     public void Setup()
     {
-        _cacheMock = new DistributedMemoryCacheMock();
-
+        _discoveryDocumentCacheMock = new DiscoveryDocumentCacheMock();
+        
         var mockHttpMessageHandler = new MockHttpMessageHandlerWithCount();
         mockHttpMessageHandler
             .When(MetadataEndpoint)
@@ -58,8 +59,9 @@ public class DiscoveryDocumentGetterTests
             .Respond(new StringContent(JwksEndpointContent));
 
         _httpClientFactoryMock = new HttpClientFactoryMock(mockHttpMessageHandler);
-        
-        _discoveryDocumentGetter = new DiscoveryDocumentGetter(_mockConfiguration, _cacheMock, _httpClientFactoryMock);
+
+        _discoveryDocumentGetter =
+            new DiscoveryDocumentGetter(_mockConfiguration, _httpClientFactoryMock, _discoveryDocumentCacheMock);
     }
 
     [Test]
@@ -76,9 +78,7 @@ public class DiscoveryDocumentGetterTests
     {
         await _discoveryDocumentGetter.GetDiscoveryDocument();
 
-        _cacheMock.LastKeySet.Should().NotBeEmpty();
-        _cacheMock.CachedData.Should().NotBeEmpty();
-        _cacheMock.CacheEntryOptions.Should().NotBeNull();
+        _discoveryDocumentCacheMock.CachedData.Should().NotBeNull();
     }
     
     [Test]

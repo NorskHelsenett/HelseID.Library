@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace HelseID.Standard.Tests.Mocks;
 
@@ -7,6 +8,16 @@ public class DistributedMemoryCacheMock : IDistributedCache
     public string LastKeyGet { get; set; } = "";
     public string LastKeySet { get; set; } = "";
     public byte[] CachedData { get; set; } = [];
+
+    public void SetCachedDataFromObject(object cachedObject)
+    {
+        CachedData = JsonSerializer.SerializeToUtf8Bytes(cachedObject);
+    }
+
+    public void ResetCachedData()
+    {
+        CachedData = [];
+    }
 
     public DistributedCacheEntryOptions CacheEntryOptions { get; set; } = null!;
     

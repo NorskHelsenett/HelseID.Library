@@ -3,12 +3,30 @@ using HelseID.Standard.Models.Constants;
 
 namespace HelseID.Standard.Models;
 
-public class TokenResponse
+public abstract class TokenResponse
 {
+}
+
+public class AccessTokenResponse : TokenResponse
+{
+
     [JsonPropertyName(JsonProperties.AccessToken)]
     public string? AccessToken { get; init; }
+
     [JsonPropertyName(JsonProperties.ExpiresIn)]
     public int ExpiresIn { get; init; }
+}
+
+public class DPoPNonceResponse : TokenResponse
+{
     public string? DPoPNonce { get; init; }
+}
+
+public class TokenErrorResponse : TokenResponse
+{
+    [JsonPropertyName("error")]
+    public required string Error { get; set; }
     
+    [JsonPropertyName("error_description")]
+    public required string ErrorDescription { get; set; }
 }

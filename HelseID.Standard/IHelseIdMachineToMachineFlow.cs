@@ -2,7 +2,7 @@
 
 namespace HelseID.Standard;
 
-public interface IHelseIdTokenRetriever
+public interface IHelseIdMachineToMachineFlow
 {
     Task<TokenResponse> GetTokenAsync();
 }

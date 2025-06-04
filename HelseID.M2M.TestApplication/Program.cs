@@ -1,5 +1,6 @@
 ﻿using HelseID.Standard;
 using HelseID.Standard.Configuration;
+using HelseID.Standard.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,9 @@ sealed class Program
             "29a8fc45-1029-485c-8608-e9a3e364468f",
             "e-helse:sfm.api/sfm.api",
             "https://helseid-sts.test.nhn.no");
-        builder.Services.AddHelseId(helseIdConfiguration);
+        builder.Services
+            .AddHelseId(helseIdConfiguration)
+            .AddLocalCaching();
     
         builder.Services.AddHostedService<TestService>();
 
@@ -33,18 +36,22 @@ sealed class Program
 
 public class TestService : IHostedService
 {
-    private readonly IHelseIdTokenRetriever _helseIdTokenRetriever;
+    private readonly IHelseIdMachineToMachineFlow _helseIdMachineToMachineFlow;
 
-    public TestService(IHelseIdTokenRetriever helseIdTokenRetriever)
+    public TestService(IHelseIdMachineToMachineFlow helseIdMachineToMachineFlow)
     {
-        _helseIdTokenRetriever = helseIdTokenRetriever;
+        _helseIdMachineToMachineFlow = helseIdMachineToMachineFlow;
     }
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         while (true)
         {
-            var test = await _helseIdTokenRetriever.GetTokenAsync();
-            Console.WriteLine(test.AccessToken);
+            var test = await _helseIdMachineToMachineFlow.GetTokenAsync();
+            if (test is AccessTokenResponse accessTokenResponse)
+            {
+                Console.WriteLine(accessTokenResponse.AccessToken);
+            }
+
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         }
         

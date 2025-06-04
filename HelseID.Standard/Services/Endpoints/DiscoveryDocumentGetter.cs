@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using HelseID.Standard.Configuration;
+using HelseID.Standard.Interfaces.Caching;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Models;
 using Microsoft.Extensions.Caching.Distributed;
@@ -10,26 +11,24 @@ namespace HelseID.Standard.Services.Endpoints;
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 {
     private const string DiscoveryDocumentKey = "DiscoveryDocument";
-    private readonly IDistributedCache _cache;
+    private readonly IDiscoveryDocumentCache _discoveryDocumentCache;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly string _discoveryUrl;
 
-    public DiscoveryDocumentGetter(HelseIdConfiguration helseIdConfiguration, IDistributedCache cache, IHttpClientFactory httpClientFactory)
+    public DiscoveryDocumentGetter(
+        HelseIdConfiguration helseIdConfiguration,
+        IHttpClientFactory httpClientFactory,
+        IDiscoveryDocumentCache discoveryDocumentCache)
     {
         _discoveryUrl = helseIdConfiguration.MetadataUrl;
-        _cache = cache;
         _httpClientFactory = httpClientFactory;
+        _discoveryDocumentCache = discoveryDocumentCache;
     }
 
     public async Task<DiscoveryDocument> GetDiscoveryDocument()
     {
-        var discoveryDocumentBytes = await _cache.GetAsync(DiscoveryDocumentKey);
-        if (discoveryDocumentBytes == null || discoveryDocumentBytes.Length == 0)
-        {
-            return await UpdateCacheWithNewDocument();
-        }
+        var discoveryDocument = await _discoveryDocumentCache.GetDiscoveryDocument();
         
-        var discoveryDocument = JsonSerializer.Deserialize<DiscoveryDocument>(discoveryDocumentBytes);
         if (discoveryDocument == null)
         {
             return await UpdateCacheWithNewDocument();
@@ -41,10 +40,7 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
     private async Task<DiscoveryDocument> UpdateCacheWithNewDocument()
     {
         var discoveryDocument = await CallTheMetadataUrl();
-        var discoveryDocumentBytes = JsonSerializer.SerializeToUtf8Bytes(discoveryDocument);
-        
-        await _cache.SetAsync(DiscoveryDocumentKey, discoveryDocumentBytes);
-
+        await _discoveryDocumentCache.AddDiscoveryDocumentToCache(discoveryDocument);
         return discoveryDocument;
     }
 

@@ -1,0 +1,148 @@
+﻿using System.Net.Http.Json;
+using System.Text.Json;
+using HelseID.Standard.Interfaces.Caching;
+using HelseID.Standard.Interfaces.PayloadClaimCreators;
+using HelseID.Standard.Interfaces.TokenRequests;
+using HelseID.Standard.Models;
+using HelseID.Standard.Models.Constants;
+using HelseID.Standard.Models.Payloads;
+using HelseID.Standard.Models.TokenRequests;
+using Microsoft.Extensions.Caching.Distributed;
+
+namespace HelseID.Standard;
+
+public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
+{   
+    private readonly IClientCredentialsTokenRequestBuilder _clientCredentialsTokenRequestBuilder;
+    private readonly IPayloadClaimsCreator _payloadClaimsCreator;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ITokenCache _tokenCache;
+
+    public HelseIdMachineToMachineFlow(
+        IClientCredentialsTokenRequestBuilder clientCredentialsTokenRequestBuilder, 
+        IPayloadClaimsCreator payloadClaimsCreator, 
+        IHttpClientFactory httpClientFactory, 
+        ITokenCache tokenCache)
+    {
+        _clientCredentialsTokenRequestBuilder = clientCredentialsTokenRequestBuilder;
+        _payloadClaimsCreator = payloadClaimsCreator;
+        _httpClientFactory = httpClientFactory;
+        _tokenCache = tokenCache;
+    }
+    public async Task<TokenResponse> GetTokenAsync()
+    {
+        var cachedResponse = await GetCachedToken();
+        if (cachedResponse != null)
+        {
+            return cachedResponse;
+        }
+        
+        var result = await GetClientCredentialsToken();
+
+        if (result is AccessTokenResponse accessTokenResponse)
+        {
+            await AddTokenToCache(accessTokenResponse);
+        }
+        
+        return result;
+    }
+
+    private async Task<TokenResponse> GetClientCredentialsToken()
+    {
+        var clientCredentialsTokenRequestParameters = new ClientCredentialsTokenRequestParameters
+        {
+            PayloadClaimParameters = new PayloadClaimParameters { UseOrganizationNumbers = false }
+        };
+        var request = await _clientCredentialsTokenRequestBuilder.CreateTokenRequest(_payloadClaimsCreator, clientCredentialsTokenRequestParameters);
+        
+        var response = await GetClientCredentialsTokenResponse(request);
+
+        if (response is DPoPNonceResponse dPoPNonceResponse)
+        {
+            request = await _clientCredentialsTokenRequestBuilder.CreateTokenRequest(_payloadClaimsCreator, clientCredentialsTokenRequestParameters, dPoPNonceResponse.DPoPNonce);
+        
+            return await GetClientCredentialsTokenResponse(request);            
+        }
+
+        return response;
+    }
+
+    private Task AddTokenToCache(AccessTokenResponse tokenResponse)
+    {
+        return _tokenCache.AddTokenToCache(HelseIdConstants.TokenResponseCacheKey, tokenResponse);
+    }
+
+    private Task<AccessTokenResponse?> GetCachedToken()
+    {
+        return _tokenCache.GetAccessToken(HelseIdConstants.TokenResponseCacheKey);
+    }
+
+    private async Task<TokenResponse> GetClientCredentialsTokenResponse(HelseIdTokenRequest request)
+    {
+        try
+        {
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { ParameterNames.ClientId, request.ClientId },
+                { ParameterNames.Scope, request.Scope },
+                { ParameterNames.ClientAssertion, request.ClientAssertion },
+                { ParameterNames.ClientAssertionType, HelseIdConstants.ClientAssertionType },
+                { ParameterNames.GrantType, request.GrantType },
+            });
+
+            var httpClient = _httpClientFactory.CreateClient();
+
+            httpClient.DefaultRequestHeaders.Add(HeaderNames.DPoP, request.DPoPProofToken);
+            var response = await httpClient.PostAsync(request.Address, content);
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    var accessTokenResponse = await response.Content.ReadFromJsonAsync<AccessTokenResponse>();
+                    if (accessTokenResponse != null)
+                    {
+                        return accessTokenResponse;
+                    }
+                }
+                catch (JsonException jsonException)
+                {
+                    return new TokenErrorResponse
+                    {
+                        Error = "Invalid response",
+                        ErrorDescription = jsonException.Message
+                    };
+                }
+            }
+
+            if (response.Headers.TryGetValues(HeaderNames.DPoPNonce, out var values))
+            {
+                var dpopNonce = values.FirstOrDefault();
+
+                return new DPoPNonceResponse
+                {
+                    DPoPNonce = dpopNonce,
+                };
+            }
+
+            var tokenErrorResponse = await response.Content.ReadFromJsonAsync<TokenErrorResponse>();
+            if (tokenErrorResponse != null)
+            {
+                return tokenErrorResponse;
+            }
+        }
+        catch (Exception exception)
+        {
+
+            // TODO: Handle error where the response was not readable
+            return new TokenErrorResponse
+            {
+                Error = "Invalid response",
+                ErrorDescription = exception.Message
+            };
+        }
+
+        
+        // TODO: Hva gjør vi her?
+        throw new InvalidOperationException("Hit skal vi aldri kunne komme...");
+    }
+}
