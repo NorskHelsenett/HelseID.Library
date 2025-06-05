@@ -7,16 +7,16 @@ public class DistributedMemoryCacheMock : IDistributedCache
 {
     public string LastKeyGet { get; set; } = "";
     public string LastKeySet { get; set; } = "";
-    public byte[] CachedData { get; set; } = [];
+    public byte[] CachedObject { get; set; } = [];
 
     public void SetCachedDataFromObject(object cachedObject)
     {
-        CachedData = JsonSerializer.SerializeToUtf8Bytes(cachedObject);
+        CachedObject = JsonSerializer.SerializeToUtf8Bytes(cachedObject);
     }
 
     public void ResetCachedData()
     {
-        CachedData = [];
+        CachedObject = [];
     }
 
     public DistributedCacheEntryOptions CacheEntryOptions { get; set; } = null!;
@@ -24,7 +24,7 @@ public class DistributedMemoryCacheMock : IDistributedCache
     public byte[]? Get(string key)
     {
         LastKeyGet = key;
-        return CachedData;
+        return CachedObject;
     }
 
     public Task<byte[]?> GetAsync(string key, CancellationToken token = new CancellationToken())
@@ -35,7 +35,7 @@ public class DistributedMemoryCacheMock : IDistributedCache
     public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
     {
         LastKeySet = key;
-        CachedData = value;
+        CachedObject = value;
         CacheEntryOptions = options;
     }
 

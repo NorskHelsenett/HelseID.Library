@@ -8,6 +8,11 @@ public class MemoryCacheMock : IMemoryCache
 
     public Dictionary<object, MockCacheEntry> Entries { get; private set; } = new();
 
+    public void SetCachedObject(string cacheKey, object cachedObject)
+    {
+        Entries.Add(cacheKey, new MockCacheEntry { Value = cachedObject});
+    }
+    
     public ICacheEntry CreateEntry(object key)
     {
         var value = new MockCacheEntry() { Key = key };
