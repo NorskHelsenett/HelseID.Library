@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Text;
 using FluentAssertions;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.Constants;
@@ -85,13 +86,13 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
             }));
     }
     
-    private void SetupInvalidTokenResponse()
+    private void SetupInvalidTokenResponse(HttpStatusCode statusCode = HttpStatusCode.OK, string content = "")
     {
         _httpMessageHandler.ResetExpectations();
 
         _httpMessageHandler
             .Expect("https://helseid-sts.nhn.no/connect/token")
-            .Respond(HttpStatusCode.OK, new StringContent(""));
+            .Respond(statusCode, new StringContent(content, Encoding.UTF8, "application/json"));
     }
     
     [Test]
@@ -183,6 +184,17 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
         var tokenResponse = await _machineToMachineFlow.GetTokenAsync();
 
         tokenResponse.Should().BeOfType<TokenErrorResponse>();
+    }
+
+    [Test]
+    public async Task GetTokenAsync_returns_error_response_when_token_response_is_invalid_with_invalid_formatting()
+    {
+        SetupInvalidTokenResponse(HttpStatusCode.InternalServerError, "not json");
+
+        var tokenResponse = await _machineToMachineFlow.GetTokenAsync();
+
+        tokenResponse.Should().BeOfType<TokenErrorResponse>();
+        ((TokenErrorResponse)tokenResponse).Error.Should().Be("Invalid response");
     }
 
     public void Dispose()

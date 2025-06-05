@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseID.Standard;
 
-public static class ServicesExtension
+public static class HelseIdServiceCollectionExtension
 {
     public static IServiceCollection AddHelseId(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
     {
