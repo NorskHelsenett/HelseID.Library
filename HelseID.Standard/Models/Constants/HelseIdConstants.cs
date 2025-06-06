@@ -9,7 +9,7 @@ public static class HelseIdConstants {
 
     public const string ClientAssertionType = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 
-    public const string TokenResponseCacheKey = "tokenresponsecachekey";
+    public const string TokenResponseCacheKey = "TokenResponseCacheKey";
     
     public const int TokenResponseLeewayInSeconds = 2;
 }

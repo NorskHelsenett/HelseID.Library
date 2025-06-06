@@ -1,6 +1,7 @@
 ﻿using HelseID.Standard;
 using HelseID.Standard.Configuration;
 using HelseID.Standard.Models;
+using HelseID.Standard.Models.DetailsFromClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,7 @@ sealed class Program
             "https://helseid-sts.test.nhn.no");
         builder.Services
             .AddHelseId(helseIdConfiguration)
-            .AddLocalCaching();
+            .AddInMemoryHelseIdCaching();
     
         builder.Services.AddHostedService<TestService>();
 
@@ -46,7 +47,8 @@ public class TestService : IHostedService
     {
         while (true)
         {
-            var test = await _helseIdMachineToMachineFlow.GetTokenAsync();
+            var organizationNUmbers = new OrganizationNumbers();
+            var test = await _helseIdMachineToMachineFlow.GetTokenAsync(organizationNUmbers);
             if (test is AccessTokenResponse accessTokenResponse)
             {
                 Console.WriteLine(accessTokenResponse.AccessToken);

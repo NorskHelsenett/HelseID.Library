@@ -4,6 +4,7 @@ using System.Text;
 using FluentAssertions;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.Constants;
+using HelseID.Standard.Models.DetailsFromClient;
 using HelseID.Standard.Tests.Mocks;
 using HelseID.Standard.Tests.Services.Caching;
 using RichardSzalay.MockHttp;
@@ -98,7 +99,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     [Test]
     public async Task GetTokenAsync_returns_AccessTokenResponse_for_normal_response()
     {
-        var tokenResponse = await _machineToMachineFlow.GetTokenAsync();
+        var tokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers());
 
         tokenResponse.Should().BeOfType<AccessTokenResponse>();
 
@@ -111,10 +112,23 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     [Test]
     public async Task GetTokenAsync_caches_response_from_token_endpoint()
     {
-        await _machineToMachineFlow.GetTokenAsync();
+        await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers());
 
         _cacheMock.CachedData.Should().NotBeNullOrEmpty();
-        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey); 
+        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "__"); 
+    }
+    
+    [Test]
+    public async Task GetTokenAsync_caches_response_from_token_endpoint_keyed_on_organization_numbers()
+    {
+        await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers
+        {
+            ParentOrganization = "123",
+            ChildOrganization = "456"
+        });
+
+        _cacheMock.CachedData.Should().NotBeNullOrEmpty();
+        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "_123_456"); 
     }
     
     [Test]
@@ -126,12 +140,12 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
             ExpiresIn = 123
         });
         
-        var firstTokenResponse = await _machineToMachineFlow.GetTokenAsync() as AccessTokenResponse;
+        var firstTokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers()) as AccessTokenResponse;
         firstTokenResponse!.AccessToken.Should().Be("cached access token");
 
         _cacheMock.ResetCachedData();
         
-        var secondTokenResponse = await _machineToMachineFlow.GetTokenAsync() as AccessTokenResponse;
+        var secondTokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers()) as AccessTokenResponse;
         secondTokenResponse!.AccessToken.Should().Be("access token from endpoint");
     }
     
@@ -144,7 +158,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
             ExpiresIn = 123
         });
         
-        var tokenResponse = await _machineToMachineFlow.GetTokenAsync() as AccessTokenResponse;
+        var tokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers()) as AccessTokenResponse;
 
         tokenResponse.Should().NotBeNull();
         tokenResponse.AccessToken.Should().Be("cached access token");
@@ -156,7 +170,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     {
         SetupErrorTokenResponse();
 
-        var tokenResponse = await _machineToMachineFlow.GetTokenAsync();
+        var tokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers());
 
         tokenResponse.Should().BeOfType<TokenErrorResponse>();
 
@@ -170,7 +184,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     {
         SetupErrorTokenResponse();
 
-        await _machineToMachineFlow.GetTokenAsync();
+        await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers());
 
         _cacheMock.CachedData.Should().BeEmpty();
         _cacheMock.LastKeySet.Should().BeNullOrEmpty();
@@ -181,7 +195,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     {
         SetupInvalidTokenResponse();
 
-        var tokenResponse = await _machineToMachineFlow.GetTokenAsync();
+        var tokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers());
 
         tokenResponse.Should().BeOfType<TokenErrorResponse>();
     }
@@ -191,7 +205,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     {
         SetupInvalidTokenResponse(HttpStatusCode.InternalServerError, "not json");
 
-        var tokenResponse = await _machineToMachineFlow.GetTokenAsync();
+        var tokenResponse = await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers());
 
         tokenResponse.Should().BeOfType<TokenErrorResponse>();
         ((TokenErrorResponse)tokenResponse).Error.Should().Be("Invalid response");

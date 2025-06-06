@@ -5,9 +5,9 @@ using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.Constants;
+using HelseID.Standard.Models.DetailsFromClient;
 using HelseID.Standard.Models.Payloads;
 using HelseID.Standard.Models.TokenRequests;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace HelseID.Standard;
 
@@ -29,29 +29,34 @@ public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
         _httpClientFactory = httpClientFactory;
         _tokenCache = tokenCache;
     }
-    public async Task<TokenResponse> GetTokenAsync()
+    public async Task<TokenResponse> GetTokenAsync(OrganizationNumbers organizationNumbers)
     {
-        var cachedResponse = await GetCachedToken();
+        var cachedResponse = await GetCachedToken(organizationNumbers);
         if (cachedResponse != null)
         {
             return cachedResponse;
         }
         
-        var result = await GetClientCredentialsToken();
+        var result = await GetClientCredentialsToken(organizationNumbers);
 
         if (result is AccessTokenResponse accessTokenResponse)
         {
-            await AddTokenToCache(accessTokenResponse);
+            await AddTokenToCache(organizationNumbers, accessTokenResponse);
         }
         
         return result;
     }
 
-    private async Task<TokenResponse> GetClientCredentialsToken()
+    private async Task<TokenResponse> GetClientCredentialsToken(OrganizationNumbers organizationNumbers)
     {
         var clientCredentialsTokenRequestParameters = new ClientCredentialsTokenRequestParameters
         {
-            PayloadClaimParameters = new PayloadClaimParameters { UseOrganizationNumbers = false }
+            PayloadClaimParameters = new PayloadClaimParameters
+            {
+                UseOrganizationNumbers = organizationNumbers.HasOrganizationNumbers,
+                ParentOrganizationNumber = organizationNumbers.ParentOrganization,
+                ChildOrganizationNumber = organizationNumbers.ChildOrganization
+            }
         };
         var request = await _clientCredentialsTokenRequestBuilder.CreateTokenRequest(_payloadClaimsCreator, clientCredentialsTokenRequestParameters);
         
@@ -67,16 +72,23 @@ public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
         return response;
     }
 
-    private Task AddTokenToCache(AccessTokenResponse tokenResponse)
+    private Task AddTokenToCache(OrganizationNumbers organizationNumbers, AccessTokenResponse tokenResponse)
     {
-        return _tokenCache.AddTokenToCache(HelseIdConstants.TokenResponseCacheKey, tokenResponse);
+        var cacheKey = GetCacheKeyForOrganization(organizationNumbers);
+        return _tokenCache.AddTokenToCache(cacheKey, tokenResponse);
+    }
+    
+    private Task<AccessTokenResponse?> GetCachedToken(OrganizationNumbers organizationNumbers)
+    {
+        var cacheKey = GetCacheKeyForOrganization(organizationNumbers);
+        return _tokenCache.GetAccessToken(cacheKey);
     }
 
-    private Task<AccessTokenResponse?> GetCachedToken()
+    private static string GetCacheKeyForOrganization(OrganizationNumbers organizationNumbers)
     {
-        return _tokenCache.GetAccessToken(HelseIdConstants.TokenResponseCacheKey);
+        return $"{HelseIdConstants.TokenResponseCacheKey}_{organizationNumbers.ParentOrganization}_{organizationNumbers.ChildOrganization}";
     }
-
+    
     private async Task<TokenResponse> GetClientCredentialsTokenResponse(HelseIdTokenRequest request)
     {
         try

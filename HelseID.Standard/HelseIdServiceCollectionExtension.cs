@@ -27,15 +27,37 @@ public static class HelseIdServiceCollectionExtension
         services.AddSingleton<IDiscoveryDocumentGetter, DiscoveryDocumentGetter>();
         services.AddSingleton<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
         services.AddSingleton<IAssertionDetailsCreator, AssertionDetailsCreator>();
-        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
+        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
         services.AddSingleton(TimeProvider.System);
         services.AddHttpClient();
         services.AddSingleton(helseIdConfiguration);
+        
+        services.AddHelseIdSingleTenant();
+        services.AddInMemoryHelseIdCaching();
+        
+        return services;
+    }
+
+    public static IServiceCollection AddHelseIdSingleTenant(this IServiceCollection services)
+    {
+        RemoveServiceRegistrations<IStructuredClaimsCreator>(services);
+        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        return services;
+    }
+
+    public static IServiceCollection AddHelseIdMultiTenant(this IServiceCollection services)
+    {
+        RemoveServiceRegistrations<IStructuredClaimsCreator>(services);
+        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
         return services;
     }
 
     public static IServiceCollection AddInMemoryHelseIdCaching(this IServiceCollection services)
     {
+        RemoveServiceRegistrations<ITokenCache>(services);
+        RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);
+        // TODO: Remove memory cache and change cache implementations to keep data locally.
+        // This should be simpler since the services are singletons
         services.AddMemoryCache();
         services.AddSingleton<ITokenCache, InMemoryTokenCache>();
         services.AddSingleton<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
@@ -44,9 +66,20 @@ public static class HelseIdServiceCollectionExtension
 
     public static IServiceCollection AddDistributedHelseIdCaching(this IServiceCollection services)
     {
+        RemoveServiceRegistrations<ITokenCache>(services);
+        RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);
         services.AddDistributedMemoryCache();   
         services.AddSingleton<ITokenCache, DistributedTokenCache>();
         services.AddSingleton<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
         return services;
+    }
+
+    private static void RemoveServiceRegistrations<TService>(IServiceCollection services)
+    {
+        var existingServiceRegistration = services.Where(s => s.ServiceType == typeof(TService)).ToArray();
+        foreach (var serviceRegistration in existingServiceRegistration)
+        {
+            services.Remove(serviceRegistration);
+        }
     }
 }
