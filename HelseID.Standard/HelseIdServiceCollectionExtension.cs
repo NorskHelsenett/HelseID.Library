@@ -56,9 +56,6 @@ public static class HelseIdServiceCollectionExtension
     {
         RemoveServiceRegistrations<ITokenCache>(services);
         RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);
-        // TODO: Remove memory cache and change cache implementations to keep data locally.
-        // This should be simpler since the services are singletons
-        services.AddMemoryCache();
         services.AddSingleton<ITokenCache, InMemoryTokenCache>();
         services.AddSingleton<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
         return services;

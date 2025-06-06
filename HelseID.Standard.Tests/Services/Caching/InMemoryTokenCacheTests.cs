@@ -3,20 +3,23 @@ using FluentAssertions;
 using HelseID.Standard.Models;
 using HelseID.Standard.Services.Caching;
 using HelseID.Standard.Tests.Mocks;
+using Microsoft.Extensions.Time.Testing;
 
 namespace HelseID.Standard.Tests.Services.Caching;
 
 [TestFixture]
-public class InMemoryTokenCacheTests : IDisposable
+public class InMemoryTokenCacheTests
 {
-    private MemoryCacheMock _memoryCacheMock = null!;
     private InMemoryTokenCache _tokenCache = null!;
+    private FakeTimeProvider _fakeTimeProvider = null!;
     
     [SetUp]
     public void Setup()
     {
-        _memoryCacheMock = new MemoryCacheMock();
-        _tokenCache = new InMemoryTokenCache(_memoryCacheMock);
+
+        _fakeTimeProvider = new FakeTimeProvider();
+        
+        _tokenCache = new InMemoryTokenCache(_fakeTimeProvider);
     }
 
     [Test]
@@ -25,35 +28,34 @@ public class InMemoryTokenCacheTests : IDisposable
         var expectedTokenRepsonse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 123
+            ExpiresIn = 1234
         };
 
-        _memoryCacheMock.SetCachedObject("cachekey", expectedTokenRepsonse);
+        await _tokenCache.AddTokenToCache("cachekey", expectedTokenRepsonse);
 
         var accessTokenResponse = await _tokenCache.GetAccessToken("cachekey");
-        accessTokenResponse.Should().BeEquivalentTo(expectedTokenRepsonse);
+        accessTokenResponse.Should().BeSameAs(expectedTokenRepsonse);
     }
     
     [Test]
-    public async Task GetAccessToken_caches_document()
+    public async Task GetAccessToken_returns_null_if_no_document_found_in_cache()
     {
-        var cachedTokenResponse = new AccessTokenResponse
+        (await _tokenCache.GetAccessToken("cachekey")).Should().BeNull();
+    }
+    
+    [Test]
+    public async Task GetAccessToken_returns_null_document_found_in_cache_has_expired()
+    {
+        var expectedTokenRepsonse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 123
+            ExpiresIn = 60
         };
 
-        await _tokenCache.AddTokenToCache("cachekey", cachedTokenResponse);
-        
-        (await _tokenCache.GetAccessToken("cachekey")).Should().BeSameAs(cachedTokenResponse);
-        
-        var cacheEntry =  _memoryCacheMock.Entries.Single();
-        cacheEntry.Key.Should().Be("cachekey");
-        cacheEntry.Value.Value.Should().BeSameAs(cachedTokenResponse);
-    }
+        await _tokenCache.AddTokenToCache("cachekey", expectedTokenRepsonse);
 
-    public void Dispose()
-    {
-        _memoryCacheMock.Dispose();
+        _fakeTimeProvider.Advance(TimeSpan.FromMinutes(2));
+        
+        (await _tokenCache.GetAccessToken("cachekey")).Should().BeNull();
     }
 }

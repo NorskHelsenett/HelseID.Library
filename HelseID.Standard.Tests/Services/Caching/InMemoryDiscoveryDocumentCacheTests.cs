@@ -2,20 +2,24 @@
 using HelseID.Standard.Models;
 using HelseID.Standard.Services.Caching;
 using HelseID.Standard.Tests.Mocks;
+using Microsoft.Extensions.Internal;
+using Microsoft.Extensions.Time.Testing;
 
 namespace HelseID.Standard.Tests.Services.Caching;
 
 [TestFixture]
-public class InMemoryDiscoveryDocumentCacheTests : IDisposable
+public class InMemoryDiscoveryDocumentCacheTests
 {
-    private MemoryCacheMock _memoryCacheMock = null!;
     private InMemoryDiscoveryDocumentCache _discoveryDocumentCache = null!;
-    
+    private FakeTimeProvider _fakeTimeProvider
+        ;
+
     [SetUp]
     public void Setup()
     {
-        _memoryCacheMock = new MemoryCacheMock();
-        _discoveryDocumentCache = new InMemoryDiscoveryDocumentCache(_memoryCacheMock);
+        _fakeTimeProvider = new FakeTimeProvider();
+        
+        _discoveryDocumentCache = new InMemoryDiscoveryDocumentCache(_fakeTimeProvider);
     }
 
     [Test]
@@ -27,14 +31,20 @@ public class InMemoryDiscoveryDocumentCacheTests : IDisposable
             AuthorizeEndpoint = "authorize endpoint"
         };
 
-        _memoryCacheMock.SetCachedObject("DiscoveryDocument", cachedDiscoveryDocument);
+        await _discoveryDocumentCache.AddDiscoveryDocumentToCache(cachedDiscoveryDocument);
+        
+        var discoveryDocumentResponse = await _discoveryDocumentCache.GetDiscoveryDocument();
+        discoveryDocumentResponse.Should().BeEquivalentTo(cachedDiscoveryDocument);
+    }
 
-        var accessTokenResponse = await _discoveryDocumentCache.GetDiscoveryDocument();
-        accessTokenResponse.Should().BeEquivalentTo(cachedDiscoveryDocument);
+    [Test]
+    public async Task GetAccessToken_returns_null_if_no_document_is_found_in_cache()
+    {
+        (await _discoveryDocumentCache.GetDiscoveryDocument()).Should().BeNull();
     }
     
     [Test]
-    public async Task GetAccessToken_caches_document()
+    public async Task GetAccessToken_returns_null_if_document_is_expired()
     {
         var cachedDiscoveryDocument = new DiscoveryDocument
         {
@@ -43,15 +53,9 @@ public class InMemoryDiscoveryDocumentCacheTests : IDisposable
         };
 
         await _discoveryDocumentCache.AddDiscoveryDocumentToCache(cachedDiscoveryDocument);
-        
-        (await _discoveryDocumentCache.GetDiscoveryDocument()).Should().BeSameAs(cachedDiscoveryDocument);
-        
-        var cacheEntry =  _memoryCacheMock.Entries.Single();
-        cacheEntry.Value.Value.Should().BeSameAs(cachedDiscoveryDocument);
-    }
 
-    public void Dispose()
-    {
-        _memoryCacheMock.Dispose();
+        _fakeTimeProvider.Advance(TimeSpan.FromDays(2));
+        
+        (await _discoveryDocumentCache.GetDiscoveryDocument()).Should().BeNull();
     }
 }

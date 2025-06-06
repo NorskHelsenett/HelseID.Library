@@ -2,23 +2,35 @@ using HelseID.Standard.Interfaces.Caching;
 using HelseID.Standard.Models;
 using HelseID.Standard.Models.Constants;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Internal;
 
 namespace HelseID.Standard.Services.Caching;
 
 public class InMemoryTokenCache : ITokenCache
 {
-    private readonly IMemoryCache _memoryCache;
+    private readonly Dictionary<string, TokenResponseContainer?> _cache = new();
+    private readonly TimeProvider _timeProvider;
 
-    public InMemoryTokenCache(IMemoryCache memoryCache)
+    public InMemoryTokenCache(TimeProvider timeProvider)
     {
-        _memoryCache = memoryCache;
+        _timeProvider = timeProvider;
     }
 
     public Task<AccessTokenResponse?> GetAccessToken(string cacheKey)
     {
-        if (_memoryCache.TryGetValue(cacheKey, out AccessTokenResponse? cachedTokenRespone))
+        if (_cache.TryGetValue(cacheKey, out TokenResponseContainer? cachedTokenResponse))
         {
-            return Task.FromResult(cachedTokenRespone);
+            if (cachedTokenResponse == null)
+            {
+                return Task.FromResult<AccessTokenResponse?>(null);
+            }
+
+            if (cachedTokenResponse.Expires > _timeProvider.GetUtcNow())
+            {
+                return Task.FromResult<AccessTokenResponse?>(cachedTokenResponse.TokenResponse);
+            }
+
+            _cache.Remove(cacheKey);
         }
 
         return Task.FromResult<AccessTokenResponse?>(null);
@@ -26,9 +38,19 @@ public class InMemoryTokenCache : ITokenCache
 
     public Task AddTokenToCache(string cacheKey, AccessTokenResponse tokenResponse)
     {
-        var expiration = DateTimeOffset.Now.AddSeconds(tokenResponse.ExpiresIn - HelseIdConstants.TokenResponseLeewayInSeconds);
-        _memoryCache.Set(cacheKey, tokenResponse, expiration);
-     
+        _cache[cacheKey] = new TokenResponseContainer(tokenResponse, _timeProvider);
         return Task.CompletedTask;
+    }
+
+    private sealed class TokenResponseContainer
+    {
+        public AccessTokenResponse TokenResponse { get; private set; }
+        public DateTimeOffset Expires { get; }
+
+        public TokenResponseContainer(AccessTokenResponse accessTokenResponse, TimeProvider timeProvider)
+        {
+            TokenResponse = accessTokenResponse;
+            Expires = timeProvider.GetUtcNow().AddSeconds(accessTokenResponse.ExpiresIn - HelseIdConstants.TokenResponseLeewayInSeconds);
+        }
     }
 }

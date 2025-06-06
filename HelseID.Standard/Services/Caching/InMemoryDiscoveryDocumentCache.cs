@@ -1,25 +1,35 @@
 ﻿using HelseID.Standard.Interfaces.Caching;
 using HelseID.Standard.Models;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Internal;
 
 namespace HelseID.Standard.Services.Caching;
 
 public class InMemoryDiscoveryDocumentCache : IDiscoveryDocumentCache
 {
-    private readonly IMemoryCache _cache;
-
     private const string DiscoveryDocumentKey = "DiscoveryDocument";
 
-    public InMemoryDiscoveryDocumentCache(IMemoryCache cache)
+    private readonly Dictionary<string, DiscoveryDocumentContainer?> _cache = new();
+    private readonly TimeProvider _timeProvider;
+
+    public InMemoryDiscoveryDocumentCache(TimeProvider timeProvider)
     {
-        _cache = cache;
+        _timeProvider = timeProvider;
     }
 
     public Task<DiscoveryDocument?> GetDiscoveryDocument()
     {
-        if (_cache.TryGetValue(DiscoveryDocumentKey, out DiscoveryDocument? discoveryDocument))
+        if (_cache.TryGetValue(DiscoveryDocumentKey, out DiscoveryDocumentContainer? discoveryDocumentContainer))
         {
-            return Task.FromResult(discoveryDocument);
+            if (discoveryDocumentContainer == null)
+            {
+                return Task.FromResult<DiscoveryDocument?>(null);
+            }
+
+            if (discoveryDocumentContainer.Expires > _timeProvider.GetUtcNow())
+            {
+                return Task.FromResult<DiscoveryDocument?>(discoveryDocumentContainer.DiscoveryDocument);
+            }
         }
 
         return Task.FromResult<DiscoveryDocument?>(null);
@@ -27,8 +37,19 @@ public class InMemoryDiscoveryDocumentCache : IDiscoveryDocumentCache
 
     public Task AddDiscoveryDocumentToCache(DiscoveryDocument discoveryDocument)
     {
-        var expiration = DateTimeOffset.Now.AddHours(24);
-        _cache.Set(DiscoveryDocumentKey, discoveryDocument, expiration);
+        _cache[DiscoveryDocumentKey] = new DiscoveryDocumentContainer(discoveryDocument, _timeProvider);
         return Task.CompletedTask;
+    }
+
+    private sealed class DiscoveryDocumentContainer
+    {
+        public DiscoveryDocument DiscoveryDocument { get; private set; }
+        public DateTimeOffset Expires { get; }
+
+        public DiscoveryDocumentContainer(DiscoveryDocument discoveryDocument, TimeProvider timeProvider)
+        {
+            DiscoveryDocument = discoveryDocument;
+            Expires = timeProvider.GetUtcNow().AddHours(24);
+        }
     }
 }
