@@ -1,9 +1,11 @@
 ﻿using FluentAssertions;
 using HelseID.Standard.Configuration;
+using HelseID.Standard.Interfaces.Caching;
 using HelseID.Standard.Interfaces.Endpoints;
 using HelseID.Standard.Interfaces.JwtTokens;
 using HelseID.Standard.Interfaces.PayloadClaimCreators;
 using HelseID.Standard.Interfaces.TokenRequests;
+using HelseID.Standard.Services.Caching;
 using HelseID.Standard.Services.Endpoints;
 using HelseID.Standard.Services.JwtTokens;
 using HelseID.Standard.Services.PayloadClaimCreators;
@@ -24,24 +26,23 @@ public class HelseIdServiceCollectionExtensionTests
         """);
 
     private ServiceCollection _serviceCollection = null!;
+    private HelseIdConfiguration _config = null!;
 
     [SetUp]
     public void SetUp()
     {
         _serviceCollection = new ServiceCollection();
-    }
-
-    [Test]
-    public void AddHelseId_registers_expected_services()
-    {
-        var config = HelseIdConfiguration.ConfigurationForJsonWebKey(
+        _config = HelseIdConfiguration.ConfigurationForJsonWebKey(
             JwkPrivateKey, 
             "RS256",
             "client id",
             "scope",
-            "sts");
-        
-        _serviceCollection.AddHelseId(config);
+            "sts");    }
+
+    [Test]
+    public void AddHelseId_registers_expected_services()
+    {
+        _serviceCollection.AddHelseId(_config);
         
         EnsureSingletonRegistration<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
         EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
@@ -53,6 +54,24 @@ public class HelseIdServiceCollectionExtensionTests
         EnsureSingletonRegistration<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
         EnsureSingletonRegistration<TimeProvider>();
         EnsureSingletonRegistration<HelseIdConfiguration>();
+    }
+
+    [Test]
+    public void AddInMemoryHelseIdCaching_registers_expected_services()
+    {
+        _serviceCollection.AddHelseId(_config).AddInMemoryHelseIdCaching();
+
+        EnsureSingletonRegistration<ITokenCache, InMemoryTokenCache>();
+        EnsureSingletonRegistration<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
+    }
+
+    [Test]
+    public void AddDistributedHelseIdCaching_registers_expected_services()
+    {
+        _serviceCollection.AddHelseId(_config).AddDistributedHelseIdCaching();
+
+        EnsureSingletonRegistration<ITokenCache, DistributedTokenCache>();
+        EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
     }
 
     private void EnsureSingletonRegistration<TServiceType, TImplementationType>()

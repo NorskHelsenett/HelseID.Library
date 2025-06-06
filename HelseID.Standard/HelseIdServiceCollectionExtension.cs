@@ -34,7 +34,7 @@ public static class HelseIdServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddLocalCaching(this IServiceCollection services)
+    public static IServiceCollection AddInMemoryHelseIdCaching(this IServiceCollection services)
     {
         services.AddMemoryCache();
         services.AddSingleton<ITokenCache, InMemoryTokenCache>();
@@ -42,7 +42,7 @@ public static class HelseIdServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddDistributedCaching(this IServiceCollection services)
+    public static IServiceCollection AddDistributedHelseIdCaching(this IServiceCollection services)
     {
         services.AddDistributedMemoryCache();   
         services.AddSingleton<ITokenCache, DistributedTokenCache>();
