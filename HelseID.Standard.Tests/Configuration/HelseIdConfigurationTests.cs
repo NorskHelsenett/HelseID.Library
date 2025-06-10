@@ -15,14 +15,12 @@ public class HelseIdConfigurationTests : ConfigurationTests
         
         var configuration = HelseIdConfiguration.ConfigurationForJsonWebKey(
             jsonWebKey,
-            SecurityAlgorithms.EcdsaSha384,
             ClientId,
             Scope,
             StsUrl);
 
         configuration.SigningCredentials.Key.Should().Be(jsonWebKey);
         configuration.SigningCredentials.Algorithm.Should().Be(SecurityAlgorithms.EcdsaSha384);
-        configuration.JsonWebKey.Should().Be(jsonWebKey);
     }
 
     [Test]
@@ -37,7 +35,6 @@ public class HelseIdConfigurationTests : ConfigurationTests
         
         var configuration = HelseIdConfiguration.ConfigurationForJsonWebKey(
             jsonWebKey,
-            SecurityAlgorithms.EcdsaSha384,
             ClientId,
             Scope,
             StsUrl,
@@ -56,7 +53,6 @@ public class HelseIdConfigurationTests : ConfigurationTests
         
         var configuration = HelseIdConfiguration.ConfigurationForJsonWebKey(
             jsonWebKey,
-            SecurityAlgorithms.EcdsaSha384,
             ClientId,
             Scope,
             StsUrl);
@@ -78,7 +74,6 @@ public class HelseIdConfigurationTests : ConfigurationTests
 
         configuration.SigningCredentials.Algorithm.Should().Be(SecurityAlgorithms.RsaSha384);
         configuration.SigningCredentials.Key.Should().NotBeNull();
-        configuration.JsonWebKey!.Alg.Should().Be("RS384");
     }
     
     [Test]
@@ -93,7 +88,6 @@ public class HelseIdConfigurationTests : ConfigurationTests
 
         configuration.SigningCredentials.Algorithm.Should().Be(SecurityAlgorithms.RsaSha384);
         configuration.SigningCredentials.Key.Should().NotBeNull();
-        configuration.JsonWebKey!.Alg.Should().Be("RS384");
     }
     
     [Test]
@@ -108,6 +102,5 @@ public class HelseIdConfigurationTests : ConfigurationTests
 
         configuration.SigningCredentials.Algorithm.Should().Be(SecurityAlgorithms.EcdsaSha384);
         configuration.SigningCredentials.Key.Should().NotBeNull();
-        configuration.JsonWebKey!.Alg.Should().Be(SecurityAlgorithms.EcdsaSha384);
     }
 }

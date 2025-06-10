@@ -101,15 +101,15 @@ public abstract class ConfigurationTests
     {
         X509Certificate2 certificate = X509CertificateGenerator.GenerateSelfSignedCertificate("HelseID self-signed certificate", X509KeyUsageFlags.NonRepudiation);
 
-        return HelseIdConfiguration.ConfigurationForX509Certificate(certificate,  "RS384", ClientId, Scope, StsUrl);
+        return HelseIdConfiguration.ConfigurationForX509Certificate(certificate,"RS384", ClientId, Scope, StsUrl);
     }
     
     [SetUp]
     public void SetUpConfiguration()
     {
-        HelseIdConfiguration = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(GeneralPrivateRsaKey), SecurityAlgorithms.RsaSha384, ClientId, Scope, StsUrl);
-        HelseIdConfigurationWithEcKey = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(GeneralPrivateEcKey), SecurityAlgorithms.EcdsaSha384, ClientId, Scope, StsUrl);
-        HelseIdConfigurationWithInvalidKey = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(InvalidPrivateKey), "EdDSA", ClientId, Scope, StsUrl);
+        HelseIdConfiguration = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(GeneralPrivateRsaKey), ClientId, Scope, StsUrl);
+        HelseIdConfigurationWithEcKey = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(GeneralPrivateEcKey), ClientId, Scope, StsUrl);
+        HelseIdConfigurationWithInvalidKey = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(InvalidPrivateKey), ClientId, Scope, StsUrl);
         
         PayloadClaimParameters = new PayloadClaimParameters
         {

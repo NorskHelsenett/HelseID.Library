@@ -19,6 +19,13 @@ public static class HelseIdServiceCollectionExtension
 {
     public static IServiceCollection AddHelseId(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
     {
+        services.AddHelseId();
+        services.AddSingleton(helseIdConfiguration);
+        return services;
+    }
+
+    public static IServiceCollection AddHelseId(this IServiceCollection services)
+    {
         services.AddSingleton<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
         services.AddSingleton<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
         services.AddSingleton<IDPoPProofCreator, DPoPProofCreator>();
@@ -30,10 +37,9 @@ public static class HelseIdServiceCollectionExtension
         services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
         services.AddSingleton(TimeProvider.System);
         services.AddHttpClient();
-        services.AddSingleton(helseIdConfiguration);
         
         services.AddHelseIdSingleTenant();
-        services.AddInMemoryHelseIdCaching();
+        services.AddHelseIdInMemoryCaching();
         
         return services;
     }
@@ -52,7 +58,7 @@ public static class HelseIdServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddInMemoryHelseIdCaching(this IServiceCollection services)
+    public static IServiceCollection AddHelseIdInMemoryCaching(this IServiceCollection services)
     {
         RemoveServiceRegistrations<ITokenCache>(services);
         RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);
@@ -61,7 +67,7 @@ public static class HelseIdServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddDistributedHelseIdCaching(this IServiceCollection services)
+    public static IServiceCollection AddHelseIdDistributedCaching(this IServiceCollection services)
     {
         RemoveServiceRegistrations<ITokenCache>(services);
         RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);

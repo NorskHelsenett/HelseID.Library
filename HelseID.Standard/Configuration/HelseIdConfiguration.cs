@@ -19,11 +19,9 @@ public class HelseIdConfiguration
     {
         var rsa = RSA.Create();
         rsa.ImportFromPem(pem);
-        
         var key = new RsaSecurityKey(rsa);
-        var jsonWebKey = JsonWebKeyConverter.ConvertFromRSASecurityKey(key);
-
-        return new HelseIdConfiguration(jsonWebKey, algorithm, clientId, scope, stsUrl, resourceIndicators);
+        
+        return new HelseIdConfiguration(new SigningCredentials(key, algorithm), clientId, scope, stsUrl, resourceIndicators);
     }
 
     public static HelseIdConfiguration ConfigurationForPemEcCertificate(
@@ -37,9 +35,8 @@ public class HelseIdConfiguration
         var ecDsa = ECDsa.Create();
         ecDsa.ImportFromPem(pem);
         var key = new ECDsaSecurityKey(ecDsa);
-        var jsonWebKey = JsonWebKeyConverter.ConvertFromECDsaSecurityKey(key);
 
-        return new HelseIdConfiguration(jsonWebKey, algorithm, clientId, scope, stsUrl, resourceIndicators);
+        return new HelseIdConfiguration(new SigningCredentials(key, algorithm), clientId, scope, stsUrl, resourceIndicators);
     }
     
     public static HelseIdConfiguration ConfigurationForX509Certificate(
@@ -54,7 +51,7 @@ public class HelseIdConfiguration
         var key = x509SigningCredentials.Key as X509SecurityKey;
         var jsonWebKey = JsonWebKeyConverter.ConvertFromX509SecurityKey(key, representAsRsaKey: true);
 
-        return new HelseIdConfiguration(jsonWebKey, algorithm, clientId, scope, stsUrl, resourceIndicators);
+        return new HelseIdConfiguration(new SigningCredentials(jsonWebKey, algorithm), clientId, scope, stsUrl, resourceIndicators);
     }
     
     public static HelseIdConfiguration ConfigurationForJsonWebKey(
@@ -65,8 +62,19 @@ public class HelseIdConfiguration
         string stsUrl,
         List<string>? resourceIndicators = null)
     {
-        return new HelseIdConfiguration(jsonWebKey, algorithm, clientId, scope, stsUrl, resourceIndicators);
+        return new HelseIdConfiguration(new SigningCredentials(jsonWebKey, algorithm), clientId, scope, stsUrl, resourceIndicators);
     }
+     
+    public static HelseIdConfiguration ConfigurationForJsonWebKey(
+        JsonWebKey jsonWebKey,
+        string clientId,
+        string scope,
+        string stsUrl,
+        List<string>? resourceIndicators = null)
+    {
+        return new HelseIdConfiguration(new SigningCredentials(jsonWebKey, jsonWebKey.Alg), clientId, scope, stsUrl, resourceIndicators);
+    }
+    
     public static HelseIdConfiguration ConfigurationForJsonWebKey(
         string jsonWebKey,
         string algorithm,
@@ -75,20 +83,29 @@ public class HelseIdConfiguration
         string stsUrl,
         List<string>? resourceIndicators = null)
     {
-        return new HelseIdConfiguration(new JsonWebKey(jsonWebKey), algorithm, clientId, scope, stsUrl, resourceIndicators);
+        var signingKey = new JsonWebKey(jsonWebKey);
+        return new HelseIdConfiguration(new SigningCredentials(signingKey, algorithm),  clientId, scope, stsUrl, resourceIndicators);
     }
     
-    private HelseIdConfiguration(
-        JsonWebKey jsonWebKey,
-        string algorithm,
+    public static HelseIdConfiguration ConfigurationForJsonWebKey(
+        string jsonWebKey,
         string clientId,
         string scope,
         string stsUrl,
         List<string>? resourceIndicators = null)
     {
-        SigningCredentials = new SigningCredentials(jsonWebKey, algorithm);
-        JsonWebKey = SigningCredentials.Key as JsonWebKey;
-        JsonWebKey!.Alg = algorithm;
+        var signingKey = new JsonWebKey(jsonWebKey);
+        return new HelseIdConfiguration(new SigningCredentials(signingKey, signingKey.Alg),  clientId, scope, stsUrl, resourceIndicators);
+    }
+    
+    private HelseIdConfiguration(
+        SigningCredentials signingCredentials,
+        string clientId,
+        string scope,
+        string stsUrl,
+        List<string>? resourceIndicators = null)
+    {
+        SigningCredentials = signingCredentials;
         ClientId = clientId;
         Scope = scope;
         StsUrl = stsUrl;
@@ -105,8 +122,6 @@ public class HelseIdConfiguration
             ResourceIndicators = resourceIndicators;
         }
     }
-    
-    public JsonWebKey? JsonWebKey { get; private set; }
     
     public SigningCredentials SigningCredentials { get; private set; }
 
