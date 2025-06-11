@@ -1,6 +1,5 @@
 ﻿using HelseId.Library;
 using HelseId.Library.Configuration;
-using HelseId.Library.Interfaces;
 using HelseId.Library.MachineToMachine;
 using HelseId.Library.MachineToMachine.Interfaces;
 using HelseId.Library.Models;

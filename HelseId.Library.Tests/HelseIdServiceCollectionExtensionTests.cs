@@ -1,6 +1,8 @@
-﻿using HelseId.Library.Interfaces;
-using HelseId.Library.MachineToMachine;
+﻿using HelseId.Library.MachineToMachine;
 using HelseId.Library.MachineToMachine.Interfaces;
+using HelseId.Library.MachineToMachine.Interfaces.TokenRequests;
+using HelseId.Library.MachineToMachine.PayloadClaimCreators;
+using HelseId.Library.MachineToMachine.Services.TokenRequests;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 

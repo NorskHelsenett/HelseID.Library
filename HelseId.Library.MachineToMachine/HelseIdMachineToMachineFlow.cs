@@ -1,6 +1,4 @@
-﻿using HelseId.Library.MachineToMachine.Interfaces;
-
-namespace HelseId.Library.MachineToMachine;
+﻿namespace HelseId.Library.MachineToMachine;
 
 public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
 {   

@@ -1,4 +1,4 @@
-namespace HelseId.Library.Models.TokenRequests;
+namespace HelseId.Library.MachineToMachine.Models.TokenRequests;
 
 public  class ClientCredentialsTokenRequestParameters : TokenRequestParameters
 {

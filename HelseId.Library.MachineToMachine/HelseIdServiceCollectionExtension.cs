@@ -1,6 +1,4 @@
-﻿using HelseId.Library.MachineToMachine.Interfaces;
-
-namespace HelseId.Library.MachineToMachine;
+﻿namespace HelseId.Library.MachineToMachine;
 
 public static class HelseIdServiceCollectionExtension
 {
@@ -23,7 +21,8 @@ public static class HelseIdServiceCollectionExtension
     {
         helseIdBuilder.Services.AddSingleton<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
         helseIdBuilder.Services.AddSingleton<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
-        
+        helseIdBuilder.Services.AddSingleton<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
+
         helseIdBuilder.AddHelseIdSingleTenant();
         helseIdBuilder.AddHelseIdInMemoryCaching();
     }

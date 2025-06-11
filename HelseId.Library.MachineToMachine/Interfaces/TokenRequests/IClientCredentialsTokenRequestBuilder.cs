@@ -1,4 +1,4 @@
-namespace HelseId.Library.Interfaces.TokenRequests;
+namespace HelseId.Library.MachineToMachine.Interfaces.TokenRequests;
 
 public interface IClientCredentialsTokenRequestBuilder 
     : ITokenRequestBuilder<ClientCredentialsTokenRequestParameters> { }

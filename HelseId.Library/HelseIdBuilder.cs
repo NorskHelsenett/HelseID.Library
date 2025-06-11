@@ -18,7 +18,6 @@ public sealed class HelseIdBuilder : IHelseIdBuilder
         Services.AddSingleton<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
         Services.AddSingleton<ISigningTokenCreator, SigningTokenCreator>();
         Services.AddSingleton<IDiscoveryDocumentGetter, DiscoveryDocumentGetter>();
-        Services.AddSingleton<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
         Services.AddSingleton<IAssertionDetailsCreator, AssertionDetailsCreator>();
         Services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
         Services.AddSingleton(TimeProvider.System);

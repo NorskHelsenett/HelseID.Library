@@ -1,3 +1,6 @@
+using HelseId.Library.MachineToMachine.Models.TokenRequests;
+using HelseId.Library.MachineToMachine.Services.TokenRequests;
+
 namespace HelseId.Standard.Tests.Services.TokenRequests;
 
 [TestFixture]
