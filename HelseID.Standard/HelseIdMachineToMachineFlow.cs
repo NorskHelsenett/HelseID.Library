@@ -150,8 +150,6 @@ public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
         }
         catch (Exception exception)
         {
-
-            // TODO: Handle error where the response was not readable
             return new TokenErrorResponse
             {
                 Error = "Invalid response",
@@ -159,8 +157,10 @@ public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
             };
         }
 
-        
-        // TODO: Hva gjør vi her?
-        throw new InvalidOperationException("Hit skal vi aldri kunne komme...");
+        return new TokenErrorResponse
+        {
+            Error = "Invalid operation",
+            ErrorDescription = "Token request failed in an unexpected way"
+        };
     }
 }
