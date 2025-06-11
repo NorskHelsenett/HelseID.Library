@@ -1,7 +1,7 @@
-﻿using HelseID.Standard.Interfaces.Caching;
-using HelseID.Standard.Models;
+﻿using HelseId.Standard.Interfaces.Caching;
+using HelseId.Standard.Models;
 
-namespace HelseID.Standard.Tests.Services.Caching;
+namespace HelseId.Standard.Tests.Services.Caching;
 
 public class DiscoveryDocumentCacheMock : IDiscoveryDocumentCache
 {

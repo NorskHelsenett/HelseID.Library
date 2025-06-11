@@ -1,9 +1,9 @@
-using HelseID.Standard.Interfaces.Endpoints;
-using HelseID.Standard.Interfaces.JwtTokens;
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Interfaces.Endpoints;
+using HelseId.Standard.Interfaces.JwtTokens;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Payloads;
 
-namespace HelseID.Standard.Services.TokenRequests;
+namespace HelseId.Standard.Services.TokenRequests;
 
 public abstract class TokenRequestBuilder
 {

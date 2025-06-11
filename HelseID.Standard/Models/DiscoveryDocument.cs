@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using HelseID.Standard.Models.Constants;
+using HelseId.Standard.Models.Constants;
 
-namespace HelseID.Standard.Models;
+namespace HelseId.Standard.Models;
 
 public class DiscoveryDocument
 {

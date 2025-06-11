@@ -1,7 +1,7 @@
-using HelseID.Standard.Interfaces.Endpoints;
-using HelseID.Standard.Models;
+using HelseId.Standard.Interfaces.Endpoints;
+using HelseId.Standard.Models;
 
-namespace HelseID.Standard.Tests.Mocks;
+namespace HelseId.Standard.Tests.Mocks;
 
 public class DiscoveryDocumentGetterMock : IDiscoveryDocumentGetter
 {

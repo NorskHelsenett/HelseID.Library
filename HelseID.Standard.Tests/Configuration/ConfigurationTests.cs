@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using HelseID.Standard.Configuration;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Configuration;
+using HelseId.Standard.Models.Payloads;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseID.Standard.Tests.Configuration;
+namespace HelseId.Standard.Tests.Configuration;
 
 public abstract class ConfigurationTests
 {

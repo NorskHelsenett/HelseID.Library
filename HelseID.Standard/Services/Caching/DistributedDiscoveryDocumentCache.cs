@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
-using HelseID.Standard.Interfaces.Caching;
-using HelseID.Standard.Models;
+using HelseId.Standard.Interfaces.Caching;
+using HelseId.Standard.Models;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace HelseID.Standard.Services.Caching;
+namespace HelseId.Standard.Services.Caching;
 
 public class DistributedDiscoveryDocumentCache : IDiscoveryDocumentCache
 {

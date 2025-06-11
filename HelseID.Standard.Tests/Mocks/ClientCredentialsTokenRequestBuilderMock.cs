@@ -1,10 +1,10 @@
-﻿using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Interfaces.TokenRequests;
-using HelseID.Standard.Models;
-using HelseID.Standard.Models.Constants;
-using HelseID.Standard.Models.TokenRequests;
+﻿using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Interfaces.TokenRequests;
+using HelseId.Standard.Models;
+using HelseId.Standard.Models.Constants;
+using HelseId.Standard.Models.TokenRequests;
 
-namespace HelseID.Standard.Tests.Mocks;
+namespace HelseId.Standard.Tests.Mocks;
 
 public class ClientCredentialsTokenRequestBuilderMock : IClientCredentialsTokenRequestBuilder
 {

@@ -1,19 +1,19 @@
-﻿using HelseID.Standard.Configuration;
-using HelseID.Standard.Interfaces.Caching;
-using HelseID.Standard.Interfaces.Endpoints;
-using HelseID.Standard.Interfaces.JwtTokens;
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Interfaces.TokenRequests;
-using HelseID.Standard.Services.Caching;
-using HelseID.Standard.Services.Endpoints;
-using HelseID.Standard.Services.JwtTokens;
-using HelseID.Standard.Services.PayloadClaimCreators;
-using HelseID.Standard.Services.PayloadClaimCreators.DetailsCreators;
-using HelseID.Standard.Services.PayloadClaimCreators.StructuredClaims;
-using HelseID.Standard.Services.TokenRequests;
+﻿using HelseId.Standard.Configuration;
+using HelseId.Standard.Interfaces.Caching;
+using HelseId.Standard.Interfaces.Endpoints;
+using HelseId.Standard.Interfaces.JwtTokens;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Interfaces.TokenRequests;
+using HelseId.Standard.Services.Caching;
+using HelseId.Standard.Services.Endpoints;
+using HelseId.Standard.Services.JwtTokens;
+using HelseId.Standard.Services.PayloadClaimCreators;
+using HelseId.Standard.Services.PayloadClaimCreators.DetailsCreators;
+using HelseId.Standard.Services.PayloadClaimCreators.StructuredClaims;
+using HelseId.Standard.Services.TokenRequests;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HelseID.Standard;
+namespace HelseId.Standard;
 
 public static class HelseIdServiceCollectionExtension
 {

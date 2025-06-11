@@ -1,8 +1,8 @@
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models;
-using HelseID.Standard.Models.TokenRequests;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models;
+using HelseId.Standard.Models.TokenRequests;
 
-namespace HelseID.Standard.Interfaces.TokenRequests;
+namespace HelseId.Standard.Interfaces.TokenRequests;
 
 public interface ITokenRequestBuilder<T> 
     where T : TokenRequestParameters

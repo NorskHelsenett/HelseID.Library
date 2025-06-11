@@ -1,15 +1,15 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
-using HelseID.Standard.Interfaces.Caching;
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Interfaces.TokenRequests;
-using HelseID.Standard.Models;
-using HelseID.Standard.Models.Constants;
-using HelseID.Standard.Models.DetailsFromClient;
-using HelseID.Standard.Models.Payloads;
-using HelseID.Standard.Models.TokenRequests;
+using HelseId.Standard.Interfaces.Caching;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Interfaces.TokenRequests;
+using HelseId.Standard.Models;
+using HelseId.Standard.Models.Constants;
+using HelseId.Standard.Models.DetailsFromClient;
+using HelseId.Standard.Models.Payloads;
+using HelseId.Standard.Models.TokenRequests;
 
-namespace HelseID.Standard;
+namespace HelseId.Standard;
 
 public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
 {   

@@ -1,13 +1,13 @@
 using System.Text.Json;
 using FluentAssertions;
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.Services.JwtTokens;
-using HelseID.Standard.Tests.Configuration;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.Services.JwtTokens;
+using HelseId.Standard.Tests.Configuration;
+using HelseId.Standard.Tests.Mocks;
 using Microsoft.Extensions.Time.Testing;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace HelseID.Standard.Tests.Services.JwtTokens;
+namespace HelseId.Standard.Tests.Services.JwtTokens;
 
 [TestFixture]
 public class DPoPProofCreatorTests : ConfigurationTests

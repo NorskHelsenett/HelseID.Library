@@ -1,11 +1,11 @@
 using FluentAssertions;
-using HelseID.Standard.Configuration;
-using HelseID.Standard.Services.Endpoints;
-using HelseID.Standard.Tests.Mocks;
-using HelseID.Standard.Tests.Services.Caching;
+using HelseId.Standard.Configuration;
+using HelseId.Standard.Services.Endpoints;
+using HelseId.Standard.Tests.Mocks;
+using HelseId.Standard.Tests.Services.Caching;
 using RichardSzalay.MockHttp;
 
-namespace HelseID.Standard.Tests.Services.Endpoints;
+namespace HelseId.Standard.Tests.Services.Endpoints;
 
 [TestFixture]
 public class DiscoveryDocumentGetterTests 

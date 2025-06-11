@@ -1,9 +1,9 @@
-using HelseID.Standard.Configuration;
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Configuration;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Payloads;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace HelseID.Standard.Tests.Mocks;
+namespace HelseId.Standard.Tests.Mocks;
 
 public class PayloadClaimsCreatorMock : IPayloadClaimsCreator
 {

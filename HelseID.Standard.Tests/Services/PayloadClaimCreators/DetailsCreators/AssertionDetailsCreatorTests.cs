@@ -1,11 +1,11 @@
 using FluentAssertions;
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Payloads;
-using HelseID.Standard.Services.PayloadClaimCreators.DetailsCreators;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Payloads;
+using HelseId.Standard.Services.PayloadClaimCreators.DetailsCreators;
+using HelseId.Standard.Tests.Mocks;
 
-namespace HelseID.Standard.Tests.Services.PayloadClaimCreators.DetailsCreators;
+namespace HelseId.Standard.Tests.Services.PayloadClaimCreators.DetailsCreators;
 
 [TestFixture]
 public class AssertionDetailsCreatorTests

@@ -1,10 +1,10 @@
-using HelseID.Standard.Interfaces.Caching;
-using HelseID.Standard.Models;
-using HelseID.Standard.Models.Constants;
+using HelseId.Standard.Interfaces.Caching;
+using HelseId.Standard.Models;
+using HelseId.Standard.Models.Constants;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Internal;
 
-namespace HelseID.Standard.Services.Caching;
+namespace HelseId.Standard.Services.Caching;
 
 public class InMemoryTokenCache : ITokenCache
 {

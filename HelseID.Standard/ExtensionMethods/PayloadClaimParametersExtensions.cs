@@ -1,7 +1,7 @@
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.Models.Payloads;
 
-namespace HelseID.Standard.ExtensionMethods;
+namespace HelseId.Standard.ExtensionMethods;
 
 public static class PayloadClaimParametersExtensions
 {

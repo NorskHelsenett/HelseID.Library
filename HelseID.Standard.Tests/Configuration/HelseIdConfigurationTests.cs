@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using FluentAssertions;
-using HelseID.Standard.Configuration;
+using HelseId.Standard.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseID.Standard.Tests.Configuration;
+namespace HelseId.Standard.Tests.Configuration;
 
 [TestFixture]
 public class HelseIdConfigurationTests : ConfigurationTests

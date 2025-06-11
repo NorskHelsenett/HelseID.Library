@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Models.Configuration;
+namespace HelseId.Standard.Models.Configuration;
 
 public static class PayloadConfiguration
 {

@@ -1,9 +1,9 @@
 using FluentAssertions;
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.ExtensionMethods;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.ExtensionMethods;
+using HelseId.Standard.Models.Payloads;
 
-namespace HelseID.Standard.Tests.ExtensionMethods;
+namespace HelseId.Standard.Tests.ExtensionMethods;
 
 [TestFixture]
 public class PayloadClaimParametersExtensionsTests

@@ -1,7 +1,7 @@
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Payloads;
 
-namespace HelseID.Standard.Interfaces.JwtTokens;
+namespace HelseId.Standard.Interfaces.JwtTokens;
 
 public interface ISigningTokenCreator
 {

@@ -1,6 +1,6 @@
-using HelseID.Standard.Interfaces.JwtTokens;
+using HelseId.Standard.Interfaces.JwtTokens;
 
-namespace HelseID.Standard.Tests.Mocks;
+namespace HelseId.Standard.Tests.Mocks;
 
 public class DPoPProofCreatorMock : IDPoPProofCreator
 {

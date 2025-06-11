@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseID.Standard.Configuration;
+namespace HelseId.Standard.Configuration;
 
 /// <summary>
 /// This class contains configurations that correspond to clients in HelseID.

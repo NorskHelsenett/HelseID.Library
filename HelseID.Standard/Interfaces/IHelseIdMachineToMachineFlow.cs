@@ -1,7 +1,7 @@
-﻿using HelseID.Standard.Models;
-using HelseID.Standard.Models.DetailsFromClient;
+﻿using HelseId.Standard.Models;
+using HelseId.Standard.Models.DetailsFromClient;
 
-namespace HelseID.Standard;
+namespace HelseId.Standard;
 
 public interface IHelseIdMachineToMachineFlow
 {

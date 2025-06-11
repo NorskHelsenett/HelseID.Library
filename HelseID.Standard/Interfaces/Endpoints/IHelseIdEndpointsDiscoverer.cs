@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Interfaces.Endpoints;
+namespace HelseId.Standard.Interfaces.Endpoints;
 
 public interface IHelseIdEndpointsDiscoverer
 {

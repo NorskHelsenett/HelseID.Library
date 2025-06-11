@@ -1,6 +1,6 @@
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Models.Payloads;
 
-namespace HelseID.Standard.Models.TokenRequests;
+namespace HelseId.Standard.Models.TokenRequests;
 
 // Models a set of parameters for the use of parameters to a client assertion
 // This class can be inherited if special use is required for an instance

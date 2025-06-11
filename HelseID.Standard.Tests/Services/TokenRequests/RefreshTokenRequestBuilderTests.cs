@@ -1,9 +1,9 @@
 using FluentAssertions;
-using HelseID.Standard.Models.TokenRequests;
-using HelseID.Standard.Services.TokenRequests;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Models.TokenRequests;
+using HelseId.Standard.Services.TokenRequests;
+using HelseId.Standard.Tests.Mocks;
 
-namespace HelseID.Standard.Tests.Services.TokenRequests;
+namespace HelseId.Standard.Tests.Services.TokenRequests;
 
 [TestFixture, Ignore("Ikke klar")]
 public class RefreshTokenRequestBuilderTests : TokenRequestBuilderTests

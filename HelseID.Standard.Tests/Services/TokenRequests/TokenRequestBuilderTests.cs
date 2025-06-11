@@ -1,7 +1,7 @@
-using HelseID.Standard.Tests.Configuration;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Tests.Configuration;
+using HelseId.Standard.Tests.Mocks;
 
-namespace HelseID.Standard.Tests.Services.TokenRequests;
+namespace HelseId.Standard.Tests.Services.TokenRequests;
 
 public abstract class TokenRequestBuilderTests : ConfigurationTests
 {

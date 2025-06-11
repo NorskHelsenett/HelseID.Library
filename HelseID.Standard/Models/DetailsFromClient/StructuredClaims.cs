@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Models.DetailsFromClient;
+namespace HelseId.Standard.Models.DetailsFromClient;
 
 public static class StructuredClaims
 {

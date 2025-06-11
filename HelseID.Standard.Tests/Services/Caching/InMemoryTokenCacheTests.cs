@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
 using FluentAssertions;
-using HelseID.Standard.Models;
-using HelseID.Standard.Services.Caching;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Models;
+using HelseId.Standard.Services.Caching;
+using HelseId.Standard.Tests.Mocks;
 using Microsoft.Extensions.Time.Testing;
 
-namespace HelseID.Standard.Tests.Services.Caching;
+namespace HelseId.Standard.Tests.Services.Caching;
 
 [TestFixture]
 public class InMemoryTokenCacheTests

@@ -1,12 +1,12 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using HelseID.Standard.Configuration;
-using HelseID.Standard.Interfaces.Caching;
-using HelseID.Standard.Interfaces.Endpoints;
-using HelseID.Standard.Models;
+using HelseId.Standard.Configuration;
+using HelseId.Standard.Interfaces.Caching;
+using HelseId.Standard.Interfaces.Endpoints;
+using HelseId.Standard.Models;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace HelseID.Standard.Services.Endpoints;
+namespace HelseId.Standard.Services.Endpoints;
 
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 {

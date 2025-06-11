@@ -2,14 +2,14 @@
 using System.Net.Http.Json;
 using System.Text;
 using FluentAssertions;
-using HelseID.Standard.Models;
-using HelseID.Standard.Models.Constants;
-using HelseID.Standard.Models.DetailsFromClient;
-using HelseID.Standard.Tests.Mocks;
-using HelseID.Standard.Tests.Services.Caching;
+using HelseId.Standard.Models;
+using HelseId.Standard.Models.Constants;
+using HelseId.Standard.Models.DetailsFromClient;
+using HelseId.Standard.Tests.Mocks;
+using HelseId.Standard.Tests.Services.Caching;
 using RichardSzalay.MockHttp;
 
-namespace HelseID.Standard.Tests;
+namespace HelseId.Standard.Tests;
 
 [TestFixture]
 public class HelseIdMachineToMachineFlowTests : IDisposable

@@ -1,6 +1,6 @@
-using HelseID.Standard.Interfaces.Endpoints;
+using HelseId.Standard.Interfaces.Endpoints;
 
-namespace HelseID.Standard.Services.Endpoints;
+namespace HelseId.Standard.Services.Endpoints;
 
 public class HelseIdEndpointsDiscoverer : IHelseIdEndpointsDiscoverer
 {

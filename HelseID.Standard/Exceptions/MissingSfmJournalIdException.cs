@@ -1,3 +1,3 @@
-namespace HelseID.Standard.Exceptions;
+namespace HelseId.Standard.Exceptions;
 
 public class MissingSfmJournalIdException() : Exception("No SFM Journal ID was provided as a parameter.");

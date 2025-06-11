@@ -1,10 +1,10 @@
 using FluentAssertions;
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.Models.Payloads;
-using HelseID.Standard.Services.PayloadClaimCreators.StructuredClaims;
-using HelseID.Standard.Tests.Configuration;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.Models.Payloads;
+using HelseId.Standard.Services.PayloadClaimCreators.StructuredClaims;
+using HelseId.Standard.Tests.Configuration;
 
-namespace HelseID.Standard.Tests.Services.PayloadClaimCreators.StructuredClaims;
+namespace HelseId.Standard.Tests.Services.PayloadClaimCreators.StructuredClaims;
 
 [TestFixture]
 public class SfmIdPayloadClaimsCreatorForMultiTenantClientTests: ConfigurationTests

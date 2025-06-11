@@ -1,6 +1,6 @@
-using HelseID.Standard.Interfaces.Endpoints;
+using HelseId.Standard.Interfaces.Endpoints;
 
-namespace HelseID.Standard.Tests.Mocks;
+namespace HelseId.Standard.Tests.Mocks;
 
 public class HelseIdEndpointsDiscovererMock : IHelseIdEndpointsDiscoverer
 {

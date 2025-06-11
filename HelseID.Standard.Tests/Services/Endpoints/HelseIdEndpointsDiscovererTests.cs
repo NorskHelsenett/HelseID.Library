@@ -1,8 +1,8 @@
 using FluentAssertions;
-using HelseID.Standard.Services.Endpoints;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Services.Endpoints;
+using HelseId.Standard.Tests.Mocks;
 
-namespace HelseID.Standard.Tests.Services.Endpoints;
+namespace HelseId.Standard.Tests.Services.Endpoints;
 
 [TestFixture]
 public class HelseIdEndpointsDiscovererTests

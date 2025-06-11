@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Models.Payloads;
+namespace HelseId.Standard.Models.Payloads;
 
 // A claim type that can contain an object as the value.
 public class PayloadClaim(string name, object value)

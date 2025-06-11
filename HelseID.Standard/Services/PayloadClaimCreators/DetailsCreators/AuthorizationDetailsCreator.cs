@@ -1,7 +1,7 @@
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Payloads;
 
-namespace HelseID.Standard.Services.PayloadClaimCreators.DetailsCreators;
+namespace HelseId.Standard.Services.PayloadClaimCreators.DetailsCreators;
 
 public class AuthorizationDetailsCreator : DetailsCreator, IAuthorizationDetailsCreator
 {

@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Interfaces.JwtTokens;
+namespace HelseId.Standard.Interfaces.JwtTokens;
 
 public interface IDPoPProofCreator
 {

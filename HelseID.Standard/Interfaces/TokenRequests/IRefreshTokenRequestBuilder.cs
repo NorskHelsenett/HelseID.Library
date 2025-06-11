@@ -1,5 +1,5 @@
-using HelseID.Standard.Models.TokenRequests;
+using HelseId.Standard.Models.TokenRequests;
 
-namespace HelseID.Standard.Interfaces.TokenRequests;
+namespace HelseId.Standard.Interfaces.TokenRequests;
 
 public interface IRefreshTokenRequestBuilder : ITokenRequestBuilder<RefreshTokenRequestParameters> { }

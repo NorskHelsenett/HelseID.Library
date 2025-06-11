@@ -1,11 +1,11 @@
 using FluentAssertions;
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.Services.PayloadClaimCreators;
-using HelseID.Standard.Tests.Configuration;
-using HelseID.Standard.Tests.Mocks;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.Services.PayloadClaimCreators;
+using HelseId.Standard.Tests.Configuration;
+using HelseId.Standard.Tests.Mocks;
 using Microsoft.Extensions.Time.Testing;
 
-namespace HelseID.Standard.Tests.Services.PayloadClaimCreators;
+namespace HelseId.Standard.Tests.Services.PayloadClaimCreators;
 
 [TestFixture]
 public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests

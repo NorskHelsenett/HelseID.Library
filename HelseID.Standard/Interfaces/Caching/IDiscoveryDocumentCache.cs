@@ -1,6 +1,6 @@
-﻿using HelseID.Standard.Models;
+﻿using HelseId.Standard.Models;
 
-namespace HelseID.Standard.Interfaces.Caching;
+namespace HelseId.Standard.Interfaces.Caching;
 
 public interface IDiscoveryDocumentCache
 {

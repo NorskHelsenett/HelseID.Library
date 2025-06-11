@@ -1,6 +1,6 @@
 ﻿using RichardSzalay.MockHttp;
 
-namespace HelseID.Standard.Tests.Mocks;
+namespace HelseId.Standard.Tests.Mocks;
 
 public class HttpClientFactoryMock : IHttpClientFactory
 {

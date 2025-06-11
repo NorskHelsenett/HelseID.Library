@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Models.Payloads;
+namespace HelseId.Standard.Models.Payloads;
 
 public class PayloadClaimParameters
 {

@@ -1,13 +1,13 @@
 using System.Security.Cryptography;
 using System.Text;
-using HelseID.Standard.Configuration;
-using HelseID.Standard.Exceptions;
-using HelseID.Standard.Interfaces.JwtTokens;
-using HelseID.Standard.Models.Constants;
+using HelseId.Standard.Configuration;
+using HelseId.Standard.Exceptions;
+using HelseId.Standard.Interfaces.JwtTokens;
+using HelseId.Standard.Models.Constants;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseID.Standard.Services.JwtTokens;
+namespace HelseId.Standard.Services.JwtTokens;
 
 public class DPoPProofCreator : IDPoPProofCreator
 {

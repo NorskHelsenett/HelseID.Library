@@ -1,4 +1,4 @@
-namespace HelseID.Standard.Models.Constants;
+namespace HelseId.Standard.Models.Constants;
 
 public static class HelseIdConstants {
     // A HelseID-specific parameter in the token response for the refresh token expiration time:

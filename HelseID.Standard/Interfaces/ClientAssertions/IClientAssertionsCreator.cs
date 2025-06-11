@@ -1,6 +1,7 @@
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Payloads;
-namespace HelseID.Standard.Interfaces.ClientAssertions;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Payloads;
+
+namespace HelseId.Standard.Interfaces.ClientAssertions;
 
 public interface IClientAssertionsCreator
 {

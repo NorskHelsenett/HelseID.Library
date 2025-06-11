@@ -1,12 +1,12 @@
-using HelseID.Standard.Configuration;
-using HelseID.Standard.ExtensionMethods;
-using HelseID.Standard.Interfaces.PayloadClaimCreators;
-using HelseID.Standard.Models.Configuration;
-using HelseID.Standard.Models.Payloads;
+using HelseId.Standard.Configuration;
+using HelseId.Standard.Interfaces.PayloadClaimCreators;
+using HelseId.Standard.Models.Configuration;
+using HelseId.Standard.Models.Payloads;
+using HelseId.Standard.ExtensionMethods;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseID.Standard.Services.PayloadClaimCreators;
+namespace HelseId.Standard.Services.PayloadClaimCreators;
 
 // This class generates the (general) claims that are required for the token that is sent
 // to HelseID as part of a client assertion (to the PAR endpoint, or to the Token endpoint)
