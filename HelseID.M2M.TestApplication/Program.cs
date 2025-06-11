@@ -1,10 +1,9 @@
-﻿using HelseId.Standard;
-using HelseId.Standard.Configuration;
-using HelseId.Standard.Models;
-using HelseId.Standard.Models.DetailsFromClient;
+﻿using HelseId.Library;
+using HelseId.Library.Configuration;
+using HelseId.Library.Models;
+using HelseId.Library.Models.DetailsFromClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HelseId.M2M.TestApplication;

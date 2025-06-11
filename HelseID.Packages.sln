@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Standard", "HelseId.Standard\HelseId.Standard.csproj", "{71F61735-1D1A-492C-92AD-9BE3707B4758}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library", "HelseId.Library\HelseId.Library.csproj", "{71F61735-1D1A-492C-92AD-9BE3707B4758}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Standard.Tests", "HelseId.Standard.Tests\HelseId.Standard.Tests.csproj", "{8B8A2F35-D18E-41A9-8ECA-6906AC29F3D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Tests", "HelseId.Library.Tests\HelseId.Library.Tests.csproj", "{8B8A2F35-D18E-41A9-8ECA-6906AC29F3D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseID.M2M.TestApplication", "HelseID.M2M.TestApplication\HelseID.M2M.TestApplication.csproj", "{3420CB44-14F4-402E-822C-CA6C27348018}"
 EndProject
