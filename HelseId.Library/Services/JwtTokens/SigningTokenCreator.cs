@@ -1,10 +1,3 @@
-using HelseId.Library.Configuration;
-using HelseId.Library.Interfaces.JwtTokens;
-using HelseId.Library.Interfaces.PayloadClaimCreators;
-using HelseId.Library.Models.Payloads;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-
 namespace HelseId.Library.Services.JwtTokens;
 
 public class SigningTokenCreator : ISigningTokenCreator

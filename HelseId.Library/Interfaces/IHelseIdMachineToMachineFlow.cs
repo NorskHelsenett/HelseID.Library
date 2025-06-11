@@ -1,7 +1,4 @@
-﻿using HelseId.Library.Models;
-using HelseId.Library.Models.DetailsFromClient;
-
-namespace HelseId.Library;
+﻿namespace HelseId.Library.Interfaces;
 
 public interface IHelseIdMachineToMachineFlow
 {

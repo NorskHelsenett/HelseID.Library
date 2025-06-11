@@ -1,5 +1,3 @@
-using HelseId.Library.Models.Payloads;
-
 namespace HelseId.Library.Models.TokenRequests;
 
 // Models a set of parameters for the use of parameters to a client assertion

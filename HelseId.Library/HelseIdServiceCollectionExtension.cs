@@ -1,16 +1,4 @@
-﻿using HelseId.Library.Configuration;
-using HelseId.Library.Interfaces.Caching;
-using HelseId.Library.Interfaces.Endpoints;
-using HelseId.Library.Interfaces.JwtTokens;
-using HelseId.Library.Interfaces.PayloadClaimCreators;
-using HelseId.Library.Interfaces.TokenRequests;
-using HelseId.Library.Services.Caching;
-using HelseId.Library.Services.Endpoints;
-using HelseId.Library.Services.JwtTokens;
-using HelseId.Library.Services.PayloadClaimCreators;
-using HelseId.Library.Services.PayloadClaimCreators.DetailsCreators;
-using HelseId.Library.Services.PayloadClaimCreators.StructuredClaims;
-using HelseId.Library.Services.TokenRequests;
+﻿using HelseId.Library.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseId.Library;

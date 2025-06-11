@@ -1,10 +1,3 @@
-using HelseId.Library.Configuration;
-using HelseId.Library.Interfaces.PayloadClaimCreators;
-using HelseId.Library.Models.Configuration;
-using HelseId.Library.Models.Payloads;
-using HelseId.Library.ExtensionMethods;
-using Microsoft.IdentityModel.JsonWebTokens;
-
 namespace HelseId.Library.Services.PayloadClaimCreators;
 
 // This class generates the (general) claims that are required for the token that is sent

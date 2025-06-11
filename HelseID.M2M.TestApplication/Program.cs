@@ -1,5 +1,6 @@
 ﻿using HelseId.Library;
 using HelseId.Library.Configuration;
+using HelseId.Library.Interfaces;
 using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
 using Microsoft.Extensions.DependencyInjection;

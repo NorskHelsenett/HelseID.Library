@@ -1,13 +1,8 @@
-﻿using System.Text.Json;
-using HelseId.Library.Interfaces.Caching;
-using HelseId.Library.Models;
-using Microsoft.Extensions.Caching.Distributed;
-
-namespace HelseId.Library.Services.Caching;
+﻿namespace HelseId.Library.Services.Caching;
 
 public class DistributedDiscoveryDocumentCache : IDiscoveryDocumentCache
 {
-    private IDistributedCache _cache;
+    private readonly IDistributedCache _cache;
 
     private const string DiscoveryDocumentKey = "DiscoveryDocument";
 

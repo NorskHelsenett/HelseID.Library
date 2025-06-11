@@ -1,5 +1,3 @@
-using HelseId.Library.Interfaces.Endpoints;
-
 namespace HelseId.Library.Services.Endpoints;
 
 public class HelseIdEndpointsDiscoverer : IHelseIdEndpointsDiscoverer

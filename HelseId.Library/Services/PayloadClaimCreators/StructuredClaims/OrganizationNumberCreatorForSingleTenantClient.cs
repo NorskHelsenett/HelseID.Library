@@ -1,8 +1,4 @@
-﻿using HelseId.Library.Exceptions;
-using HelseId.Library.Interfaces.PayloadClaimCreators;
-using HelseId.Library.Models.Payloads;
-
-namespace HelseId.Library.Services.PayloadClaimCreators.StructuredClaims;
+﻿namespace HelseId.Library.Services.PayloadClaimCreators.StructuredClaims;
 
 public class OrganizationNumberCreatorForSingleTenantClient : IStructuredClaimsCreator {
 
@@ -61,19 +57,5 @@ public class OrganizationNumberCreatorForSingleTenantClient : IStructuredClaimsC
         };
 
         return true;
-    }
-
-    private static string GetOrganizationNumberValue(PayloadClaimParameters payloadClaimParameters)
-    {
-        var organizationNumberValue = payloadClaimParameters.ParentOrganizationNumber;
-        if (!string.IsNullOrEmpty(payloadClaimParameters.ChildOrganizationNumber))
-        {
-            organizationNumberValue += $":{payloadClaimParameters.ChildOrganizationNumber}";
-        }
-        else
-        {
-            organizationNumberValue += ":";
-        }
-        return organizationNumberValue;
     }
 }

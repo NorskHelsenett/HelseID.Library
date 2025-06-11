@@ -1,9 +1,3 @@
-using System.Text.Json;
-using HelseId.Library.Interfaces.Caching;
-using HelseId.Library.Models;
-using HelseId.Library.Models.Constants;
-using Microsoft.Extensions.Caching.Distributed;
-
 namespace HelseId.Library.Services.Caching;
 
 public class DistributedTokenCache : ITokenCache

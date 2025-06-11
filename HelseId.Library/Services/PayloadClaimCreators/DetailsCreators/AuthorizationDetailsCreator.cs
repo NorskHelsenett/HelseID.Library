@@ -1,6 +1,3 @@
-using HelseId.Library.Interfaces.PayloadClaimCreators;
-using HelseId.Library.Models.Payloads;
-
 namespace HelseId.Library.Services.PayloadClaimCreators.DetailsCreators;
 
 public class AuthorizationDetailsCreator : DetailsCreator, IAuthorizationDetailsCreator

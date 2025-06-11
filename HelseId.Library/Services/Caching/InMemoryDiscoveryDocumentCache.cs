@@ -1,7 +1,4 @@
-﻿using HelseId.Library.Interfaces.Caching;
-using HelseId.Library.Models;
-
-namespace HelseId.Library.Services.Caching;
+﻿namespace HelseId.Library.Services.Caching;
 
 public class InMemoryDiscoveryDocumentCache : IDiscoveryDocumentCache
 {

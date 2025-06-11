@@ -1,9 +1,3 @@
-using System.Net.Http.Json;
-using HelseId.Library.Configuration;
-using HelseId.Library.Interfaces.Caching;
-using HelseId.Library.Interfaces.Endpoints;
-using HelseId.Library.Models;
-
 namespace HelseId.Library.Services.Endpoints;
 
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter

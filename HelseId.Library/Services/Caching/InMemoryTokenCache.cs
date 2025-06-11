@@ -1,7 +1,3 @@
-using HelseId.Library.Interfaces.Caching;
-using HelseId.Library.Models;
-using HelseId.Library.Models.Constants;
-
 namespace HelseId.Library.Services.Caching;
 
 public class InMemoryTokenCache : ITokenCache

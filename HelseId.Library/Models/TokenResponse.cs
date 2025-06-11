@@ -1,7 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using HelseId.Library.Models.Constants;
-
-namespace HelseId.Library.Models;
+﻿namespace HelseId.Library.Models;
 
 public abstract class TokenResponse
 {

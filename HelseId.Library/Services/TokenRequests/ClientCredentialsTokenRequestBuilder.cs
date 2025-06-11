@@ -1,12 +1,3 @@
-using HelseId.Library.Configuration;
-using HelseId.Library.Interfaces.Endpoints;
-using HelseId.Library.Interfaces.JwtTokens;
-using HelseId.Library.Interfaces.PayloadClaimCreators;
-using HelseId.Library.Interfaces.TokenRequests;
-using HelseId.Library.Models;
-using HelseId.Library.Models.Constants;
-using HelseId.Library.Models.TokenRequests;
-
 namespace HelseId.Library.Services.TokenRequests;
 
 public class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClientCredentialsTokenRequestBuilder

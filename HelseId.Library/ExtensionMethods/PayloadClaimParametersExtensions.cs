@@ -1,6 +1,3 @@
-using HelseId.Library.Exceptions;
-using HelseId.Library.Models.Payloads;
-
 namespace HelseId.Library.ExtensionMethods;
 
 public static class PayloadClaimParametersExtensions

@@ -1,11 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
-using HelseId.Library.Configuration;
-using HelseId.Library.Exceptions;
-using HelseId.Library.Interfaces.JwtTokens;
-using HelseId.Library.Models.Constants;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 
 namespace HelseId.Library.Services.JwtTokens;
 
