@@ -29,6 +29,12 @@ public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
         _httpClientFactory = httpClientFactory;
         _tokenCache = tokenCache;
     }
+
+    public Task<TokenResponse> GetTokenAsync()
+    {
+        return GetTokenAsync(new OrganizationNumbers());
+    }
+    
     public async Task<TokenResponse> GetTokenAsync(OrganizationNumbers organizationNumbers)
     {
         var cachedResponse = await GetCachedToken(organizationNumbers);
