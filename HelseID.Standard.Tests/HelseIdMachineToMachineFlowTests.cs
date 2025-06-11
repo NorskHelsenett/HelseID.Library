@@ -115,7 +115,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
     {
         await _machineToMachineFlow.GetTokenAsync(new OrganizationNumbers("parent", "child"));
 
-        var payloadParameters = _clientCredentialsTokenRequestBuilder.TokenRequestParameters.PayloadClaimParameters;
+        var payloadParameters = _clientCredentialsTokenRequestBuilder.TokenRequestParameters!.PayloadClaimParameters;
         payloadParameters.ParentOrganizationNumber.Should().Be("parent");
         payloadParameters.ChildOrganizationNumber.Should().Be("child");
     }

@@ -8,7 +8,7 @@ namespace HelseId.Standard.Tests.Mocks;
 
 public class ClientCredentialsTokenRequestBuilderMock : IClientCredentialsTokenRequestBuilder
 {
-    public ClientCredentialsTokenRequestParameters TokenRequestParameters { get; private set; }
+    public ClientCredentialsTokenRequestParameters? TokenRequestParameters { get; private set; }
     
     public Task<HelseIdTokenRequest> CreateTokenRequest(
         IPayloadClaimsCreator payloadClaimsCreator,

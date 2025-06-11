@@ -17,72 +17,76 @@ namespace HelseId.Standard;
 
 public static class HelseIdServiceCollectionExtension
 {
-    public static IServiceCollection AddHelseId(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
+    public static IHelseIdBuilder AddHelseId(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
     {
-        services.AddHelseId();
-        services.AddSingleton(helseIdConfiguration);
-        return services;
-    }
-
-    public static IServiceCollection AddHelseId(this IServiceCollection services)
-    {
-        services.AddSingleton<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
-        services.AddSingleton<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
-        services.AddSingleton<IDPoPProofCreator, DPoPProofCreator>();
-        services.AddSingleton<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
-        services.AddSingleton<ISigningTokenCreator, SigningTokenCreator>();
-        services.AddSingleton<IDiscoveryDocumentGetter, DiscoveryDocumentGetter>();
-        services.AddSingleton<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
-        services.AddSingleton<IAssertionDetailsCreator, AssertionDetailsCreator>();
-        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
-        services.AddSingleton(TimeProvider.System);
-        services.AddHttpClient();
+        var helseIdBuilder = new HelseIdBuilder(services);
         
-        services.AddHelseIdSingleTenant();
-        services.AddHelseIdInMemoryCaching();
+        helseIdBuilder.Services.AddHelseId();
+        helseIdBuilder.Services.AddSingleton(helseIdConfiguration);
+        return helseIdBuilder;
+    }
+
+    public static IHelseIdBuilder AddHelseId(this IServiceCollection services)
+    {
+        var helseIdBuilder = new HelseIdBuilder(services);
         
-        return services;
+        helseIdBuilder.Services.AddSingleton<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
+        helseIdBuilder.Services.AddSingleton<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
+        helseIdBuilder.Services.AddSingleton<IDPoPProofCreator, DPoPProofCreator>();
+        helseIdBuilder.Services.AddSingleton<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
+        helseIdBuilder.Services.AddSingleton<ISigningTokenCreator, SigningTokenCreator>();
+        helseIdBuilder.Services.AddSingleton<IDiscoveryDocumentGetter, DiscoveryDocumentGetter>();
+        helseIdBuilder.Services.AddSingleton<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
+        helseIdBuilder.Services.AddSingleton<IAssertionDetailsCreator, AssertionDetailsCreator>();
+        helseIdBuilder.Services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        helseIdBuilder.Services.AddSingleton(TimeProvider.System);
+        helseIdBuilder.Services.AddHttpClient();
+        
+        helseIdBuilder.AddHelseIdSingleTenant();
+        helseIdBuilder.AddHelseIdInMemoryCaching();
+        
+        return helseIdBuilder;
     }
 
-    public static IServiceCollection AddHelseIdSingleTenant(this IServiceCollection services)
+    public static IHelseIdBuilder AddHelseIdSingleTenant(this IHelseIdBuilder helseIdBuilder)
     {
-        RemoveServiceRegistrations<IStructuredClaimsCreator>(services);
-        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
-        return services;
+        RemoveServiceRegistrations<IStructuredClaimsCreator>(helseIdBuilder);
+        helseIdBuilder.Services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        return helseIdBuilder;
     }
 
-    public static IServiceCollection AddHelseIdMultiTenant(this IServiceCollection services)
+    public static IHelseIdBuilder AddHelseIdMultiTenant(this IHelseIdBuilder helseIdBuilder)
     {
-        RemoveServiceRegistrations<IStructuredClaimsCreator>(services);
-        services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
-        return services;
+        RemoveServiceRegistrations<IStructuredClaimsCreator>(helseIdBuilder);
+        helseIdBuilder.Services.AddSingleton<IStructuredClaimsCreator, OrganizationNumberCreatorForMultiTenantClient>();
+        return helseIdBuilder;
     }
 
-    public static IServiceCollection AddHelseIdInMemoryCaching(this IServiceCollection services)
+    public static IHelseIdBuilder AddHelseIdInMemoryCaching(this IHelseIdBuilder services)
     {
         RemoveServiceRegistrations<ITokenCache>(services);
         RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);
-        services.AddSingleton<ITokenCache, InMemoryTokenCache>();
-        services.AddSingleton<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
+        services.Services.AddSingleton<ITokenCache, InMemoryTokenCache>();
+        services.Services.AddSingleton<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
         return services;
     }
 
-    public static IServiceCollection AddHelseIdDistributedCaching(this IServiceCollection services)
+    public static IHelseIdBuilder AddHelseIdDistributedCaching(this IHelseIdBuilder services)
     {
         RemoveServiceRegistrations<ITokenCache>(services);
         RemoveServiceRegistrations<IDiscoveryDocumentCache>(services);
-        services.AddDistributedMemoryCache();   
-        services.AddSingleton<ITokenCache, DistributedTokenCache>();
-        services.AddSingleton<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
+        services.Services.AddDistributedMemoryCache();   
+        services.Services.AddSingleton<ITokenCache, DistributedTokenCache>();
+        services.Services.AddSingleton<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
         return services;
     }
 
-    private static void RemoveServiceRegistrations<TService>(IServiceCollection services)
+    private static void RemoveServiceRegistrations<TService>(IHelseIdBuilder helseIdBuilder)
     {
-        var existingServiceRegistration = services.Where(s => s.ServiceType == typeof(TService)).ToArray();
+        var existingServiceRegistration = helseIdBuilder.Services.Where(s => s.ServiceType == typeof(TService)).ToArray();
         foreach (var serviceRegistration in existingServiceRegistration)
         {
-            services.Remove(serviceRegistration);
+            helseIdBuilder.Services.Remove(serviceRegistration);
         }
     }
 }
