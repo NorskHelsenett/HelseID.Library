@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Tests", "He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseID.M2M.TestApplication", "HelseID.M2M.TestApplication\HelseID.M2M.TestApplication.csproj", "{3420CB44-14F4-402E-822C-CA6C27348018}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.MachineToMachine", "HelseId.Library.MachineToMachine\HelseId.Library.MachineToMachine.csproj", "{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3420CB44-14F4-402E-822C-CA6C27348018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3420CB44-14F4-402E-822C-CA6C27348018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3420CB44-14F4-402E-822C-CA6C27348018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

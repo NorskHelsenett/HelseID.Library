@@ -1,4 +1,6 @@
 ﻿using HelseId.Library.Interfaces;
+using HelseId.Library.MachineToMachine;
+using HelseId.Library.MachineToMachine.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -26,9 +28,9 @@ public class HelseIdServiceCollectionExtensionTests
             "sts");    }
 
     [Test]
-    public void AddHelseId_registers_expected_services()
+    public void AddHelseIdMachineToMachine_registers_expected_services()
     {
-        _serviceCollection.AddHelseId();
+        _serviceCollection.AddHelseIdMachineToMachine();
         
         EnsureSingletonRegistration<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
         EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
@@ -41,9 +43,9 @@ public class HelseIdServiceCollectionExtensionTests
     }
 
     [Test]
-    public void AddHelseId_with_configuration_registers_expected_services()
+    public void AddHelseIdMachineToMachine_with_configuration_registers_expected_services()
     {
-        _serviceCollection.AddHelseId(_config);
+        _serviceCollection.AddHelseIdMachineToMachine(_config);
         
         EnsureSingletonRegistration<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
         EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
@@ -59,7 +61,7 @@ public class HelseIdServiceCollectionExtensionTests
     [Test]
     public void AddInMemoryHelseIdCaching_registers_expected_services()
     {
-        _serviceCollection.AddHelseId(_config).AddHelseIdInMemoryCaching();
+        _serviceCollection.AddHelseIdMachineToMachine(_config).AddHelseIdInMemoryCaching();
 
         EnsureSingletonRegistration<ITokenCache, InMemoryTokenCache>();
         EnsureSingletonRegistration<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
@@ -68,7 +70,7 @@ public class HelseIdServiceCollectionExtensionTests
     [Test]
     public void AddDistributedHelseIdCaching_registers_expected_services()
     {
-        _serviceCollection.AddHelseId(_config).AddHelseIdDistributedCaching();
+        _serviceCollection.AddHelseIdMachineToMachine(_config).AddHelseIdDistributedCaching();
 
         EnsureSingletonRegistration<ITokenCache, DistributedTokenCache>();
         EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();

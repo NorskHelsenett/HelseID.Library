@@ -1,6 +1,8 @@
 ﻿using HelseId.Library;
 using HelseId.Library.Configuration;
 using HelseId.Library.Interfaces;
+using HelseId.Library.MachineToMachine;
+using HelseId.Library.MachineToMachine.Interfaces;
 using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +25,7 @@ sealed class Program
             "e-helse:sfm.api/sfm.api",
             "https://samsvarstesting-sts-test.helseid.sky.nhn.no/deabf2e9-dff3-4bd0-bb86-4355d9650076");
         builder.Services
-            .AddHelseId(helseIdConfiguration)
+            .AddHelseIdMachineToMachine(helseIdConfiguration)
             .AddHelseIdSingleTenant()
             .AddHelseIdInMemoryCaching();
     

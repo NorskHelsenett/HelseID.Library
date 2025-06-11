@@ -1,4 +1,4 @@
-﻿namespace HelseId.Library.Interfaces;
+﻿namespace HelseId.Library.MachineToMachine.Interfaces;
 
 public interface IHelseIdMachineToMachineFlow
 {
