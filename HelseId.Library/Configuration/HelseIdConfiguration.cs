@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace HelseId.Library.Configuration;
 
 /// <summary>
@@ -93,7 +95,25 @@ public class HelseIdConfiguration
         var signingKey = new JsonWebKey(jsonWebKey);
         return new HelseIdConfiguration(new SigningCredentials(signingKey, signingKey.Alg),  clientId, scope, stsUrl, resourceIndicators);
     }
-    
+
+    public static HelseIdConfiguration ConfigurationFromAppSettings(IConfigurationSection configurationSection)
+    {
+        var clientId = configurationSection.GetValue<string>("ClientId")!;
+        var stsUrl = configurationSection.GetValue<string>("StsUrl")!;
+        var scope = configurationSection.GetValue<string>("Scope")!;
+        var jwk = configurationSection.GetValue<string>("Jwk")!;
+        var jsonWebKey = new JsonWebKey(jwk);
+ 
+        var algorithm = configurationSection.GetValue<string>("Algorithm") ?? jsonWebKey.Alg;
+
+        var signingCredentials = new SigningCredentials(jsonWebKey, algorithm);
+
+        return new HelseIdConfiguration(signingCredentials,
+            clientId,
+            scope,
+            stsUrl);
+    }
+
     private HelseIdConfiguration(
         SigningCredentials signingCredentials,
         string clientId,
@@ -106,27 +126,31 @@ public class HelseIdConfiguration
         Scope = scope;
         StsUrl = stsUrl;
  
-        MetadataUrl = stsUrl;
-        if (MetadataUrl.EndsWith('/'))
-        {
-            MetadataUrl = MetadataUrl.TrimEnd('/');
-        }
-        MetadataUrl += "/.well-known/openid-configuration";
-        
+        MetadataUrl = MetadataUrlFromStsUrl(stsUrl);
+
         if (resourceIndicators != null)
         {
             ResourceIndicators = resourceIndicators;
         }
     }
+
+    private static string MetadataUrlFromStsUrl(string stsUrl)
+    {
+        var metadataUrl = stsUrl;
+        if (metadataUrl.EndsWith('/'))
+        {
+            metadataUrl = metadataUrl.TrimEnd('/');
+        }
+        metadataUrl += "/.well-known/openid-configuration";
+
+        return metadataUrl;
+    }
     
     public SigningCredentials SigningCredentials { get; private set; }
-
     public string ClientId { get; private set; }
-
     public string Scope { get; private set; }
-
     public string StsUrl { get; private set; }
-    public string MetadataUrl { get; private set; }
+    public string MetadataUrl { get; }
     
     // Multitenant
 

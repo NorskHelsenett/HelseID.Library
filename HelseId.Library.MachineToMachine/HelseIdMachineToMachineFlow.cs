@@ -1,6 +1,6 @@
 ﻿namespace HelseId.Library.MachineToMachine;
 
-public class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
+internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
 {   
     private readonly IClientCredentialsTokenRequestBuilder _clientCredentialsTokenRequestBuilder;
     private readonly IPayloadClaimsCreator _payloadClaimsCreator;

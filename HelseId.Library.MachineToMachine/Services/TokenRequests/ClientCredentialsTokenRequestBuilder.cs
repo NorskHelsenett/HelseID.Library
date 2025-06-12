@@ -1,6 +1,6 @@
 namespace HelseId.Library.MachineToMachine.Services.TokenRequests;
 
-public class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClientCredentialsTokenRequestBuilder
+internal class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClientCredentialsTokenRequestBuilder
 {
     private readonly HelseIdConfiguration _helseIdConfiguration;
 

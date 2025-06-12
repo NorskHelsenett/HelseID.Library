@@ -2,7 +2,7 @@ namespace HelseId.Library.MachineToMachine.PayloadClaimCreators;
 
 // This class generates the (general) claims that are required for the token that is sent
 // to HelseID as part of a client assertion (to the PAR endpoint, or to the Token endpoint)
-public class ClientAssertionPayloadClaimsCreator : IPayloadClaimsCreatorForClientAssertion
+internal class ClientAssertionPayloadClaimsCreator : IPayloadClaimsCreatorForClientAssertion
 {
     private readonly TimeProvider _timeProvider;
     private readonly IAssertionDetailsCreator _assertionDetailsCreator;

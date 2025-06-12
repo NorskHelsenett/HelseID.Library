@@ -25,7 +25,8 @@ public abstract class ConfigurationTests
                                                      "crv": "P-384",
                                                      "x": "_fwQ_E2rqeBOQ0YYzQBCvZNK60-n4PUG7cbJelBkuAbfEqmnaMHNUsReIsnE3432",
                                                      "y": "xbuUzn7GpWq7JuKgrY_QxskViWPyDk_MoIef5JXXPlWkdB24cQLVgm-Jgz8NOblZ",
-                                                     "alg": "ES384"
+                                                     "alg": "ES384",
+                                                     "kid": "kidvalue"
                                                  }
                                                  """;
     

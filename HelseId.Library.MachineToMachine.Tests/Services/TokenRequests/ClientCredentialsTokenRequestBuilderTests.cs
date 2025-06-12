@@ -8,7 +8,6 @@ namespace HelseId.Library.MachineToMachine.Tests.Services.TokenRequests;
 public class ClientCredentialsTokenRequestBuilderTests : TokenRequestBuilderTests
 {
     private ClientCredentialsTokenRequestBuilder _clientCredentialsTokenRequestBuilder = null!;
-
     private ClientCredentialsTokenRequestParameters _clientCredentialsTokenRequestParameters = null!;
     
     [SetUp]

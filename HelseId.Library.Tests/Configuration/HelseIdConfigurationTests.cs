@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HelseId.Standard.Tests.Configuration;
@@ -100,5 +101,52 @@ public class HelseIdConfigurationTests : ConfigurationTests
 
         configuration.SigningCredentials.Algorithm.Should().Be(SecurityAlgorithms.EcdsaSha384);
         configuration.SigningCredentials.Key.Should().NotBeNull();
+    }
+
+    [Test]
+    public void Create_configuration_from_configuration_section_without_algorithm_specified()
+    {
+        var configValues = new Dictionary<string, string?>
+        {
+            { "HelseId:ClientId", "client id"},
+            { "HelseId:StsUrl", "sts url"},
+            { "HelseId:Scope", "scope"},
+            { "HelseId:Jwk", GeneralPrivateEcKey},
+        };
+        
+        var configRoot = new ConfigurationBuilder().AddInMemoryCollection(configValues).Build();
+        var configSection = configRoot.GetSection("HelseId");
+
+        var configuration = HelseIdConfiguration.ConfigurationFromAppSettings(configSection);
+        
+        configuration.ClientId.Should().Be("client id");
+        configuration.StsUrl.Should().Be("sts url");
+        configuration.Scope.Should().Be("scope");
+        configuration.SigningCredentials.Algorithm.Should().Be("ES384");
+        configuration.SigningCredentials.Kid.Should().Be("kidvalue"); // kid from jwk
+    }
+    
+    [Test]
+    public void Create_configuration_from_configuration_section_with_algorithm_specified()
+    {
+        var configValues = new Dictionary<string, string?>
+        {
+            { "HelseId:ClientId", "client id"},
+            { "HelseId:StsUrl", "sts url"},
+            { "HelseId:Scope", "scope"},
+            { "HelseId:Algorithm", "ES256"},
+            { "HelseId:Jwk", GeneralPrivateEcKey},
+        };
+        
+        var configRoot = new ConfigurationBuilder().AddInMemoryCollection(configValues).Build();
+        var configSection = configRoot.GetSection("HelseId");
+
+        var configuration = HelseIdConfiguration.ConfigurationFromAppSettings(configSection);
+        
+        configuration.ClientId.Should().Be("client id");
+        configuration.StsUrl.Should().Be("sts url");
+        configuration.Scope.Should().Be("scope");
+        configuration.SigningCredentials.Algorithm.Should().Be("ES256");
+        configuration.SigningCredentials.Kid.Should().Be("kidvalue"); // kid from jwk
     }
 }

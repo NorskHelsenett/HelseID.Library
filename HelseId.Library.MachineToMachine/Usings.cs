@@ -24,3 +24,6 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.IdentityModel.JsonWebTokens;
 global using System.Net.Http.Json;
 global using System.Text.Json;
+
+using System.Runtime.CompilerServices;
+[assembly:InternalsVisibleTo("HelseId.Library.MachineToMachine.Tests")]
