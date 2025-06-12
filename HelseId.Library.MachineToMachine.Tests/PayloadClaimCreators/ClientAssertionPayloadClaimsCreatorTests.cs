@@ -1,7 +1,7 @@
 using HelseId.Library.MachineToMachine.PayloadClaimCreators;
 using Microsoft.Extensions.Time.Testing;
 
-namespace HelseId.Standard.Tests.Services.PayloadClaimCreators;
+namespace HelseId.Library.MachineToMachine.Tests.PayloadClaimCreators;
 
 [TestFixture]
 public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests

@@ -1,4 +1,11 @@
-﻿namespace HelseId.Standard.Tests;
+﻿using HelseId.Library.MachineToMachine.Interfaces;
+using HelseId.Library.MachineToMachine.Interfaces.TokenRequests;
+using HelseId.Library.MachineToMachine.PayloadClaimCreators;
+using HelseId.Library.MachineToMachine.Services.TokenRequests;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+
+namespace HelseId.Library.MachineToMachine.Tests;
 
 [TestFixture]
 public class HelseIdServiceCollectionExtensionTests
@@ -22,21 +29,34 @@ public class HelseIdServiceCollectionExtensionTests
             "sts");    }
 
     [Test]
-    public void AddInMemoryHelseIdCaching_registers_expected_services()
+    public void AddHelseIdMachineToMachine_registers_expected_services()
     {
-        _serviceCollection.AddHelseIdMachineToMachine(_config).AddHelseIdInMemoryCaching();
-
-        EnsureSingletonRegistration<ITokenCache, InMemoryTokenCache>();
-        EnsureSingletonRegistration<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
+        _serviceCollection.AddHelseIdMachineToMachine();
+        
+        EnsureSingletonRegistration<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
+        EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
+        EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
+        EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
+        EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
+        EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
+        EnsureSingletonRegistration<IAssertionDetailsCreator, AssertionDetailsCreator>(); EnsureSingletonRegistration<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        EnsureSingletonRegistration<TimeProvider>();
     }
 
     [Test]
-    public void AddDistributedHelseIdCaching_registers_expected_services()
+    public void AddHelseIdMachineToMachine_with_configuration_registers_expected_services()
     {
-        _serviceCollection.AddHelseIdMachineToMachine(_config).AddHelseIdDistributedCaching();
-
-        EnsureSingletonRegistration<ITokenCache, DistributedTokenCache>();
-        EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
+        _serviceCollection.AddHelseIdMachineToMachine(_config);
+        
+        EnsureSingletonRegistration<IHelseIdMachineToMachineFlow, HelseIdMachineToMachineFlow>();
+        EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
+        EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
+        EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
+        EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
+        EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
+        EnsureSingletonRegistration<IAssertionDetailsCreator, AssertionDetailsCreator>(); EnsureSingletonRegistration<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        EnsureSingletonRegistration<TimeProvider>();
+        EnsureSingletonRegistration<HelseIdConfiguration>();
     }
 
     private void EnsureSingletonRegistration<TServiceType, TImplementationType>()
@@ -45,5 +65,13 @@ public class HelseIdServiceCollectionExtensionTests
         registeredService.Should().NotBeNull();
         registeredService.Lifetime.Should().Be(ServiceLifetime.Singleton);
         registeredService.ImplementationType.Should().BeSameAs(typeof(TImplementationType));
+    }
+
+
+    private void EnsureSingletonRegistration<TServiceType>()
+    {
+        var registeredService = _serviceCollection.SingleOrDefault(s => s.ServiceType == typeof(TServiceType));
+        registeredService.Should().NotBeNull();
+        registeredService.Lifetime.Should().Be(ServiceLifetime.Singleton);
     }
 }

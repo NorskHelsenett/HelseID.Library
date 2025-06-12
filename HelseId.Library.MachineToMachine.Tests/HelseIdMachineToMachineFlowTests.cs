@@ -1,17 +1,12 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using System.Text;
-using HelseId.Library.MachineToMachine;
-
-namespace HelseId.Standard.Tests;
+﻿namespace HelseId.Library.MachineToMachine.Tests;
 
 [TestFixture]
 public class HelseIdMachineToMachineFlowTests : IDisposable
 {
-    private HelseIdMachineToMachineFlow _machineToMachineFlow;
-    private MockHttpMessageHandlerWithCount _httpMessageHandler;
-    private TokenCacheMock _cacheMock;
-    private ClientCredentialsTokenRequestBuilderMock _clientCredentialsTokenRequestBuilder;
+    private HelseIdMachineToMachineFlow _machineToMachineFlow = null!;
+    private MockHttpMessageHandlerWithCount _httpMessageHandler = null!;
+    private TokenCacheMock _cacheMock = null!;
+    private ClientCredentialsTokenRequestBuilderMock _clientCredentialsTokenRequestBuilder = null!;
 
     [SetUp]
     public void SetUp()

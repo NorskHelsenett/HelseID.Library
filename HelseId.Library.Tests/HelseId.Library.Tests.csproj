@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>HelseID.Standard.Tests</RootNamespace>
+        <RootNamespace>HelseId.Library.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
