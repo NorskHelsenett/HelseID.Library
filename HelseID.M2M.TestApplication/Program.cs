@@ -22,7 +22,7 @@ sealed class Program
         var helseIdConfiguration = HelseIdConfiguration.ConfigurationForJsonWebKey(jwkPrivateKey,
             "29a8fc45-1029-485c-8608-e9a3e364468f",
             "e-helse:sfm.api/sfm.api",
-            "https://samsvarstesting-sts-test.helseid.sky.nhn.no/deabf2e9-dff3-4bd0-bb86-4355d9650076");
+            "https://helseid-sts.test.nhn.no");
         builder.Services
             .AddHelseIdMachineToMachine(helseIdConfiguration)
             .AddHelseIdSingleTenant()

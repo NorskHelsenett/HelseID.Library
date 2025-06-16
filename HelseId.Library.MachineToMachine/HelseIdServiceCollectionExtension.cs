@@ -1,4 +1,7 @@
-﻿namespace HelseId.Library.MachineToMachine;
+﻿using HelseId.Library.Interfaces.Configuration;
+using HelseId.Library.Services.Configuration;
+
+namespace HelseId.Library.MachineToMachine;
 
 public static class HelseIdServiceCollectionExtension
 {
@@ -7,6 +10,7 @@ public static class HelseIdServiceCollectionExtension
         var helseIdBuilder = new HelseIdBuilder(services);
         helseIdBuilder.AddHelseIdMachineToMachineInternal();
         helseIdBuilder.Services.AddSingleton(helseIdConfiguration);
+        helseIdBuilder.Services.AddSingleton<IHelseIdConfigurationGetter, RegisteredSingletonHelseIdConfigurationGetter>();
         return helseIdBuilder;
     }
 
