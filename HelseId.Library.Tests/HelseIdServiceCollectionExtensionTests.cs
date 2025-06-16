@@ -1,4 +1,6 @@
-﻿namespace HelseId.Standard.Tests;
+﻿using HelseId.Library.Interfaces.Configuration;
+
+namespace HelseId.Library.Tests;
 
 [TestFixture]
 public class HelseIdServiceCollectionExtensionTests
@@ -39,11 +41,36 @@ public class HelseIdServiceCollectionExtensionTests
         EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
     }
 
+    [Test]
+    public void AddHelseIdConfigurationGetter_registers_supplied_instance_as_singleton()
+    {
+        var configurationGetter = new TestConfigurationGetter();
+        _serviceCollection.AddHelseIdMachineToMachine().AddHelseIdConfigurationGetter(configurationGetter);
+        
+        EnsureSingletonRegistration<IHelseIdConfigurationGetter, TestConfigurationGetter>(configurationGetter);
+    }
+
     private void EnsureSingletonRegistration<TServiceType, TImplementationType>()
     {
         var registeredService = _serviceCollection.SingleOrDefault(s => s.ServiceType == typeof(TServiceType));
         registeredService.Should().NotBeNull();
         registeredService.Lifetime.Should().Be(ServiceLifetime.Singleton);
         registeredService.ImplementationType.Should().BeSameAs(typeof(TImplementationType));
+    }
+    
+    private void EnsureSingletonRegistration<TServiceType, TImplementationType>(TImplementationType instance)
+    {
+        var registeredService = _serviceCollection.SingleOrDefault(s => s.ServiceType == typeof(TServiceType));
+        registeredService.Should().NotBeNull();
+        registeredService.Lifetime.Should().Be(ServiceLifetime.Singleton);
+        registeredService.ImplementationInstance.Should().BeSameAs(instance);
+    }
+    
+    private sealed class TestConfigurationGetter : IHelseIdConfigurationGetter
+    {
+        public Task<HelseIdConfiguration> GetConfiguration()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -48,7 +48,7 @@ public static class HelseIdServiceCollectionExtensions
         this IHelseIdBuilder helseIdBuilder,
         IHelseIdConfigurationGetter configurationGetterInstance)
     {
-        helseIdBuilder.Services.AddSingleton(configurationGetterInstance);
+        helseIdBuilder.Services.AddSingleton<IHelseIdConfigurationGetter>(configurationGetterInstance);
         return helseIdBuilder;
     }
 }
