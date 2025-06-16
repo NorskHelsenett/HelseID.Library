@@ -1,3 +1,5 @@
+using HelseId.Library.Tests.Mocks;
+
 namespace HelseId.Standard.Tests.Services.Endpoints;
 
 [TestFixture]
@@ -54,7 +56,7 @@ public class DiscoveryDocumentGetterTests
         _httpClientFactoryMock = new HttpClientFactoryMock(mockHttpMessageHandler);
 
         _discoveryDocumentGetter =
-            new DiscoveryDocumentGetter(_mockConfiguration, _httpClientFactoryMock, _discoveryDocumentCacheMock);
+            new DiscoveryDocumentGetter(new HelseIdConfigurationGetterMock(_mockConfiguration), _httpClientFactoryMock, _discoveryDocumentCacheMock);
     }
 
     [Test]

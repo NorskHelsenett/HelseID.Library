@@ -1,18 +1,19 @@
+using HelseId.Library.Interfaces.Configuration;
+
 namespace HelseId.Library.Services.Endpoints;
 
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 {
-    private const string DiscoveryDocumentKey = "DiscoveryDocument";
     private readonly IDiscoveryDocumentCache _discoveryDocumentCache;
+    private readonly IHelseIdConfigurationGetter _helseIdConfiguration;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly string _discoveryUrl;
 
     public DiscoveryDocumentGetter(
-        HelseIdConfiguration helseIdConfiguration,
+        IHelseIdConfigurationGetter helseIdConfiguration,
         IHttpClientFactory httpClientFactory,
         IDiscoveryDocumentCache discoveryDocumentCache)
     {
-        _discoveryUrl = helseIdConfiguration.MetadataUrl;
+        _helseIdConfiguration = helseIdConfiguration;
         _httpClientFactory = httpClientFactory;
         _discoveryDocumentCache = discoveryDocumentCache;
     }
@@ -40,7 +41,9 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
     {
         using var httpClient = _httpClientFactory.CreateClient();
 
-        var discoveryDocumentResponse = await httpClient.GetAsync(_discoveryUrl);
+        var configuration = await _helseIdConfiguration.GetConfiguration();
+        
+        var discoveryDocumentResponse = await httpClient.GetAsync(configuration.MetadataUrl);
         if (!discoveryDocumentResponse.IsSuccessStatusCode)
         {
             throw new Exception("Error getting discovery document");

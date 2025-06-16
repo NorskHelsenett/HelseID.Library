@@ -1,7 +1,6 @@
 using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 
-namespace HelseId.Standard.Tests.Mocks;
+namespace HelseId.Library.Tests.Mocks;
 
 public class SigningTokenCreatorMock : ISigningTokenCreator
 {
@@ -18,7 +17,7 @@ public class SigningTokenCreatorMock : ISigningTokenCreator
         { JwtRegisteredClaimNames.Iss, ClientId },
     };
 
-    public string CreateSigningToken(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
+    public Task<string> CreateSigningToken(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
     {
         PayloadClaimsCreator = payloadClaimsCreator;
         PayloadClaimParameters = payloadClaimParameters;
@@ -31,6 +30,6 @@ public class SigningTokenCreatorMock : ISigningTokenCreator
 
         var tokenHandler = new JsonWebTokenHandler { SetDefaultTimesOnTokenCreation = false };
         Value = tokenHandler.CreateToken(securityTokenDescriptor);
-        return Value;
+        return Task.FromResult(Value);
     }
 }

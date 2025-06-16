@@ -1,35 +1,38 @@
 
+using HelseId.Library.Interfaces.Configuration;
+
 namespace HelseId.Library.Services.JwtTokens;
 
 public class DPoPProofCreator : IDPoPProofCreator
 {
     private readonly TimeProvider _timeProvider;
-    private readonly SigningCredentials _signingCredentials;
+    private readonly IHelseIdConfigurationGetter _helseIdConfigurationGetter;
     
     public DPoPProofCreator(
-        HelseIdConfiguration helseIdConfiguration,
+        IHelseIdConfigurationGetter helseIdConfigurationGetter,
         TimeProvider timeProvider)
     {
         _timeProvider = timeProvider;
-        
-        _signingCredentials = helseIdConfiguration.SigningCredentials;
+        _helseIdConfigurationGetter = helseIdConfigurationGetter;
     }
     
-    public string CreateDPoPProof(string url, string httpMethod, string? dPoPNonce = null, string? accessToken = null)
+    public async Task<string> CreateDPoPProof(string url, string httpMethod, string? dPoPNonce = null, string? accessToken = null)
     {
-        var headers = SetHeaders();
+        var helseIdConfiguration = await _helseIdConfigurationGetter.GetConfiguration();
+     
+        var headers = SetHeaders(helseIdConfiguration);
         var claims = SetClaims(url, httpMethod, dPoPNonce, accessToken);
 
         var tokenHandler = new JsonWebTokenHandler
         {
             SetDefaultTimesOnTokenCreation = false
         };
-        
+
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             AdditionalHeaderClaims = headers,
             Claims = claims,
-            SigningCredentials = _signingCredentials,
+            SigningCredentials = helseIdConfiguration.SigningCredentials,
             // TODO: check this!
             IssuedAt = _timeProvider.GetLocalNow().DateTime,
         };
@@ -83,18 +86,18 @@ public class DPoPProofCreator : IDPoPProofCreator
         }
     }
     
-    private Dictionary<string, object> SetHeaders()
+    private static Dictionary<string, object> SetHeaders(HelseIdConfiguration configuration)
     {
         return new Dictionary<string, object>()
         {
             [JwtRegisteredClaimNames.Typ] = "dpop+jwt",
-            [ClaimTypes.JsonWebKey] = SetJwkForHeader(),
+            [ClaimTypes.JsonWebKey] = SetJwkForHeader(configuration),
         };
     }
     
-    private Dictionary<string, string> SetJwkForHeader()
+    private static Dictionary<string, string> SetJwkForHeader(HelseIdConfiguration configuration)
     {
-        var securityKey = _signingCredentials.Key as JsonWebKey;
+        var securityKey = configuration.SigningCredentials.Key as JsonWebKey;
 
         return securityKey!.Kty switch
         {
@@ -110,7 +113,7 @@ public class DPoPProofCreator : IDPoPProofCreator
                 [JsonWebKeyParameterNames.Kty] = securityKey.Kty,
                 [JsonWebKeyParameterNames.N] = securityKey.N,
                 [JsonWebKeyParameterNames.E] = securityKey.E,
-                [JsonWebKeyParameterNames.Alg] = _signingCredentials.Algorithm,
+                [JsonWebKeyParameterNames.Alg] = configuration.SigningCredentials.Algorithm,
             },
             _ => throw new InvalidKeyTypeForDPoPProofException()
         };

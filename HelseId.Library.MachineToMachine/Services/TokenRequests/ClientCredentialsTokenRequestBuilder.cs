@@ -19,8 +19,8 @@ internal class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClie
         string? dPoPNonce = null)
     {
         var tokenEndpoint = await FindTokenEndpoint();
-        var clientAssertion = CreateClientAssertion(payloadClaimsCreator, tokenRequestParameters.PayloadClaimParameters);
-        var dpopProof = CreateDPoPProof(tokenEndpoint, dPoPNonce);
+        var clientAssertion = await CreateClientAssertion(payloadClaimsCreator, tokenRequestParameters.PayloadClaimParameters);
+        var dpopProof = await CreateDPoPProof(tokenEndpoint, dPoPNonce);
         
         return new HelseIdTokenRequest
         {

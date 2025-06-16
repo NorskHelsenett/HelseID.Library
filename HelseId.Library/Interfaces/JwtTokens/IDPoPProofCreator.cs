@@ -2,7 +2,7 @@ namespace HelseId.Library.Interfaces.JwtTokens;
 
 public interface IDPoPProofCreator
 {
-    string CreateDPoPProof(
+    Task<string> CreateDPoPProof(
         string url,
         string httpMethod,
         string? dPoPNonce = null,

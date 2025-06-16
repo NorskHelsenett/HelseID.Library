@@ -21,13 +21,13 @@ public abstract class TokenRequestBuilder
         return await _helseIdEndpointsDiscoverer.GetTokenEndpointFromHelseId();
     }
     
-    protected string CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
+    protected Task<string> CreateClientAssertion(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
     {
         // HelseID requires a client assertion in order to recognize this client
         return _signingTokenCreator.CreateSigningToken(payloadClaimsCreator, payloadClaimParameters);
     }
 
-    protected string CreateDPoPProof(string tokenEndpoint, string? dPoPNonce = null)
+    protected Task<string> CreateDPoPProof(string tokenEndpoint, string? dPoPNonce = null)
     {
         return _dPoPProofCreator.CreateDPoPProof(tokenEndpoint, "POST", dPoPNonce: dPoPNonce);
     }

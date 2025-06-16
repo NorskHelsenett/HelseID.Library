@@ -1,3 +1,5 @@
+using HelseId.Library.Tests.Mocks;
+
 namespace HelseId.Standard.Tests.Services.TokenRequests;
 
 public abstract class TokenRequestBuilderTests : ConfigurationTests

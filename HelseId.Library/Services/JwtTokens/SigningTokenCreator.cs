@@ -1,22 +1,26 @@
+using HelseId.Library.Interfaces.Configuration;
+
 namespace HelseId.Library.Services.JwtTokens;
 
 public class SigningTokenCreator : ISigningTokenCreator
 {
-    private readonly HelseIdConfiguration _helseIdConfiguration;
+    private readonly IHelseIdConfigurationGetter _helseIdConfigurationGetter;
 
-    public SigningTokenCreator(HelseIdConfiguration helseIdConfiguration)
+    public SigningTokenCreator(IHelseIdConfigurationGetter helseIdConfiguration)
     {
-        _helseIdConfiguration = helseIdConfiguration;
+        _helseIdConfigurationGetter = helseIdConfiguration;
     }
     
-    public string CreateSigningToken(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
+    public async Task<string> CreateSigningToken(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
     {
-        var claims = payloadClaimsCreator.CreatePayloadClaims(_helseIdConfiguration, payloadClaimParameters);
+        var helseIdConfiguration = await _helseIdConfigurationGetter.GetConfiguration();
+        
+        var claims = payloadClaimsCreator.CreatePayloadClaims(helseIdConfiguration, payloadClaimParameters);
 
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             Claims = claims,
-            SigningCredentials = _helseIdConfiguration.SigningCredentials,
+            SigningCredentials = helseIdConfiguration.SigningCredentials,
             TokenType = payloadClaimParameters.TokenType
         };
 
