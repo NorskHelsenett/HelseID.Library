@@ -1,6 +1,6 @@
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace HelseId.Standard.Tests.Mocks;
+namespace HelseId.Library.Tests.Mocks;
 
 public class StructuredClaimsCreatorMock : IStructuredClaimsCreator
 {

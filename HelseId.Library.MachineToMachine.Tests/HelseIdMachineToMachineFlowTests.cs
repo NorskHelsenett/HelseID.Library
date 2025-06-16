@@ -1,4 +1,6 @@
-﻿namespace HelseId.Library.MachineToMachine.Tests;
+﻿using HelseId.Library.Tests.Mocks;
+
+namespace HelseId.Library.MachineToMachine.Tests;
 
 [TestFixture]
 public class HelseIdMachineToMachineFlowTests : IDisposable

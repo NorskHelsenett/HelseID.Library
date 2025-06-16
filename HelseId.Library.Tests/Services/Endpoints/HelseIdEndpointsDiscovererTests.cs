@@ -1,4 +1,6 @@
-namespace HelseId.Standard.Tests.Services.Endpoints;
+using HelseId.Library.Tests.Mocks;
+
+namespace HelseId.Library.Tests.Services.Endpoints;
 
 [TestFixture]
 public class HelseIdEndpointsDiscovererTests

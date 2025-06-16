@@ -1,7 +1,8 @@
+using HelseId.Library.Tests.Configuration;
 using HelseId.Library.Tests.Mocks;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace HelseId.Standard.Tests.Services.JwtTokens;
+namespace HelseId.Library.Tests.Services.JwtTokens;
 
 [TestFixture]
 public class SigningTokenCreatorTests : ConfigurationTests

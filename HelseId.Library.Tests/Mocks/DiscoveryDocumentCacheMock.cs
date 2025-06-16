@@ -1,4 +1,4 @@
-﻿namespace HelseId.Standard.Tests.Services.Caching;
+﻿namespace HelseId.Library.Tests.Mocks;
 
 public class DiscoveryDocumentCacheMock : IDiscoveryDocumentCache
 {

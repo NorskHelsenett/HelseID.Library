@@ -1,6 +1,6 @@
 using HelseId.Library.Tests.Mocks;
 
-namespace HelseId.Standard.Tests.Services.Endpoints;
+namespace HelseId.Library.Tests.Services.Endpoints;
 
 [TestFixture]
 public class DiscoveryDocumentGetterTests 

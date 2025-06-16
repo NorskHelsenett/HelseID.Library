@@ -1,4 +1,6 @@
-namespace HelseId.Standard.Tests.Services.PayloadClaimCreators.DetailsCreators;
+using HelseId.Library.Tests.Mocks;
+
+namespace HelseId.Library.Tests.Services.PayloadClaimCreators.DetailsCreators;
 
 [TestFixture]
 public class AssertionDetailsCreatorTests

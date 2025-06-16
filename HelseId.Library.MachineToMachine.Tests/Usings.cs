@@ -19,11 +19,6 @@ global using HelseId.Library.Models.Constants;
 global using HelseId.Library.Models.TokenRequests;
 global using HelseId.Library.ExtensionMethods;
 global using HelseId.Library.Models.DetailsFromClient;
-
-global using HelseId.Standard.Tests.Configuration;
-global using HelseId.Standard.Tests.Mocks;
-global using HelseId.Standard.Tests.Services.Caching;
-
 global using FluentAssertions;
 global using RichardSzalay.MockHttp;
 global using System.Text.Json;

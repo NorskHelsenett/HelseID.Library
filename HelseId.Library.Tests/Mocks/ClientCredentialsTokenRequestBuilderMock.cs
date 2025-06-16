@@ -1,7 +1,7 @@
 ﻿using HelseId.Library.MachineToMachine.Interfaces.TokenRequests;
 using HelseId.Library.MachineToMachine.Models.TokenRequests;
 
-namespace HelseId.Standard.Tests.Mocks;
+namespace HelseId.Library.Tests.Mocks;
 
 public class ClientCredentialsTokenRequestBuilderMock : IClientCredentialsTokenRequestBuilder
 {

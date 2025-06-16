@@ -1,4 +1,6 @@
 using HelseId.Library.MachineToMachine.PayloadClaimCreators;
+using HelseId.Library.Tests.Configuration;
+using HelseId.Library.Tests.Mocks;
 using Microsoft.Extensions.Time.Testing;
 
 namespace HelseId.Library.MachineToMachine.Tests.PayloadClaimCreators;

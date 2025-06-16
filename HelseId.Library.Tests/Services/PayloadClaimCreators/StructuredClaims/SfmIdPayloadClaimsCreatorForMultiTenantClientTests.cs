@@ -1,4 +1,6 @@
-namespace HelseId.Standard.Tests.Services.PayloadClaimCreators.StructuredClaims;
+using HelseId.Library.Tests.Configuration;
+
+namespace HelseId.Library.Tests.Services.PayloadClaimCreators.StructuredClaims;
 
 [TestFixture]
 public class SfmIdPayloadClaimsCreatorForMultiTenantClientTests: ConfigurationTests

@@ -1,8 +1,7 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.IdentityModel.Tokens;
 
-namespace HelseId.Standard.Tests.Configuration;
+namespace HelseId.Library.Tests.Configuration;
 
 public abstract class ConfigurationTests
 {

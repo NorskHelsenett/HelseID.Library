@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Time.Testing;
 
-namespace HelseId.Standard.Tests.Services.Caching;
+namespace HelseId.Library.Tests.Services.Caching;
 
 [TestFixture]
 public class InMemoryTokenCacheTests

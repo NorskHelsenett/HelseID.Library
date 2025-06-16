@@ -1,8 +1,9 @@
+using HelseId.Library.Tests.Configuration;
 using HelseId.Library.Tests.Mocks;
 using Microsoft.Extensions.Time.Testing;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace HelseId.Standard.Tests.Services.JwtTokens;
+namespace HelseId.Library.Tests.Services.JwtTokens;
 
 [TestFixture]
 public class DPoPProofCreatorTests : ConfigurationTests
@@ -75,7 +76,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     }
     
     [Test]
-    public async Task CreateDPoPProof_throws_when_an_invalid_key_is_used()
+    public void CreateDPoPProof_throws_when_an_invalid_key_is_used()
     {
         var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithInvalidKey);
         _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);

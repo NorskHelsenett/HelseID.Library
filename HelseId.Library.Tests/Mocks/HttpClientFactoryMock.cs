@@ -1,4 +1,4 @@
-﻿namespace HelseId.Standard.Tests.Mocks;
+﻿namespace HelseId.Library.Tests.Mocks;
 
 public class HttpClientFactoryMock : IHttpClientFactory
 {

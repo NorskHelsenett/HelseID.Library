@@ -1,4 +1,4 @@
-namespace HelseId.Standard.Tests.Services.PayloadClaimCreators.StructuredClaims;
+namespace HelseId.Library.Tests.Services.PayloadClaimCreators.StructuredClaims;
 
 [TestFixture]
 public class OrganizationNumberCreatorForMultiTenantClientTests

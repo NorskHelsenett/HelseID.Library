@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Caching.Memory;
 
-namespace HelseId.Standard.Tests.Mocks;
+namespace HelseId.Library.Tests.Mocks;
 
 public class MemoryCacheMock : IMemoryCache
 {

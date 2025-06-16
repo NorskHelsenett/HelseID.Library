@@ -1,6 +1,7 @@
 using HelseId.Library.MachineToMachine.Models.TokenRequests;
 using HelseId.Library.MachineToMachine.Services.TokenRequests;
-using HelseId.Standard.Tests.Services.TokenRequests;
+using HelseId.Library.Tests.Mocks;
+using HelseId.Library.Tests.Services.TokenRequests;
 
 namespace HelseId.Library.MachineToMachine.Tests.Services.TokenRequests;
 

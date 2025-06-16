@@ -1,4 +1,4 @@
-namespace HelseId.Standard.Tests.ExtensionMethods;
+namespace HelseId.Library.Tests.ExtensionMethods;
 
 [TestFixture]
 public class PayloadClaimParametersExtensionsTests

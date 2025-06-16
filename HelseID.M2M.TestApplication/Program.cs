@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseId.M2M.TestApplication;
+namespace HelseID.M2M.TestApplication;
 
 sealed class Program
 {

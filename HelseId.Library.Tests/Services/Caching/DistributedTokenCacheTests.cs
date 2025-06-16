@@ -1,4 +1,6 @@
-﻿namespace HelseId.Standard.Tests.Services.Caching;
+﻿using HelseId.Library.Tests.Mocks;
+
+namespace HelseId.Library.Tests.Services.Caching;
 
 [TestFixture]
 public class DistributedTokenCacheTests

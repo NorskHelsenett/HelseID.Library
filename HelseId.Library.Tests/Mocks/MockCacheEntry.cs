@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 
-namespace HelseId.Standard.Tests.Mocks;
+namespace HelseId.Library.Tests.Mocks;
 
 public sealed class MockCacheEntry : ICacheEntry
 {
