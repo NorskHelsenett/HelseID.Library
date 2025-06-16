@@ -114,6 +114,20 @@ public class HelseIdConfiguration
             stsUrl);
     }
 
+    public static HelseIdConfiguration ConfigurationFromSigningCredentials(
+        SigningCredentials signingCredentials,
+        string clientId,
+        string scope,
+        string stsUrl,
+        List<string>? resourceIndicators = null)
+    {
+        return new HelseIdConfiguration(signingCredentials,
+            clientId,
+            scope,
+            stsUrl,
+            resourceIndicators);
+    }
+
     private HelseIdConfiguration(
         SigningCredentials signingCredentials,
         string clientId,

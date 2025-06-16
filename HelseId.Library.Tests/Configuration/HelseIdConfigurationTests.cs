@@ -149,4 +149,29 @@ public class HelseIdConfigurationTests : ConfigurationTests
         configuration.SigningCredentials.Algorithm.Should().Be("ES256");
         configuration.SigningCredentials.Kid.Should().Be("kidvalue"); // kid from jwk
     }
+
+    [Test]
+    public void Create_configuration_from_signing_credentials()
+    {
+        var jsonWebKey = new JsonWebKey(GeneralPrivateEcKey);
+        var signingCredentials = new SigningCredentials(jsonWebKey, jsonWebKey.Alg);
+        
+        var resourceIndicators = new List<string>()
+        {
+            "foo",
+            "bar"
+        };
+
+        var configuration = HelseIdConfiguration.ConfigurationFromSigningCredentials(signingCredentials,
+            ClientId,
+            Scope,
+            StsUrl,
+            resourceIndicators);
+
+        configuration.SigningCredentials.Should().BeSameAs(signingCredentials);
+        configuration.ClientId.Should().Be(ClientId);
+        configuration.Scope.Should().Be(Scope);
+        configuration.StsUrl.Should().Be(StsUrl);
+        configuration.ResourceIndicators.Should().BeEquivalentTo(resourceIndicators);
+    }
 }

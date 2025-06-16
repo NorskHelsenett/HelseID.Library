@@ -5,10 +5,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.1.0-alpha</Version>
+        <Version>0.1.1-alpha</Version>
         <Title>HelseID Client Library</Title>
         <Authors>Norsk Helsenett (NHN)</Authors>
         <Description>This is the base package for the HelseID client library. Make sure to also reference the correct package for the flow your application uses.</Description>
+        <PackageId>NHN.HelseID.Library</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

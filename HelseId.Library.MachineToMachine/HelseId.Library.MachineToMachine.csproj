@@ -9,6 +9,7 @@
         <Title>HelseID Client Library for Machine-to-machine flows</Title>
         <Authors>Norsk Helsenett (NHN)</Authors>
         <Description>This package implements the machine-to-machine flow in HelseID</Description>
+        <PackageId>NHN.HelseID.Library.MachineToMachine</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
