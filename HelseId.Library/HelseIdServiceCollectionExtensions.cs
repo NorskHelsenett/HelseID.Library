@@ -1,3 +1,4 @@
+using HelseId.Library.Interfaces.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseId.Library;
@@ -34,6 +35,20 @@ public static class HelseIdServiceCollectionExtensions
         helseIdBuilder.Services.AddDistributedMemoryCache();   
         helseIdBuilder.Services.AddSingleton<ITokenCache, DistributedTokenCache>();
         helseIdBuilder.Services.AddSingleton<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
+        return helseIdBuilder;
+    }
+    
+    public static IHelseIdBuilder AddHelseIdConfigurationGetter<TService>(this IHelseIdBuilder helseIdBuilder) where TService : class, IHelseIdConfigurationGetter
+    {
+        helseIdBuilder.Services.AddSingleton<IHelseIdConfigurationGetter, TService>();
+        return helseIdBuilder;
+    }
+
+    public static IHelseIdBuilder AddHelseIdConfigurationGetter(
+        this IHelseIdBuilder helseIdBuilder,
+        IHelseIdConfigurationGetter configurationGetterInstance)
+    {
+        helseIdBuilder.Services.AddSingleton(configurationGetterInstance);
         return helseIdBuilder;
     }
 }
