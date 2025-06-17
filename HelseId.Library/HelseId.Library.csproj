@@ -5,12 +5,20 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.1.3-alpha</Version>
+        <Version>0.1.5-alpha</Version>
         <Title>HelseID Client Library</Title>
-        <Authors>Norsk Helsenett (NHN)</Authors>
+        <Authors>Norsk Helsenett SF</Authors>
+        <Company>Norsk Helsenett SF</Company>
         <Description>This is the base package for the HelseID client library. Make sure to also reference the correct package for the flow your application uses.</Description>
-        <PackageId>NHN.HelseID.Library</PackageId>
+        <PackageId>HelseID.Library</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://www.nhn.no/tjenester/helseid</PackageProjectUrl>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
     </PropertyGroup>
+  
+    <ItemGroup>
+      <None Include="readme.md" Pack="true" PackagePath="." />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.2" />

@@ -5,12 +5,20 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.1.3-alpha</Version>
+        <Version>0.1.5-alpha</Version>
         <Title>HelseID Client Library for Machine-to-machine flows</Title>
-        <Authors>Norsk Helsenett (NHN)</Authors>
+        <Authors>Norsk Helsenett SF</Authors>
+        <Company>Norsk Helsenett SF</Company>
         <Description>This package implements the machine-to-machine flow in HelseID</Description>
-        <PackageId>NHN.HelseID.Library.MachineToMachine</PackageId>
+        <PackageId>HelseID.Library.MachineToMachine</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://www.nhn.no/tjenester/helseid</PackageProjectUrl>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="readme.md" Pack="true" PackagePath="." />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\HelseId.Library\HelseId.Library.csproj" />
