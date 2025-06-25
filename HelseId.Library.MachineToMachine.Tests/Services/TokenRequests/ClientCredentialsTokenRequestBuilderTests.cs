@@ -18,7 +18,7 @@ public class ClientCredentialsTokenRequestBuilderTests : TokenRequestBuilderTest
             SigningTokenCreatorMock,
             DpoPProofCreatorMock,
             HelseIdEndpointsDiscovererMock,
-            HelseIdConfiguration);
+            new HelseIdConfigurationGetterMock(HelseIdConfiguration));
         
         _clientCredentialsTokenRequestParameters = new ClientCredentialsTokenRequestParameters()
         {

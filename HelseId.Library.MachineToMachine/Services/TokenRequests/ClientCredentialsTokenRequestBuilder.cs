@@ -1,16 +1,18 @@
+using HelseId.Library.Interfaces.Configuration;
+
 namespace HelseId.Library.MachineToMachine.Services.TokenRequests;
 
 internal class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClientCredentialsTokenRequestBuilder
 {
-    private readonly HelseIdConfiguration _helseIdConfiguration;
+    private readonly IHelseIdConfigurationGetter _configurationGetter;
 
     public ClientCredentialsTokenRequestBuilder(
         ISigningTokenCreator signingTokenCreator,
         IDPoPProofCreator dPoPProofCreator,
         IHelseIdEndpointsDiscoverer helseIdEndpointsDiscoverer,
-        HelseIdConfiguration helseIdConfiguration) : base(signingTokenCreator, dPoPProofCreator, helseIdEndpointsDiscoverer)
+        IHelseIdConfigurationGetter helseIdConfigurationGetter) : base(signingTokenCreator, dPoPProofCreator, helseIdEndpointsDiscoverer)
     {
-        _helseIdConfiguration = helseIdConfiguration;
+        _configurationGetter = helseIdConfigurationGetter;
     }
 
     public async Task<HelseIdTokenRequest> CreateTokenRequest(
@@ -21,13 +23,15 @@ internal class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClie
         var tokenEndpoint = await FindTokenEndpoint();
         var clientAssertion = await CreateClientAssertion(payloadClaimsCreator, tokenRequestParameters.PayloadClaimParameters);
         var dpopProof = await CreateDPoPProof(tokenEndpoint, dPoPNonce);
+
+        var helseIdConfiguration = await _configurationGetter.GetConfiguration();
         
         return new HelseIdTokenRequest
         {
             Address = tokenEndpoint,
             ClientAssertion = clientAssertion,
-            ClientId = _helseIdConfiguration.ClientId,
-            Scope = _helseIdConfiguration.Scope,
+            ClientId = helseIdConfiguration.ClientId,
+            Scope = helseIdConfiguration.Scope,
             DPoPProofToken = dpopProof,
             GrantType = GrantTypes.ClientCredentials
         };
