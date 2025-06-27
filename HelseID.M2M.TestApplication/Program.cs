@@ -58,24 +58,18 @@ public class TestService : IHostedService
         };
         while (true)
         {
-  
-            var responseBergen = await _helseIdMachineToMachineFlow.GetTokenAsync(organizationNumbersBergen);
-            if (responseBergen is AccessTokenResponse accessTokenResponseBergen)
-            {
-                Console.WriteLine(accessTokenResponseBergen.AccessToken);
-            }
+
+            var accessTokenBergen = await _helseIdMachineToMachineFlow.GetAccessTokenAsync(organizationNumbersBergen);
+            Console.WriteLine(accessTokenBergen);
 
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            
-            var responseTrondheim = await _helseIdMachineToMachineFlow.GetTokenAsync(organizationNumbersTrondheim);
-            if (responseTrondheim is AccessTokenResponse accessTokenResponseTrondheim)
-            {
-                Console.WriteLine(accessTokenResponseTrondheim.AccessToken);
-            }
+
+            var accessTokenTrondheim = await _helseIdMachineToMachineFlow.GetAccessTokenAsync(organizationNumbersTrondheim);
+            Console.WriteLine(accessTokenTrondheim);
 
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         }
-        
+
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
