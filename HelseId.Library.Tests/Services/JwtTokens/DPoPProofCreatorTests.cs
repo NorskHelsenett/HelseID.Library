@@ -17,7 +17,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     public void Setup()
     {
         _fakeTimeProvider = new FakeTimeProvider();
-        _fakeTimeProvider.SetUtcNow(new DateTimeOffset(2025, 1, 4, 13, 37, 00, TimeSpan.FromHours(1)));
+        _fakeTimeProvider.SetUtcNow(new DateTimeOffset(2025, 1, 4, 13, 37, 00, TimeSpan.FromHours(0)));
         
         _dPoPProofCreator = new DPoPProofCreator(new HelseIdConfigurationGetterMock(HelseIdConfiguration), _fakeTimeProvider);
     }
@@ -35,7 +35,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
         token.GetHeaderValue<object>("typ").Should().Be("dpop+jwt");
         JsonSerializer.Serialize(token.GetHeaderValue<object>("jwk")).Should().Be("""{"kty":"RSA","n":"yegEZ3dzO9IkGqk_L8gCKLfMSlc9-MSmqYbcWhCTV_HpKCVSk16S-8XFdMgb8J0ZVxIPO_1udCv9V98y79atLrynewm9AzcVLqj8pj4zaYvtdlGMcGNBUXaLjhw57xrnsEOaF-3yg8NDXGwsJeUomPSvb1tu5qMZKPQoAwjwxe0KJXVFmriGom3RsoP2Uh4ce-1iLgVJx-h2_IqZyaCsySWP6doMKV2aRXToyDm6KH592dbMJ49Wqax5Vc2ucnWjfcR7Bj5YtDiaslv8btyNVmXwJVcEzobMrpXqnwHv_7xdkav1GvO6aU1XGIlKLPijie6W9i2JdmBDr4td0BRf0Q","e":"AQAB","alg":"RS384"}""");
         
-        token.GetClaim("iat").Value.Should().Be("1735994220");
+        token.GetClaim("iat").Value.Should().Be("1735997820");
         token.GetClaim("jti").Value.Should().NotBeNullOrEmpty();
         token.GetClaim("htm").Value.Should().Be("POST");
         token.GetClaim("htu").Value.Should().Be("https://helseid-sts.nhn.no/connect/token");

@@ -1,4 +1,3 @@
-
 using HelseId.Library.Interfaces.Configuration;
 
 namespace HelseId.Library.Services.JwtTokens;
@@ -33,13 +32,12 @@ public class DPoPProofCreator : IDPoPProofCreator
             AdditionalHeaderClaims = headers,
             Claims = claims,
             SigningCredentials = helseIdConfiguration.SigningCredentials,
-            IssuedAt = _timeProvider.GetUtcNow().DateTime,
         };
 
         return tokenHandler.CreateToken(securityTokenDescriptor);    
     }
 
-    private static Dictionary<string, object> SetClaims(string url, string httpMethod, string? dPoPNonce, string? accessToken)
+    private Dictionary<string, object> SetClaims(string url, string httpMethod, string? dPoPNonce, string? accessToken)
     {
         var claims = SetGeneralClaims(url, httpMethod);
 
@@ -50,7 +48,7 @@ public class DPoPProofCreator : IDPoPProofCreator
         return claims;
     }
 
-    private static Dictionary<string, object> SetGeneralClaims(string url, string httpMethod)
+    private Dictionary<string, object> SetGeneralClaims(string url, string httpMethod)
     {
         
         return new Dictionary<string, object>()
@@ -58,6 +56,7 @@ public class DPoPProofCreator : IDPoPProofCreator
             [JwtRegisteredClaimNames.Jti] = Guid.NewGuid().ToString(),
             ["htm"] = httpMethod,
             ["htu"] = url,
+            ["iat"] = _timeProvider.GetUtcNow().ToUnixTimeSeconds(),
         };
     }
     
