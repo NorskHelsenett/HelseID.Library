@@ -16,7 +16,8 @@ public class ClientAssertionPayloadClaimsCreatorTests : ConfigurationTests
     public void Setup()
     {
         _fakeTimeProvider = new FakeTimeProvider();
-        _fakeTimeProvider.SetUtcNow(new DateTime(2024, 12, 31, 13, 37, 00));
+        
+        _fakeTimeProvider.SetUtcNow(new DateTimeOffset(2024, 12, 31, 13, 37, 00, TimeSpan.FromHours(1)));
         
         _assertionDetailsCreatorMock = new();
         

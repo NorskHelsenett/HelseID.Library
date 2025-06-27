@@ -17,7 +17,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     public void Setup()
     {
         _fakeTimeProvider = new FakeTimeProvider();
-        _fakeTimeProvider.SetUtcNow(new DateTime(2025, 1, 4, 13, 37, 00));
+        _fakeTimeProvider.SetUtcNow(new DateTimeOffset(2025, 1, 4, 13, 37, 00, TimeSpan.FromHours(1)));
         
         _dPoPProofCreator = new DPoPProofCreator(new HelseIdConfigurationGetterMock(HelseIdConfiguration), _fakeTimeProvider);
     }
