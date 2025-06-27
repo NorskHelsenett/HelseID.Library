@@ -5,6 +5,12 @@ namespace HelseId.Library.MachineToMachine;
 
 public static class HelseIdServiceCollectionExtension
 {
+    /// <summary>
+    /// Registers the HelseID machine to machine flow for a single-tenant client with caching of tokens in local memory
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="helseIdConfiguration">A configuration object that matches the HelseID client to be used</param>
+    /// <returns></returns>
     public static IHelseIdBuilder AddHelseIdMachineToMachine(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
     {
         var helseIdBuilder = new HelseIdBuilder(services);
@@ -14,6 +20,12 @@ public static class HelseIdServiceCollectionExtension
         return helseIdBuilder;
     }
 
+    /// <summary>
+    /// Registers the HelseID machine to machine flow for a single-tenant client with caching of tokens in local memory.
+    /// A configuration object must be registered as a singleton by the consumer.
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IHelseIdBuilder AddHelseIdMachineToMachine(this IServiceCollection services)
     {
         var helseIdBuilder = new HelseIdBuilder(services);

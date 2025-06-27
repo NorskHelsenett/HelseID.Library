@@ -26,6 +26,12 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
         return GetAccessTokenAsync(new OrganizationNumbers());
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="organizationNumbers"></param>
+    /// <returns></returns>
+    /// <exception cref="HelseIdException"></exception>
     public async Task<string> GetAccessTokenAsync(OrganizationNumbers organizationNumbers)
     {
         var tokenResponse = await GetTokenResponseAsync(organizationNumbers);
