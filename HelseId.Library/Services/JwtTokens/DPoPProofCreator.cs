@@ -33,8 +33,7 @@ public class DPoPProofCreator : IDPoPProofCreator
             AdditionalHeaderClaims = headers,
             Claims = claims,
             SigningCredentials = helseIdConfiguration.SigningCredentials,
-            // TODO: check this!
-            IssuedAt = _timeProvider.GetLocalNow().DateTime,
+            IssuedAt = _timeProvider.GetUtcNow().DateTime,
         };
 
         return tokenHandler.CreateToken(securityTokenDescriptor);    
