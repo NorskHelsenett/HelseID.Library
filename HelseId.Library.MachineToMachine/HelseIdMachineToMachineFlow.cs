@@ -1,4 +1,6 @@
-﻿namespace HelseId.Library.MachineToMachine;
+﻿using HelseId.Library.Exceptions;
+
+namespace HelseId.Library.MachineToMachine;
 
 internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
 {   
@@ -19,12 +21,29 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
         _tokenCache = tokenCache;
     }
 
-    public Task<TokenResponse> GetTokenAsync()
+    public Task<string> GetAccessTokenAsync()
     {
-        return GetTokenAsync(new OrganizationNumbers());
+        return GetAccessTokenAsync(new OrganizationNumbers());
+    }
+
+    public async Task<string> GetAccessTokenAsync(OrganizationNumbers organizationNumbers)
+    {
+        var tokenResponse = await GetTokenResponseAsync(organizationNumbers);
+
+        if (tokenResponse is TokenErrorResponse errorResponse)
+        {
+            throw new HelseIdException(errorResponse);
+        }
+
+        return ((AccessTokenResponse)tokenResponse).AccessToken!;
+    }
+
+    public Task<TokenResponse> GetTokenResponseAsync()
+    {
+        return GetTokenResponseAsync(new OrganizationNumbers());
     }
     
-    public async Task<TokenResponse> GetTokenAsync(OrganizationNumbers organizationNumbers)
+    public async Task<TokenResponse> GetTokenResponseAsync(OrganizationNumbers organizationNumbers)
     {
         var cachedResponse = await GetCachedToken(organizationNumbers);
         if (cachedResponse != null)

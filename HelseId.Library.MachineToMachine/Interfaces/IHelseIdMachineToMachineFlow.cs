@@ -2,6 +2,9 @@
 
 public interface IHelseIdMachineToMachineFlow
 {
-    Task<TokenResponse> GetTokenAsync();
-    Task<TokenResponse> GetTokenAsync(OrganizationNumbers organizationNumbers);
+    Task<TokenResponse> GetTokenResponseAsync();
+    Task<TokenResponse> GetTokenResponseAsync(OrganizationNumbers organizationNumbers);
+    Task<string> GetAccessTokenAsync();
+    Task<string> GetAccessTokenAsync(OrganizationNumbers organizationNumbers);
+
 }
