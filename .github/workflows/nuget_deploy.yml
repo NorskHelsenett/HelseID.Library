@@ -23,10 +23,12 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Nuget
       run: |
+          dotnet pack HelseId.Library/HelseId.Library.csproj -c Release
+          dotnet pack HelseId.Library.MachineToMachine/HelseId.Library.MachineToMachine.csproj -c Release
           dotnet nuget push HelseId.Library/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }}
           dotnet nuget push HelseId.Library.MachineToMachine/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }}
