@@ -1,3 +1,4 @@
+using HelseId.Library.Mocks;
 using HelseId.Library.Tests.Configuration;
 using HelseId.Library.Tests.Mocks;
 
@@ -5,6 +6,8 @@ namespace HelseId.Library.Tests.Services.TokenRequests;
 
 public abstract class TokenRequestBuilderTests : ConfigurationTests
 {
+    public const string DPoPProof = "dpop proof";
+    
     protected SigningTokenCreatorMock SigningTokenCreatorMock { get; set; } = null!;
     protected DPoPProofCreatorMock DpoPProofCreatorMock { get; set; } = null!;
     protected HelseIdEndpointsDiscovererMock HelseIdEndpointsDiscovererMock { get; set; } = null!;
@@ -14,7 +17,7 @@ public abstract class TokenRequestBuilderTests : ConfigurationTests
     public void SetupForTokenRequestBuilderTest()
     {
         SigningTokenCreatorMock = new SigningTokenCreatorMock();
-        DpoPProofCreatorMock = new DPoPProofCreatorMock();
+        DpoPProofCreatorMock = new DPoPProofCreatorMock(DPoPProof);
         HelseIdEndpointsDiscovererMock = new HelseIdEndpointsDiscovererMock();
         PayloadClaimsCreatorMock = new PayloadClaimsCreatorMock();
     }

@@ -86,6 +86,6 @@ public class ClientCredentialsTokenRequestBuilderTests : TokenRequestBuilderTest
         request.ClientId.Should().Be(ClientId);
         request.Scope.Should().Be(Scope);
         request.GrantType.Should().Be("client_credentials");
-        request.DPoPProofToken.Should().Be(DPoPProofCreatorMock.DPoPProof);
+        request.DPoPProofToken.Should().Be(DPoPProof);
     }
 }

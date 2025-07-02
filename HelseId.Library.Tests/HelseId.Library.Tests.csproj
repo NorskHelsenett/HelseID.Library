@@ -32,6 +32,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HelseId.Library.MachineToMachine\HelseId.Library.MachineToMachine.csproj" />
+      <ProjectReference Include="..\HelseId.Library.Mocks\HelseId.Library.Mocks.csproj" />
       <ProjectReference Include="..\HelseId.Library\HelseId.Library.csproj" />
     </ItemGroup>
 
