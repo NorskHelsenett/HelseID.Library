@@ -26,4 +26,6 @@ public class TokenErrorResponse : TokenResponse
     
     [JsonPropertyName("error_description")]
     public required string ErrorDescription { get; set; }
+
+    public string ExtraErrorData { get; set; } = "";
 }

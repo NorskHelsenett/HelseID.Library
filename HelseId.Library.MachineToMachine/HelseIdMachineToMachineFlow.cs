@@ -141,7 +141,8 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                     return new TokenErrorResponse
                     {
                         Error = "Invalid response",
-                        ErrorDescription = jsonException.Message
+                        ErrorDescription = jsonException.Message,
+                        ExtraErrorData = await response.Content.ReadAsStringAsync(),
                     };
                 }
             }
@@ -156,10 +157,29 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                 };
             }
 
-            var tokenErrorResponse = await response.Content.ReadFromJsonAsync<TokenErrorResponse>();
-            if (tokenErrorResponse != null)
+            try
             {
-                return tokenErrorResponse;
+                var tokenErrorResponse = await response.Content.ReadFromJsonAsync<TokenErrorResponse>();
+                if (tokenErrorResponse != null)
+                {
+                    return tokenErrorResponse;
+                }
+
+                return new TokenErrorResponse
+                {
+                    Error = "Invalid response",
+                    ErrorDescription = $"Expected error response, but received invalid json",
+                    ExtraErrorData = await response.Content.ReadAsStringAsync(),
+                };
+            }
+            catch (JsonException jsonException)
+            {
+                return new TokenErrorResponse
+                {
+                    Error = "Invalid response",
+                    ErrorDescription = jsonException.Message,
+                    ExtraErrorData = await response.Content.ReadAsStringAsync(),
+                };
             }
         }
         catch (Exception exception)
@@ -170,11 +190,5 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                 ErrorDescription = exception.Message
             };
         }
-
-        return new TokenErrorResponse
-        {
-            Error = "Invalid operation",
-            ErrorDescription = "Token request failed in an unexpected way"
-        };
     }
 }
