@@ -23,9 +23,9 @@ public class DPoPProofCreatorTests : ConfigurationTests
     }
     
     [Test]
-    public async Task CreateDPoPProof_sets_standard_dpop_proof()
+    public async Task CreateDPoPProofForTokenRequest_sets_standard_dpop_proof()
     {
-        var dPoPProof = await _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
+        var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
 
         dPoPProof.Should().NotBeNullOrEmpty();
 
@@ -42,9 +42,9 @@ public class DPoPProofCreatorTests : ConfigurationTests
     }
     
     [Test]
-    public async Task CreateDPoPProof_sets_dpop_proof_with_nonce()
+    public async Task CreateDPoPProofForTokenRequest_sets_dpop_proof_with_nonce()
     {
-        var dPoPProof = await _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod, dPoPNonce: "2bc376b6-68ac-46d8-837e-3b5e02530b62");
+        var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod, dPoPNonce: "2bc376b6-68ac-46d8-837e-3b5e02530b62");
 
         var token = GetJsonWebToken(dPoPProof);
 
@@ -52,9 +52,9 @@ public class DPoPProofCreatorTests : ConfigurationTests
     }
     
     [Test]
-    public async Task CreateDPoPProof_sets_dpop_proof_with_access_token_hash()
+    public async Task CreateDPoPProofForApiCall_sets_dpop_proof_with_access_token_hash()
     {
-        var dPoPProof = await _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod, accessToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4NjY3RjkwREMxMUJGMDRCRDk0NjdEMUY5MTIwQzRBNDM0MEI0Q0YiLCJ4NXQiOiJlR1pfa053UnZ3UzlsR2ZSLVJJTVNrTkF0TTgiLCJ0eXAiOiJhdCtqd3QifQ.eyJpc3MiOiJodHRwczovL2hlbHNlaWQtc3RzLnRlc3QubmhuLm5vIiwibmJmIjoxNzM1OTkzODkzLCJpYXQiOjE3MzU5OTM4OTMsImV4cCI6MTczNTk5NDQ5MywiYXVkIjoibmhuOnRlc3QtcHVibGljLXNhbXBsZWNvZGUiLCJjbmYiOnsiamt0IjoiYW9lenZJZTMyUmRGcFRQNEZJeHdCWWI2VkdYMGRwM2Vjdm9WakZrZFhRayJ9LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwibmhuOnRlc3QtcHVibGljLXNhbXBsZWNvZGUvYXV0aG9yaXphdGlvbi1jb2RlIiwiaGVsc2VpZDovL3Njb3Blcy9pZGVudGl0eS9waWQiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L3BpZF9wc2V1ZG9ueW0iLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L2Fzc3VyYW5jZV9sZXZlbCIsImhlbHNlaWQ6Ly9zY29wZXMvaHByL2hwcl9udW1iZXIiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L25ldHdvcmsiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L3NlY3VyaXR5X2xldmVsIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdLCJjbGllbnRfaWQiOiJoZWxzZWlkLXNhbXBsZS1hcGktYWNjZXNzIiwiY2xpZW50X2FtciI6InByaXZhdGVfa2V5X2p3dCIsImhlbHNlaWQ6Ly9jbGFpbXMvY2xpZW50L2NsYWltcy9vcmducl9wYXJlbnQiOiI5OTk5Nzc3NzQiLCJzdWIiOiJjNFNyaEtPYnBvRmJYXHUwMDJCdm9aVUhsRzlSQ0tkSGFDWEFTdXhsdGtDUkFRVW89IiwiYXV0aF90aW1lIjoxNzM1OTkzODkyLCJpZHAiOiJ0ZXN0aWRwLW9pZGMiLCJoZWxzZWlkOi8vY2xhaW1zL2lkZW50aXR5L3BpZCI6IjE1ODQ5MTk3MzUyIiwiaGVsc2VpZDovL2NsYWltcy9pZGVudGl0eS9zZWN1cml0eV9sZXZlbCI6IjQiLCJoZWxzZWlkOi8vY2xhaW1zL2lkZW50aXR5L2Fzc3VyYW5jZV9sZXZlbCI6ImhpZ2giLCJoZWxzZWlkOi8vY2xhaW1zL2hwci9ocHJfbnVtYmVyIjoiNTY1NTUwODQ2IiwibmFtZSI6IkxJVlNUUkVUVCBCRVZFUiIsImhlbHNlaWQ6Ly9jbGFpbXMvaWRlbnRpdHkvbmV0d29yayI6ImludGVybmV0dCIsImhlbHNlaWQ6Ly9jbGFpbXMvY2xpZW50L2NsaWVudF9uYW1lIjoiaGVsc2VpZC1zYW1wbGUtYXBpLWFjY2VzcyIsImhlbHNlaWQ6Ly9jbGFpbXMvY2xpZW50L2NsaWVudF90ZW5hbmN5Ijoic2luZ2xlLXRlbmFudCIsInNpZCI6IkNDMjQ2MkMyMzhDRjk0NDMzNTFBMzIwMDhFRTlGMTVDIiwianRpIjoiRkY4RkQ2RDMwMzUwNDkwRkExNDcwMjgxMUI3NTE5OEYifQ.f2n0rzuDAu1B4v9tGkKBTryzdBc_-nuaZxE-N0pr0cxxa6Rx8vH7WcnGd63Ie989YqhLcKi5fY_9Meym-ipJbJzxw-vOnn9D7C-oyeeqZcH8aRWzGpmvPmaeIsuc0Kj5Jxnf6QnBDUteHhb7qP7Jec4S9goOUm_hQvnA_sgAPYMK14Pou5E-av0Pc-CVFzxlhhexCApO07vQ5FsfDo17ZIQSmMIz-m3bSDthKreWEnap2Jg_ZRmoSnbbfNCXST6Fm11oND-hQeo9EHhgocZoAme8xtFUPKESAZVWbsOqkr7UBR5Nh8Kiaid_ZGUYmoyHltjPa5H_Cg1qmjctfWvdud8IIcwAlRpKLdYV5JcJxSJQKGL7vRz1bzEtZbimMS9_PBobwOSpD96HUyhYG7tqhqddxKK3-vzKx0T7MP-uYjxMA-I5DZKGjbrTxdgEip7DkjbZZ3cs-mUc7KbFapt6ijdo9CbVyILPcr7BrKBaNRb9YJD49epTLbchmSqHIQBb");
+        var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForApiCall(Url, HttpMethod, accessToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4NjY3RjkwREMxMUJGMDRCRDk0NjdEMUY5MTIwQzRBNDM0MEI0Q0YiLCJ4NXQiOiJlR1pfa053UnZ3UzlsR2ZSLVJJTVNrTkF0TTgiLCJ0eXAiOiJhdCtqd3QifQ.eyJpc3MiOiJodHRwczovL2hlbHNlaWQtc3RzLnRlc3QubmhuLm5vIiwibmJmIjoxNzM1OTkzODkzLCJpYXQiOjE3MzU5OTM4OTMsImV4cCI6MTczNTk5NDQ5MywiYXVkIjoibmhuOnRlc3QtcHVibGljLXNhbXBsZWNvZGUiLCJjbmYiOnsiamt0IjoiYW9lenZJZTMyUmRGcFRQNEZJeHdCWWI2VkdYMGRwM2Vjdm9WakZrZFhRayJ9LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwibmhuOnRlc3QtcHVibGljLXNhbXBsZWNvZGUvYXV0aG9yaXphdGlvbi1jb2RlIiwiaGVsc2VpZDovL3Njb3Blcy9pZGVudGl0eS9waWQiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L3BpZF9wc2V1ZG9ueW0iLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L2Fzc3VyYW5jZV9sZXZlbCIsImhlbHNlaWQ6Ly9zY29wZXMvaHByL2hwcl9udW1iZXIiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L25ldHdvcmsiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L3NlY3VyaXR5X2xldmVsIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdLCJjbGllbnRfaWQiOiJoZWxzZWlkLXNhbXBsZS1hcGktYWNjZXNzIiwiY2xpZW50X2FtciI6InByaXZhdGVfa2V5X2p3dCIsImhlbHNlaWQ6Ly9jbGFpbXMvY2xpZW50L2NsYWltcy9vcmducl9wYXJlbnQiOiI5OTk5Nzc3NzQiLCJzdWIiOiJjNFNyaEtPYnBvRmJYXHUwMDJCdm9aVUhsRzlSQ0tkSGFDWEFTdXhsdGtDUkFRVW89IiwiYXV0aF90aW1lIjoxNzM1OTkzODkyLCJpZHAiOiJ0ZXN0aWRwLW9pZGMiLCJoZWxzZWlkOi8vY2xhaW1zL2lkZW50aXR5L3BpZCI6IjE1ODQ5MTk3MzUyIiwiaGVsc2VpZDovL2NsYWltcy9pZGVudGl0eS9zZWN1cml0eV9sZXZlbCI6IjQiLCJoZWxzZWlkOi8vY2xhaW1zL2lkZW50aXR5L2Fzc3VyYW5jZV9sZXZlbCI6ImhpZ2giLCJoZWxzZWlkOi8vY2xhaW1zL2hwci9ocHJfbnVtYmVyIjoiNTY1NTUwODQ2IiwibmFtZSI6IkxJVlNUUkVUVCBCRVZFUiIsImhlbHNlaWQ6Ly9jbGFpbXMvaWRlbnRpdHkvbmV0d29yayI6ImludGVybmV0dCIsImhlbHNlaWQ6Ly9jbGFpbXMvY2xpZW50L2NsaWVudF9uYW1lIjoiaGVsc2VpZC1zYW1wbGUtYXBpLWFjY2VzcyIsImhlbHNlaWQ6Ly9jbGFpbXMvY2xpZW50L2NsaWVudF90ZW5hbmN5Ijoic2luZ2xlLXRlbmFudCIsInNpZCI6IkNDMjQ2MkMyMzhDRjk0NDMzNTFBMzIwMDhFRTlGMTVDIiwianRpIjoiRkY4RkQ2RDMwMzUwNDkwRkExNDcwMjgxMUI3NTE5OEYifQ.f2n0rzuDAu1B4v9tGkKBTryzdBc_-nuaZxE-N0pr0cxxa6Rx8vH7WcnGd63Ie989YqhLcKi5fY_9Meym-ipJbJzxw-vOnn9D7C-oyeeqZcH8aRWzGpmvPmaeIsuc0Kj5Jxnf6QnBDUteHhb7qP7Jec4S9goOUm_hQvnA_sgAPYMK14Pou5E-av0Pc-CVFzxlhhexCApO07vQ5FsfDo17ZIQSmMIz-m3bSDthKreWEnap2Jg_ZRmoSnbbfNCXST6Fm11oND-hQeo9EHhgocZoAme8xtFUPKESAZVWbsOqkr7UBR5Nh8Kiaid_ZGUYmoyHltjPa5H_Cg1qmjctfWvdud8IIcwAlRpKLdYV5JcJxSJQKGL7vRz1bzEtZbimMS9_PBobwOSpD96HUyhYG7tqhqddxKK3-vzKx0T7MP-uYjxMA-I5DZKGjbrTxdgEip7DkjbZZ3cs-mUc7KbFapt6ijdo9CbVyILPcr7BrKBaNRb9YJD49epTLbchmSqHIQBb");
 
         var token = GetJsonWebToken(dPoPProof);
 
@@ -62,12 +62,12 @@ public class DPoPProofCreatorTests : ConfigurationTests
     }
 
     [Test]
-    public async Task CreateDPoPProof_sets_standard_dpop_proof_with_elliptic_curve()
+    public async Task CreateDPoPProofForTokenRequest_sets_standard_dpop_proof_with_elliptic_curve()
     {
         var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithEcKey);
         _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
         
-        var dPoPProof = await _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
+        var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
 
         var token = GetJsonWebToken(dPoPProof);
 
@@ -76,30 +76,40 @@ public class DPoPProofCreatorTests : ConfigurationTests
     }
     
     [Test]
-    public void CreateDPoPProof_throws_when_an_invalid_key_is_used()
+    public void CreateDPoPProofForTokenRequest_throws_when_an_invalid_key_is_used()
     {
         var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithInvalidKey);
         _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
 
-        Func<Task> createDPoPProof = async () => await _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
+        Func<Task> createDPoPProof = async () => await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
         
         createDPoPProof.Should().ThrowAsync<InvalidKeyTypeForDPoPProofException>().Result.WithMessage("An invalid key was set for the DPoP proof.");
     }
     
     [Test]
-    public async Task CreateDPoPProof_sets_standard_dpop_proof_with_x509_certificate()
+    public async Task CreateDPoPProofForTokenRequest_sets_standard_dpop_proof_with_x509_certificate()
     {
-        
         var configurationGetter = new HelseIdConfigurationGetterMock(SetHelseIdConfigurationWithX509());
         _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
         
-        var dPoPProof = await _dPoPProofCreator.CreateDPoPProof(Url, HttpMethod);
+        var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
 
         var token = GetJsonWebToken(dPoPProof);
 
         token.GetHeaderValue<object>("alg").Should().Be("RS384");
         JsonSerializer.Serialize(token.GetHeaderValue<object>("jwk")).Should().StartWith("""{"kty":"RSA","n":""");
         JsonSerializer.Serialize(token.GetHeaderValue<object>("jwk")).Should().EndWith(""","e":"AQAB","alg":"RS384"}""");
+    }
+    
+    [Test]
+    public async Task CreateDPoPProofForTokenRequest_rejects_url_with_query_string_parameter()
+    {
+        var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithEcKey);
+        _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
+        
+        Func<Task> createProofWithInvalidUrl = async () => await _dPoPProofCreator.CreateDPoPProofForTokenRequest("https://server.com/?query=a&string=b", HttpMethod);
+
+        await createProofWithInvalidUrl.Should().ThrowAsync<HelseIdException>();
     }
     
     private static JsonWebToken GetJsonWebToken(string dPoPProof)

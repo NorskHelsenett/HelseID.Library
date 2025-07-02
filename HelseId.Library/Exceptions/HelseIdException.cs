@@ -7,5 +7,10 @@ public class HelseIdException : Exception
         Error = errorResponse.Error;
     }
     
+    public HelseIdException(string message, string error) : base(message)
+    {
+        Error = error;
+    }
+    
     public string Error { get; init; }
 }

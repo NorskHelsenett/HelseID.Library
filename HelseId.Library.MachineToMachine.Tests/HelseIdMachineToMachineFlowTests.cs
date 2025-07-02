@@ -214,14 +214,14 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
         var tokenErrorResponse = (TokenErrorResponse)tokenResponse;
         
         tokenErrorResponse.Error.Should().Be("Invalid response");
-        tokenErrorResponse.ExtraErrorData.Should().Be("not json");
+        tokenErrorResponse.RawResponse.Should().Be("not json");
     }
     
     [Test]
     public async Task GetTokenResponseAsync_returns_error_response_when_token_response_is_json_but_missing_expected_elements()
     {
         SetupInvalidTokenResponse(HttpStatusCode.InternalServerError, """
-                                                                      { "Error" : "invalid_request" }
+                                                                      { "Error2" : "invalid_request" }
                                                                       """);
 
         var tokenResponse = await _machineToMachineFlow.GetTokenResponseAsync();
@@ -231,7 +231,7 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
         var tokenErrorResponse = (TokenErrorResponse)tokenResponse;
         
         tokenErrorResponse.Error.Should().Be("Invalid response");
-        tokenErrorResponse.ExtraErrorData.Should().Be("{ \"Error\" : \"invalid_request\" }");
+        tokenErrorResponse.RawResponse.Should().Be("{ \"Error2\" : \"invalid_request\" }");
     }
     
     [Test]

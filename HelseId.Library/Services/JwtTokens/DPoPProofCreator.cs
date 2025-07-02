@@ -1,5 +1,3 @@
-using HelseId.Library.Interfaces.Configuration;
-
 namespace HelseId.Library.Services.JwtTokens;
 
 public class DPoPProofCreator : IDPoPProofCreator
@@ -14,11 +12,32 @@ public class DPoPProofCreator : IDPoPProofCreator
         _timeProvider = timeProvider;
         _helseIdConfigurationGetter = helseIdConfigurationGetter;
     }
-    
-    public async Task<string> CreateDPoPProof(string url, string httpMethod, string? dPoPNonce = null, string? accessToken = null)
+
+    public Task<string> CreateDPoPProofForTokenRequest(string url, string httpMethod, string? dPoPNonce = null)
     {
+        return CreateDPoPProofInternal(url,
+            httpMethod,
+            dPoPNonce,
+            null);
+    }
+    
+    public Task<string> CreateDPoPProofForApiCall(string url, string httpMethod, string accessToken)
+    {
+        return CreateDPoPProofInternal(url,
+            httpMethod,
+            null,
+            accessToken);
+    }
+    
+    private async Task<string> CreateDPoPProofInternal(string url, string httpMethod, string? dPoPNonce = null, string? accessToken = null)
+    {
+        if (!string.IsNullOrEmpty(new Uri(url).Query))
+        {
+            throw new HelseIdException("Cannot create DPoP proof for url with query string", $"Invalid url: {url}");
+        } 
+        
         var helseIdConfiguration = await _helseIdConfigurationGetter.GetConfiguration();
-     
+
         var headers = SetHeaders(helseIdConfiguration);
         var claims = SetClaims(url, httpMethod, dPoPNonce, accessToken);
 

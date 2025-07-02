@@ -142,7 +142,7 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                     {
                         Error = "Invalid response",
                         ErrorDescription = jsonException.Message,
-                        ExtraErrorData = await response.Content.ReadAsStringAsync(),
+                        RawResponse = await response.Content.ReadAsStringAsync(),
                     };
                 }
             }
@@ -169,7 +169,7 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                 {
                     Error = "Invalid response",
                     ErrorDescription = $"Expected error response, but received invalid json",
-                    ExtraErrorData = await response.Content.ReadAsStringAsync(),
+                    RawResponse = await response.Content.ReadAsStringAsync(),
                 };
             }
             catch (JsonException jsonException)
@@ -178,7 +178,7 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                 {
                     Error = "Invalid response",
                     ErrorDescription = jsonException.Message,
-                    ExtraErrorData = await response.Content.ReadAsStringAsync(),
+                    RawResponse = await response.Content.ReadAsStringAsync(),
                 };
             }
         }
