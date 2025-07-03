@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.2</Version>
+        <Version>0.0.3</Version>
         <Title>Mocks for HelseID Client Library</Title>
         <Authors>Norsk Helsenett SF</Authors>
         <Company>Norsk Helsenett SF</Company>
@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HelseId.Library.MachineToMachine\HelseId.Library.MachineToMachine.csproj" />
-      <ProjectReference Include="..\HelseID.M2M.TestApplication\HelseID.M2M.TestApplication.csproj" />
     </ItemGroup>
 
     <ItemGroup>

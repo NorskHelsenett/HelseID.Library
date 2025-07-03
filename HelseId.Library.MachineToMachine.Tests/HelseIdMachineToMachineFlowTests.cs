@@ -231,7 +231,26 @@ public class HelseIdMachineToMachineFlowTests : IDisposable
         var tokenErrorResponse = (TokenErrorResponse)tokenResponse;
         
         tokenErrorResponse.Error.Should().Be("Invalid response");
+        tokenErrorResponse.ErrorDescription.Should().NotBeEmpty();
         tokenErrorResponse.RawResponse.Should().Be("{ \"Error2\" : \"invalid_request\" }");
+    }  
+    
+    [Test]
+    public async Task GetTokenResponseAsync_returns_error_response_when_token_response_is_json_but_missing_error_description()
+    {
+        SetupInvalidTokenResponse(HttpStatusCode.InternalServerError, """
+                                                                      { "Error" : "invalid_request" }
+                                                                      """);
+
+        var tokenResponse = await _machineToMachineFlow.GetTokenResponseAsync();
+
+        tokenResponse.Should().BeOfType<TokenErrorResponse>();
+
+        var tokenErrorResponse = (TokenErrorResponse)tokenResponse;
+        
+        tokenErrorResponse.Error.Should().Be("invalid_request");
+        tokenErrorResponse.ErrorDescription.Should().BeEmpty();
+        tokenErrorResponse.RawResponse.Should().Be("{ \"Error\" : \"invalid_request\" }");
     }
     
     [Test]

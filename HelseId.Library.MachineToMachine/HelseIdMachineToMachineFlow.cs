@@ -162,6 +162,7 @@ internal sealed class HelseIdMachineToMachineFlow : IHelseIdMachineToMachineFlow
                 var tokenErrorResponse = await response.Content.ReadFromJsonAsync<TokenErrorResponse>();
                 if (tokenErrorResponse != null)
                 {
+                    tokenErrorResponse.RawResponse = await response.Content.ReadAsStringAsync();
                     return tokenErrorResponse;
                 }
 
