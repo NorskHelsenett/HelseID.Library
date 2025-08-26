@@ -1,4 +1,3 @@
-using HelseId.Library.Interfaces.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseId.Library;

@@ -1,8 +1,4 @@
-﻿using HelseId.Library.ClientCredentials.Interfaces;
-using HelseId.Library.ClientCredentials.Interfaces.TokenRequests;
-using HelseId.Library.ClientCredentials.PayloadClaimCreators;
-using HelseId.Library.ClientCredentials.Services.TokenRequests;
-using HelseId.Library.Interfaces.Configuration;
+﻿using HelseId.Library.Interfaces.Configuration;
 using HelseId.Library.Services.Configuration;
 
 namespace HelseId.Library.ClientCredentials;

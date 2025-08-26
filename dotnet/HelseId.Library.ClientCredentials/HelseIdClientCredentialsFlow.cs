@@ -1,7 +1,4 @@
-﻿using HelseId.Library.ClientCredentials.Interfaces;
-using HelseId.Library.ClientCredentials.Interfaces.TokenRequests;
-using HelseId.Library.ClientCredentials.Models.TokenRequests;
-using HelseId.Library.Exceptions;
+﻿using HelseId.Library.Exceptions;
 
 namespace HelseId.Library.ClientCredentials;
 

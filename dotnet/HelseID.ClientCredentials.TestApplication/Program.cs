@@ -2,7 +2,6 @@
 using HelseId.Library.Configuration;
 using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
-using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
