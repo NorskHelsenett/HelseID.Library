@@ -4,11 +4,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library", "HelseId.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Tests", "HelseId.Library.Tests\HelseId.Library.Tests.csproj", "{8B8A2F35-D18E-41A9-8ECA-6906AC29F3D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseID.M2M.TestApplication", "HelseID.M2M.TestApplication\HelseID.M2M.TestApplication.csproj", "{3420CB44-14F4-402E-822C-CA6C27348018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseID.ClientCredentials.TestApplication", "HelseID.ClientCredentials.TestApplication\HelseID.ClientCredentials.TestApplication.csproj", "{3420CB44-14F4-402E-822C-CA6C27348018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.MachineToMachine", "HelseId.Library.MachineToMachine\HelseId.Library.MachineToMachine.csproj", "{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.ClientCredentials", "HelseId.Library.ClientCredentials\HelseId.Library.ClientCredentials.csproj", "{AA5BBE69-302D-44F5-A574-ACA5BDAF053B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.MachineToMachine.Tests", "HelseId.Library.MachineToMachine.Tests\HelseId.Library.MachineToMachine.Tests.csproj", "{4DF761D6-7D5B-4FA5-BE3B-E6F1D8656BB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.ClientCredentials.Tests", "HelseId.Library.ClientCredentials.Tests\HelseId.Library.ClientCredentials.Tests.csproj", "{4DF761D6-7D5B-4FA5-BE3B-E6F1D8656BB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Mocks", "HelseId.Library.Mocks\HelseId.Library.Mocks.csproj", "{9A08FFA5-6DDE-4C4A-93C0-01B167D76845}"
 EndProject

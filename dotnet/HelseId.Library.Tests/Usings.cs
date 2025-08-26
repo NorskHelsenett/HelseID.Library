@@ -17,6 +17,6 @@ global using FluentAssertions;
 global using RichardSzalay.MockHttp;
 global using System.Text.Json;
 
-global using HelseId.Library.MachineToMachine;
+global using HelseId.Library.ClientCredentials;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.IdentityModel.Tokens;
