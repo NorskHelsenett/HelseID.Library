@@ -31,5 +31,5 @@ jobs:
       run: |
           dotnet build --no-restore -c Release
           dotnet nuget push HelseId.Library/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }}
-          dotnet nuget push HelseId.Library.MachineToMachine/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push HelseId.Library.ClientCredentials/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }}
           dotnet nuget push HelseId.Library.Mocks/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }}

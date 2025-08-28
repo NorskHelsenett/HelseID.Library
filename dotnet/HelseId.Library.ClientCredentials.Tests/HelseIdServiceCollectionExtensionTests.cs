@@ -1,6 +1,13 @@
 ﻿using HelseId.Library.Interfaces.Configuration;
+using HelseId.Library.ClientCredentials.Interfaces;
+using HelseId.Library.ClientCredentials.Interfaces.TokenRequests;
+using HelseId.Library.ClientCredentials.PayloadClaimCreators;
+using HelseId.Library.ClientCredentials.Services.TokenRequests;
+using HelseId.Library.Services.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
-namespace HelseId.Library.Tests;
+namespace HelseId.Library.ClientCredentials.Tests;
 
 [TestFixture]
 public class HelseIdServiceCollectionExtensionTests
@@ -24,30 +31,35 @@ public class HelseIdServiceCollectionExtensionTests
             "sts");    }
 
     [Test]
-    public void AddInMemoryHelseIdCaching_registers_expected_services()
+    public void AddHelseIdClientCredentials_registers_expected_services()
     {
-        _serviceCollection.AddHelseIdClientCredentials(_config).AddHelseIdInMemoryCaching();
-
-        EnsureSingletonRegistration<ITokenCache, InMemoryTokenCache>();
-        EnsureSingletonRegistration<IDiscoveryDocumentCache, InMemoryDiscoveryDocumentCache>();
-    }
-
-    [Test]
-    public void AddDistributedHelseIdCaching_registers_expected_services()
-    {
-        _serviceCollection.AddHelseIdClientCredentials(_config).AddHelseIdDistributedCaching();
-
-        EnsureSingletonRegistration<ITokenCache, DistributedTokenCache>();
-        EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
-    }
-
-    [Test]
-    public void AddHelseIdConfigurationGetter_registers_supplied_instance_as_singleton()
-    {
-        var configurationGetter = new TestConfigurationGetter();
-        _serviceCollection.AddHelseIdClientCredentials().AddHelseIdConfigurationGetter(configurationGetter);
+        _serviceCollection.AddHelseIdClientCredentials();
         
-        EnsureSingletonRegistration<IHelseIdConfigurationGetter, TestConfigurationGetter>(configurationGetter);
+        EnsureSingletonRegistration<IHelseIdClientCredentialsFlow, HelseIdClientCredentialsFlow>();
+        EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
+        EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
+        EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
+        EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
+        EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
+        EnsureSingletonRegistration<IAssertionDetailsCreator, AssertionDetailsCreator>(); EnsureSingletonRegistration<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        EnsureSingletonRegistration<TimeProvider>();
+    }
+
+    [Test]
+    public void AddHelseIdClientCredentials_with_configuration_registers_expected_services()
+    {
+        _serviceCollection.AddHelseIdClientCredentials(_config);
+        
+        EnsureSingletonRegistration<IHelseIdClientCredentialsFlow, HelseIdClientCredentialsFlow>();
+        EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
+        EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
+        EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
+        EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
+        EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
+        EnsureSingletonRegistration<IAssertionDetailsCreator, AssertionDetailsCreator>(); EnsureSingletonRegistration<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
+        EnsureSingletonRegistration<IHelseIdConfigurationGetter, RegisteredSingletonHelseIdConfigurationGetter>();
+        EnsureSingletonRegistration<TimeProvider>();
+        EnsureSingletonRegistration<HelseIdConfiguration>();
     }
 
     private void EnsureSingletonRegistration<TServiceType, TImplementationType>()
@@ -57,20 +69,12 @@ public class HelseIdServiceCollectionExtensionTests
         registeredService.Lifetime.Should().Be(ServiceLifetime.Singleton);
         registeredService.ImplementationType.Should().BeSameAs(typeof(TImplementationType));
     }
-    
-    private void EnsureSingletonRegistration<TServiceType, TImplementationType>(TImplementationType instance)
+
+
+    private void EnsureSingletonRegistration<TServiceType>()
     {
         var registeredService = _serviceCollection.SingleOrDefault(s => s.ServiceType == typeof(TServiceType));
         registeredService.Should().NotBeNull();
         registeredService.Lifetime.Should().Be(ServiceLifetime.Singleton);
-        registeredService.ImplementationInstance.Should().BeSameAs(instance);
-    }
-    
-    private sealed class TestConfigurationGetter : IHelseIdConfigurationGetter
-    {
-        public Task<HelseIdConfiguration> GetConfiguration()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
