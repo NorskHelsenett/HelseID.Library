@@ -2,5 +2,6 @@
 
 public interface ISigningCredentialReference
 {
-    Task<SigningCredentials> GetSigningCredentialReference();
+    Task<SigningCredentials> GetSigningCredential();
+    Task UpdateSigningCredential(string jsonWebKey);
 }

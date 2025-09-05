@@ -22,7 +22,7 @@ public class SigningTokenCreator : ISigningTokenCreator
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             Claims = claims,
-            SigningCredentials = await _signingCredentialReference.GetSigningCredentialReference(),
+            SigningCredentials = await _signingCredentialReference.GetSigningCredential(),
             TokenType = payloadClaimParameters.TokenType
         };
 

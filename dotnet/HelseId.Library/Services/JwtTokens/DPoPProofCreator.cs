@@ -47,7 +47,7 @@ public class DPoPProofCreator : IDPoPProofCreator
         {
             AdditionalHeaderClaims = headers,
             Claims = claims,
-            SigningCredentials = await _signingCredentialReference.GetSigningCredentialReference(),
+            SigningCredentials = await _signingCredentialReference.GetSigningCredential(),
         };
 
         return tokenHandler.CreateToken(securityTokenDescriptor);    
@@ -111,7 +111,7 @@ public class DPoPProofCreator : IDPoPProofCreator
     
     private async Task<Dictionary<string, string>> SetJwkForHeader()
     {
-        var signingCredential = await _signingCredentialReference.GetSigningCredentialReference();
+        var signingCredential = await _signingCredentialReference.GetSigningCredential();
         var securityKey = signingCredential.Key as JsonWebKey;
 
         return securityKey!.Kty switch
