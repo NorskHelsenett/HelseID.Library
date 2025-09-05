@@ -46,44 +46,6 @@ public abstract class ConfigurationTests
                                                   }
                                                   """;
     
-    protected const string PemEc = """
-                                   -----BEGIN PRIVATE KEY-----
-                                   ME4CAQAwEAYHKoZIzj0CAQYFK4EEACIENzA1AgEBBDC56yGUkooKZDcOrlZ7llny
-                                   isW3rDX+VEKinSyhufyFWnXzFyHHitejl1wmSWCaPfQ=
-                                   -----END PRIVATE KEY-----
-                                   """;
-    
-    protected const string PemRsa = """
-                                    -----BEGIN PRIVATE KEY-----
-                                    MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDCG1+ae4voyaSA
-                                    JmDJHUSwY/91VY0Q9x9n76Y/CBT1szU3nldtJNd2ITpue55ZfbfABzo14ckyrPaE
-                                    /8Ls6/XD2FSlcD9T8BaX4BuGLwWW0TTOokuF+52ProiWIFSLr0xtDjXImH74MjvH
-                                    BgvSoCyT5c4gYmKB1rcBtnDQFF3J6zjyokjtuHfJqqW9I9CqZVyvgZaTqNhax5Qp
-                                    W20sIPgOtyPtPFWxXfMh6aQYEhE5J0idqnEAUH9+ixspJ3pPBfJu26I4oe501zx5
-                                    F2oBwe/B8aRoYdIklfxstIZumxNRg2m40OZAP53MhHqpd6GulybaBZ/y3iHH2JXd
-                                    x1alCuYLAgMBAAECggEAay5qUAdAbj5J02ldsC+1KiFNgiDHUELk2KOADPYNfM6D
-                                    6D5K0D2zq8sVVMR137yHpkVXY0FVs+HGDhKcM+7nOklOFDwy+8pq71oUWLfGQk0q
-                                    956uTUFu81PQn/UiOi+F6AIcuLNcCPjUAUXZaWiAtPoEI+Wvtzo0u4FeMcfNMhz2
-                                    GM/enNSzoXd2oTPKiCoAV91vMcvzruDxuVFnqa24w9wm9+JxqQvk/e0YN00b42Il
-                                    LOCMm27Pv4XaxGeNNCujr5+E5M0JFC0z50tAXbenGftfTP4hfbupfOJRcuXJnoiG
-                                    BUT2N214b0MbgzwJu0XnBlp/kmbw9m67rxmx1q17wQKBgQDtsfZ2kZjfOBr1WuVc
-                                    QQJAMnCzkMzDsz7SjTHPkOwnHbmqJVZBoX1puUQBxE1H5Lo40TFrWsMzydKUZqA2
-                                    HUQZ2w9MOdaoIwG1TOF2YfCN5SbdEyOhZm+a1QigFGvp+1xPdrUSAjwyU5rbS1HU
-                                    Pvcp6voWq1jiwigmFq+Xn00NiQKBgQDRDhdTKU606BIUUqnmKiPr1VbJREJkF2ox
-                                    Dfpab7uar3oTAc/iAkFhwJQL9LX2+AXjWgAgz8ZRvrK82N3JRoye+HR/2AOSX18/
-                                    Uu00DIiY8cyNYPnWHAe2kEJWM09cA3umLC+csXANPTz3A6h4PVgnobMRNdE6LHxw
-                                    z8xisBBl8wKBgQCEk8COfcMwrhCLTXmkrTXeLMQjw94SQcYGlm50AbdWUgQe3Nhx
-                                    nutertE50w3vzan4yuWvpV4/YpCr6VnvFP/JFCBCOfh6q5vmTc1rxFDyNCArKuOy
-                                    wHn7eFtpPjq6tVLVl7aDJvAAehVjv20S31Po84EuZ8AaKoVOSVUDUv0dUQKBgGE4
-                                    mmRUW4QKQQ4ue1DM3DO63UdwdSezM/FoPLt+JtMDNFROjWzf+6QIOVFuFomqQqK+
-                                    ojygI+y0MM9eU5ZdNtxfU155CQAzVkpOuH1yLrxiBuzg4o9OLdAbOp538joqbICV
-                                    H/dRFXkyt31wuBJjBPI5YttoGctiEOUt3jEvDBE9AoGAVPgJhNFg5y5DsDi1dtxl
-                                    yTzvo6b6gsVegyUF7Kx/78HvwKsNRYyDgGe2uJUGuuSoEw4jaiXKh33r9EB4EQJk
-                                    iaj3/q63Ij9UMhVff3Bcz5TKwArn7BwQuwSSLvJMOZd2olb2VknUkqRpWFFgaDqr
-                                    GdnbMzwV9MTjV06Hi5uKB2Q=
-                                    -----END PRIVATE KEY-----
-                                    """;
-    
     protected const string ClientId = "294c7ab7-a22e-4a79-aea3-34edddf5b85d";
     protected const string Scope = "openid profile offline_access";
     protected static string StsUrl { get; } = "https://helseid-sts.test.nhn.no";
@@ -93,8 +55,6 @@ public abstract class ConfigurationTests
     protected StaticSigningCredentialReference CredentialWithEcKey { get; set; }
     protected StaticSigningCredentialReference CredentialWithInvalidKey { get; set; }
     
-    // protected HelseIdConfiguration HelseIdConfigurationWithX509 { get; set; }
-
     protected PayloadClaimParameters PayloadClaimParameters { get; set; }
 
     protected static StaticSigningCredentialReference GetX509CredentialReference()
