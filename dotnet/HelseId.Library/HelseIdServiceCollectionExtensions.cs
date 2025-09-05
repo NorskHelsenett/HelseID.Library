@@ -78,13 +78,21 @@ public static class HelseIdServiceCollectionExtensions
     /// <param name="helseIdBuilder"></param>
     /// <param name="jsonWebKey"></param>
     /// <returns></returns>
-    public static IHelseIdBuilder AddJsonWebKey(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
     {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(jsonWebKey));
         return helseIdBuilder;
     }
     
-    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder,SigningCredentials signingCredential)  {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <param name="signingCredential"></param>
+    /// <returns></returns>
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, SigningCredentials signingCredential)  {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredential));
         return helseIdBuilder;
     }

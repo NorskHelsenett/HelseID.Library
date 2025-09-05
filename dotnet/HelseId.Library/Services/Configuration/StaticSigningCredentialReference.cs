@@ -15,6 +15,7 @@ public class StaticSigningCredentialReference : ISigningCredentialReference
     {
         _signingCredential = signingCredential;
     }
+    
     public Task<SigningCredentials> GetSigningCredentialReference()
     {
         return Task.FromResult(_signingCredential);

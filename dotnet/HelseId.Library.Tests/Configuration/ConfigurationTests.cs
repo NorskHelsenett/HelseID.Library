@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using HelseId.Library.Services.Configuration;
 
 namespace HelseId.Library.Tests.Configuration;
 
@@ -91,6 +92,11 @@ public abstract class ConfigurationTests
     
     protected HelseIdConfiguration HelseIdConfigurationWithInvalidKey { get; set; }
 
+    
+    protected StaticSigningCredentialReference CredentialReference { get; set; }
+    protected StaticSigningCredentialReference CredentialWithEcKey { get; set; }
+    protected StaticSigningCredentialReference CredentialWithInvalidKey { get; set; }
+    
     // protected HelseIdConfiguration HelseIdConfigurationWithX509 { get; set; }
 
     protected PayloadClaimParameters PayloadClaimParameters { get; set; }
@@ -99,15 +105,17 @@ public abstract class ConfigurationTests
     {
         X509Certificate2 certificate = X509CertificateGenerator.GenerateSelfSignedCertificate("HelseID self-signed certificate", X509KeyUsageFlags.NonRepudiation);
 
-        return HelseIdConfiguration.ConfigurationForX509Certificate(certificate,"RS384", ClientId, Scope, StsUrl);
+        return new HelseIdConfiguration(ClientId, Scope, StsUrl);
     }
     
     [SetUp]
     public void SetUpConfiguration()
     {
-        HelseIdConfiguration = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(GeneralPrivateRsaKey), ClientId, Scope, StsUrl);
-        HelseIdConfigurationWithEcKey = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(GeneralPrivateEcKey), ClientId, Scope, StsUrl);
-        HelseIdConfigurationWithInvalidKey = HelseIdConfiguration.ConfigurationForJsonWebKey(new JsonWebKey(InvalidPrivateKey), ClientId, Scope, StsUrl);
+        HelseIdConfiguration = new HelseIdConfiguration(ClientId, Scope, StsUrl);
+
+        CredentialReference = new StaticSigningCredentialReference(GeneralPrivateRsaKey);
+        CredentialWithEcKey = new StaticSigningCredentialReference(GeneralPrivateEcKey);
+        CredentialWithInvalidKey = new StaticSigningCredentialReference(InvalidPrivateKey);
         
         PayloadClaimParameters = new PayloadClaimParameters
         {
