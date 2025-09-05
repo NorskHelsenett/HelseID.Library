@@ -82,6 +82,9 @@ public class HelseIdConfiguration
         return new HelseIdConfiguration(new SigningCredentials(jsonWebKey, algorithm), clientId, scope, stsUrl, resourceIndicators);
     }
     
+    
+    
+    
     /// <summary>
     /// Creates a HelseIdConfiguration object from the given parameters
     /// </summary>
@@ -252,7 +255,7 @@ public class HelseIdConfiguration
         return metadataUrl;
     }
     
-    public SigningCredentials SigningCredentials { get; private set; }
+    //public SigningCredentials SigningCredentials { get; private set; }
     public string ClientId { get; private set; }
     public string Scope { get; private set; }
     public string StsUrl { get; private set; }

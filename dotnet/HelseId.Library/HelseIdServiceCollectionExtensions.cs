@@ -1,3 +1,4 @@
+using HelseId.Library.Services.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseId.Library;
@@ -70,4 +71,22 @@ public static class HelseIdServiceCollectionExtensions
         helseIdBuilder.Services.AddSingleton(configurationGetterInstance);
         return helseIdBuilder;
     }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <param name="jsonWebKey"></param>
+    /// <returns></returns>
+    public static IHelseIdBuilder AddJsonWebKey(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
+    {
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(jsonWebKey));
+        return helseIdBuilder;
+    }
+    
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder,SigningCredentials signingCredential)  {
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredential));
+        return helseIdBuilder;
+    }
 }
+

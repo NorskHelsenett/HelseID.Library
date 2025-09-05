@@ -26,7 +26,10 @@ sealed class Program
         builder.Services
             .AddHelseIdClientCredentials(helseIdConfiguration)
             .AddHelseIdSingleTenant()
-            .AddHelseIdInMemoryCaching();
+            .AddHelseIdInMemoryCaching()
+            .AddJsonWebKey(jwkPrivateKey);
+        
+        
     
         builder.Services.AddHostedService<TestService>();
 
