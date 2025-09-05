@@ -88,10 +88,6 @@ public abstract class ConfigurationTests
     protected const string Scope = "openid profile offline_access";
     protected static string StsUrl { get; } = "https://helseid-sts.test.nhn.no";
     protected HelseIdConfiguration HelseIdConfiguration { get; set; }
-    protected HelseIdConfiguration HelseIdConfigurationWithEcKey { get; set; }
-    
-    protected HelseIdConfiguration HelseIdConfigurationWithInvalidKey { get; set; }
-
     
     protected StaticSigningCredentialReference CredentialReference { get; set; }
     protected StaticSigningCredentialReference CredentialWithEcKey { get; set; }
@@ -113,9 +109,9 @@ public abstract class ConfigurationTests
     {
         HelseIdConfiguration = new HelseIdConfiguration(ClientId, Scope, StsUrl);
 
-        CredentialReference = new StaticSigningCredentialReference(GeneralPrivateRsaKey);
-        CredentialWithEcKey = new StaticSigningCredentialReference(GeneralPrivateEcKey);
-        CredentialWithInvalidKey = new StaticSigningCredentialReference(InvalidPrivateKey);
+        CredentialReference = new StaticSigningCredentialReference(new SigningCredentials(new JsonWebKey(GeneralPrivateRsaKey), "RS384"));
+        CredentialWithEcKey = new StaticSigningCredentialReference(new SigningCredentials(new JsonWebKey(GeneralPrivateEcKey), "ES384"));
+        CredentialWithInvalidKey = new StaticSigningCredentialReference(new SigningCredentials(new JsonWebKey(InvalidPrivateKey), "EdDSA"));
         
         PayloadClaimParameters = new PayloadClaimParameters
         {
