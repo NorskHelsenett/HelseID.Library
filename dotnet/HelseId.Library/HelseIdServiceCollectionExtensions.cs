@@ -99,5 +99,18 @@ public static class HelseIdServiceCollectionExtensions
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredential));
         return helseIdBuilder;
     }
+    
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, X509Certificate2 certificate, string algorithm)  
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+
+        var x509SigningCredentials = new X509SigningCredentials(certificate, algorithm);
+        var key = x509SigningCredentials.Key as X509SecurityKey;
+        var jsonWebKey = JsonWebKeyConverter.ConvertFromX509SecurityKey(key, representAsRsaKey: true);
+        var signingCredental = new SigningCredentials(jsonWebKey, algorithm);
+
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredental));
+        return helseIdBuilder;
+    }
 }
 

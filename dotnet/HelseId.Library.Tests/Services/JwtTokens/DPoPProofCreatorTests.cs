@@ -84,11 +84,10 @@ public class DPoPProofCreatorTests : ConfigurationTests
         createDPoPProof.Should().ThrowAsync<InvalidKeyTypeForDPoPProofException>().Result.WithMessage("An invalid key was set for the DPoP proof.");
     }
     
-    [Test, Ignore("Støtter ikke x509 i vår kode nå")]
+    [Test]
     public async Task CreateDPoPProofForTokenRequest_sets_standard_dpop_proof_with_x509_certificate()
     {
-        var configurationGetter = new HelseIdConfigurationGetterMock(SetHelseIdConfigurationWithX509());
-        _dPoPProofCreator = new DPoPProofCreator(CredentialReference, _fakeTimeProvider);
+        _dPoPProofCreator = new DPoPProofCreator(GetX509CredentialReference(), _fakeTimeProvider);
         
         var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
 

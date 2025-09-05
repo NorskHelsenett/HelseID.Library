@@ -97,11 +97,16 @@ public abstract class ConfigurationTests
 
     protected PayloadClaimParameters PayloadClaimParameters { get; set; }
 
-    protected static HelseIdConfiguration SetHelseIdConfigurationWithX509()
+    protected static StaticSigningCredentialReference GetX509CredentialReference()
     {
         X509Certificate2 certificate = X509CertificateGenerator.GenerateSelfSignedCertificate("HelseID self-signed certificate", X509KeyUsageFlags.NonRepudiation);
 
-        return new HelseIdConfiguration(ClientId, Scope, StsUrl);
+        var x509SigningCredentials = new X509SigningCredentials(certificate, "RS384");
+        var key = x509SigningCredentials.Key as X509SecurityKey;
+        var jsonWebKey = JsonWebKeyConverter.ConvertFromX509SecurityKey(key, representAsRsaKey: true);
+        var signingCredental = new SigningCredentials(jsonWebKey, "RS384");
+        
+        return new StaticSigningCredentialReference(signingCredental);
     }
     
     [SetUp]
