@@ -27,13 +27,18 @@ internal class ClientCredentialsTokenRequestBuilder : TokenRequestBuilder, IClie
         var dpopProof = await CreateDPoPProof(tokenEndpoint, dPoPNonce);
 
         var helseIdConfiguration = await _configurationGetter.GetConfiguration();
+        var scope = tokenRequestParameters.Scope;
+        if (string.IsNullOrEmpty(scope))
+        {
+            scope = helseIdConfiguration.Scope;
+        }
         
         return new HelseIdTokenRequest
         {
             Address = tokenEndpoint,
             ClientAssertion = clientAssertion,
             ClientId = helseIdConfiguration.ClientId,
-            Scope = helseIdConfiguration.Scope,
+            Scope = scope,
             DPoPProofToken = dpopProof,
             GrantType = GrantTypes.ClientCredentials
         };

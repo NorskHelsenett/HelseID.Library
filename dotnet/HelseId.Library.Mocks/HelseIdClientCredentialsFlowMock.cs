@@ -31,6 +31,16 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
         });
     }
 
+    public Task<TokenResponse> GetTokenResponseAsync(string scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TokenResponse> GetTokenResponseAsync(string scope, OrganizationNumbers organizationNumbers)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<string> GetAccessTokenAsync()
     {
         OrganizationNumbers = null;

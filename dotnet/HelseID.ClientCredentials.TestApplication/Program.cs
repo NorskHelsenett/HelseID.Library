@@ -3,6 +3,7 @@ using HelseId.Library.Configuration;
 using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
 using HelseId.Library.Interfaces.Caching;
+using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -56,13 +57,13 @@ public class TestService : IHostedService
         while (true)
         {
 
-            var accessTokenBergen = await _helseIdClientCredentialsFlow.GetAccessTokenAsync(organizationNumbersBergen);
-            Console.WriteLine(accessTokenBergen);
+            var accessTokenBergen = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersBergen);
+            Console.WriteLine(((AccessTokenResponse)accessTokenBergen).AccessToken);
 
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 
-            var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetAccessTokenAsync(organizationNumbersTrondheim);
-            Console.WriteLine(accessTokenTrondheim);
+            var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
+            Console.WriteLine(((AccessTokenResponse)accessTokenTrondheim).AccessToken);
 
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         }

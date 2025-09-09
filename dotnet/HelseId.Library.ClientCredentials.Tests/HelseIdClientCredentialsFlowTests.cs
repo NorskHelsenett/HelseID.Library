@@ -117,7 +117,7 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         await _clientCredentialsFlow.GetTokenResponseAsync();
 
         _cacheMock.CachedData.Should().NotBeNullOrEmpty();
-        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "__"); 
+        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "___"); 
     }
     
     [Test]
@@ -130,7 +130,7 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         });
 
         _cacheMock.CachedData.Should().NotBeNullOrEmpty();
-        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "_123_456"); 
+        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "__123_456"); 
     }
     
     [Test]
@@ -256,25 +256,28 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
     [Test]
     public async Task GetAccessTokenAsync_returns_AccessTokenResponse_for_normal_response()
     {
-        var accessToken = await _clientCredentialsFlow.GetAccessTokenAsync();
-
-        accessToken.Should().Be("access token from endpoint");
+        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync();
+        tokenResponse.Should().BeOfType<AccessTokenResponse>();
+        var accessTokenResponse = (AccessTokenResponse)tokenResponse;
+        accessTokenResponse.AccessToken.Should().Be("access token from endpoint");
     }
     
     [Test]
     public async Task GetAccessTokenAsync_throws_HelseIdException_when_request_fails()
     {
         SetupErrorTokenResponse();
-
-        Func<Task<string>> getAccesstoken = () => _clientCredentialsFlow.GetAccessTokenAsync();
-        var assertion = await getAccesstoken.Should().ThrowAsync<HelseIdException>().WithMessage("error description");
-        assertion.Which.Error.Should().Be("error");
+        
+        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync();
+        tokenResponse.Should().BeOfType<TokenErrorResponse>();
+        var tokenErrorResponse = (TokenErrorResponse)tokenResponse;
+        tokenErrorResponse.Error.Should().Be("error");
+        tokenErrorResponse.ErrorDescription.Should().Be("error description");
     }
 
     [Test]
     public async Task GetAccessTokenAsync_builds_token_request_with_specified_organization_numbers()
     {
-        await _clientCredentialsFlow.GetAccessTokenAsync(new OrganizationNumbers("parent", "child"));
+        await _clientCredentialsFlow.GetTokenResponseAsync(new OrganizationNumbers("parent", "child"));
 
         var payloadParameters = _clientCredentialsTokenRequestBuilder.TokenRequestParameters!.PayloadClaimParameters;
         payloadParameters.ParentOrganizationNumber.Should().Be("parent");
@@ -284,10 +287,10 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
     [Test]
     public async Task GetAccessTokenAsync_caches_response_from_token_endpoint()
     {
-        await _clientCredentialsFlow.GetAccessTokenAsync();
+        await _clientCredentialsFlow.GetTokenResponseAsync();
 
         _cacheMock.CachedData.Should().NotBeNullOrEmpty();
-        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "__"); 
+        _cacheMock.LastKeySet.Should().Be(HelseIdConstants.TokenResponseCacheKey + "___"); 
     }
     
     [Test]
@@ -299,13 +302,13 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
             ExpiresIn = 123
         });
         
-        var firstAccessToken = await _clientCredentialsFlow.GetAccessTokenAsync();
-        firstAccessToken.Should().Be("cached access token");
-
+        await _clientCredentialsFlow.GetTokenResponseAsync();
         _cacheMock.ResetCachedData();
         
-        var secondAccessToken = await _clientCredentialsFlow.GetAccessTokenAsync();
-        secondAccessToken.Should().Be("access token from endpoint");
+        var secondTokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync();
+        secondTokenResponse.Should().BeOfType<AccessTokenResponse>();
+        var secondAccessTokenResponse = (AccessTokenResponse)secondTokenResponse;
+        secondAccessTokenResponse.AccessToken.Should().Be("access token from endpoint");
     }
 
     [Test]
@@ -317,9 +320,11 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
             ExpiresIn = 123
         });
         
-        var accessToken = await _clientCredentialsFlow.GetAccessTokenAsync();
+        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync();
+        tokenResponse.Should().BeOfType<AccessTokenResponse>();
+        var accsessTokenResponse = (AccessTokenResponse)tokenResponse;
 
-        accessToken.Should().Be("cached access token");
+        accsessTokenResponse.AccessToken.Should().Be("cached access token");
     }
 
 
