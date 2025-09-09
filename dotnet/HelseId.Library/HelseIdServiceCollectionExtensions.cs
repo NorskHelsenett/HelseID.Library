@@ -112,5 +112,13 @@ public static class HelseIdServiceCollectionExtensions
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredental));
         return helseIdBuilder;
     }
+    
+    public static IHelseIdBuilder AddFileBasedSigningCredential(this IHelseIdBuilder helseIdBuilder, string fileName)  
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new FileBasedSigningCredentialReference(fileName));
+        return helseIdBuilder;
+    }
 }
 

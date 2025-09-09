@@ -39,7 +39,7 @@ public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
         var jwkWithPrivateKey = JsonWebKeyConverter.ConvertFromRSASecurityKey(rsaWithPrivateKey);
         var jwkWithoutPrivateKey = JsonWebKeyConverter.ConvertFromRSASecurityKey(rsaWithoutPrivateKey);
         
-        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync();
+        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync("nhn:selvbetjening/client");
         if(tokenResponse is TokenErrorResponse tokenErrorResponse)
         {
             throw new HelseIdException(tokenErrorResponse);
@@ -61,6 +61,8 @@ public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<ClientSecretUpdateResponse>();
         await _signingCredentialReference.UpdateSigningCredential(jwkWithPrivateKey.ToString());
+        
+        
         
     }
 }
