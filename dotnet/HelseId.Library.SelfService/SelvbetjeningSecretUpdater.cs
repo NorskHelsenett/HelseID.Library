@@ -17,15 +17,17 @@ public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
     private readonly IHelseIdClientCredentialsFlow _clientCredentialsFlow;
     private readonly ISigningCredentialReference _signingCredentialReference;
     private readonly IDPoPProofCreator _dPoPProofCreator;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     public SelvbetjeningSecretUpdater(
         IHelseIdClientCredentialsFlow clientCredentialsFlow, 
         ISigningCredentialReference signingCredentialReference,
-        IDPoPProofCreator  dPoPProofCreator)
+        IDPoPProofCreator  dPoPProofCreator, IHttpClientFactory httpClientFactory)
     {
         _clientCredentialsFlow = clientCredentialsFlow;
         _signingCredentialReference = signingCredentialReference;
         _dPoPProofCreator = dPoPProofCreator;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<DateTime> UpdateClientSecret()
@@ -71,7 +73,7 @@ public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
 
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
         var dPopProof = await _dPoPProofCreator.CreateDPoPProofForApiCall("https://api.selvbetjening.test.nhn.no/v1/client-secret", "POST", accessTokenResponse.AccessToken);
-        var httpClient = new HttpClient();
+        var httpClient = _httpClientFactory.CreateClient();
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://api.selvbetjening.test.nhn.no/v1/client-secret");
         httpRequest.Content = new StringContent(jsonPublicKey, Encoding.UTF8, mediaType: "application/json");
         httpRequest.Headers.Add("Authorization", $"DPoP {accessTokenResponse.AccessToken}");
