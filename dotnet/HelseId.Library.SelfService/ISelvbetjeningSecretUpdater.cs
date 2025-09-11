@@ -2,5 +2,5 @@
 
 public interface ISelvbetjeningSecretUpdater
 {
-    Task UpdateClientSecret();
+    Task<DateTime> UpdateClientSecret();
 }

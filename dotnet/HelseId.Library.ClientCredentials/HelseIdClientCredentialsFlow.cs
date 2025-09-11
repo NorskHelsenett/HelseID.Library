@@ -61,6 +61,7 @@ internal sealed class HelseIdClientCredentialsFlow : IHelseIdClientCredentialsFl
             Scope = scope,
             PayloadClaimParameters = new PayloadClaimParameters
             {
+                UseRequestObjects = false,
                 UseOrganizationNumbers = organizationNumbers.HasOrganizationNumbers,
                 ParentOrganizationNumber = organizationNumbers.ParentOrganization,
                 ChildOrganizationNumber = organizationNumbers.ChildOrganization
