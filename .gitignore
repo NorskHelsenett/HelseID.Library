@@ -82,5 +82,11 @@ http-client.private.env.json
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
 
+.idea/
+
 # Macintosh system files
 .DS_Store
+
+.gitconfig
+*.versionsBackup
+*.asc
