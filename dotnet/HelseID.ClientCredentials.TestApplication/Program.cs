@@ -2,13 +2,12 @@
 using HelseId.Library.Configuration;
 using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
-using HelseId.Library.Interfaces.Caching;
 using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
 using HelseId.Library.SelfService;
+using HelseId.Library.SelfService.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 
 namespace HelseID.ClientCredentials.TestApplication;
 
@@ -22,7 +21,7 @@ sealed class Program
             "https://helseid-sts.test.nhn.no");
 
         builder.Services.AddHelseIdClientCredentials(helseIdConfiguration)
-            .AddSelvbetjeningKeyRotation()
+            .AddSelvbetjeningKeyRotation("https://api.selvbetjening.test.nhn.no/v1/client-secret", "nhn:selvbetjening/client")
             .AddFileBasedSigningCredential("jwk.json")
             .AddHelseIdMultiTenant();
     
@@ -67,7 +66,7 @@ public class TestService : IHostedService
             
             var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
             Console.WriteLine(((AccessTokenResponse)accessTokenTrondheim).AccessToken);
-
+            
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)

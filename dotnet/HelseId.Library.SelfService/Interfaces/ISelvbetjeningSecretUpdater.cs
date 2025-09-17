@@ -1,4 +1,4 @@
-﻿namespace HelseId.Library.SelfService;
+﻿namespace HelseId.Library.SelfService.Interfaces;
 
 public interface ISelvbetjeningSecretUpdater
 {

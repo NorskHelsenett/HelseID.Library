@@ -1,13 +1,16 @@
 using System.Security.Cryptography;
 using System.Text.Json;
 using HelseId.Library.SelfService.Interfaces;
+using HelseId.Library.SelfService.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HelseId.Library.SelfService.Services;
 
 public class KeyManagementService : IKeyManagementService
 {
-    public Task<(string PublicJwk, string PrivateJwk)> GenerateNewKeyPair()
+    
+    
+    public PublicPrivateKeyPair GenerateNewKeyPair()
     {
         var newKeyPair = RSA.Create(4096);
         var kid = RandomNumberGenerator.GetHexString(32);
@@ -27,7 +30,7 @@ public class KeyManagementService : IKeyManagementService
             { "alg", "PS256" },
             { "n", jwkWithoutPrivateKey.N }
         };
-        string jsonPublicKey = JsonSerializer.Serialize(jwkPublicValues);
+        var jsonPublicKey = JsonSerializer.Serialize(jwkPublicValues);
 
         var jwkPrivateValues = new Dictionary<string, string>
         {
@@ -44,7 +47,11 @@ public class KeyManagementService : IKeyManagementService
             { "dq", jwkWithPrivateKey.DQ },
             { "dp", jwkWithPrivateKey.DP }
         };
-        string jsonPrivateKey = JsonSerializer.Serialize(jwkPrivateValues);
-        return Task.FromResult((jsonPublicKey, jsonPrivateKey));
+        var jsonPrivateKey = JsonSerializer.Serialize(jwkPrivateValues);
+        return new PublicPrivateKeyPair
+        {
+            PrivateKey = jsonPrivateKey,
+            PublicKey = jsonPublicKey
+        };
     }
 }
