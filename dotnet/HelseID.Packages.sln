@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Mocks", "He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.SelfService", "HelseId.Library.SelfService\HelseId.Library.SelfService.csproj", "{C372D78E-2789-4F0A-B2EE-08EBD0665B12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.SelfService.Tests", "HelseId.Library.SelfService.Tests\HelseId.Library.SelfService.Tests.csproj", "{441EF023-33D3-412B-95E9-EBDA03115B17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{C372D78E-2789-4F0A-B2EE-08EBD0665B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C372D78E-2789-4F0A-B2EE-08EBD0665B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C372D78E-2789-4F0A-B2EE-08EBD0665B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441EF023-33D3-412B-95E9-EBDA03115B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441EF023-33D3-412B-95E9-EBDA03115B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441EF023-33D3-412B-95E9-EBDA03115B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441EF023-33D3-412B-95E9-EBDA03115B17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
