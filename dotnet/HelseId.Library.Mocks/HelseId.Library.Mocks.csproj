@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HelseId.Library.ClientCredentials\HelseId.Library.ClientCredentials.csproj" />
+      <ProjectReference Include="..\HelseId.Library.SelfService\HelseId.Library.SelfService.csproj" />
     </ItemGroup>
 
     <ItemGroup>

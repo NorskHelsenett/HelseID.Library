@@ -33,12 +33,22 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
 
     public Task<TokenResponse> GetTokenResponseAsync(string scope)
     {
-        throw new NotImplementedException();
+        OrganizationNumbers = null;
+        return Task.FromResult<TokenResponse>(new AccessTokenResponse
+        {
+            AccessToken = _accessToken,
+            ExpiresIn = 60
+        });
     }
 
     public Task<TokenResponse> GetTokenResponseAsync(string scope, OrganizationNumbers organizationNumbers)
     {
-        throw new NotImplementedException();
+        OrganizationNumbers = organizationNumbers;
+        return Task.FromResult<TokenResponse>(new AccessTokenResponse
+        {
+            AccessToken = _accessToken,
+            ExpiresIn = 60
+        });
     }
 
     public Task<string> GetAccessTokenAsync()
