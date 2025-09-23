@@ -19,6 +19,7 @@ public class SelvbetjeningSecretUpdaterTests
     private ClientSecretEndpointMock _clientSecretEndpointMock = null!;
     private HttpClientFactoryMock _httpClientFactoryMock = null!;
     private KeyManagmentServiceMock _keyManagmentServiceMock = null!;
+    private const string KeyUpdater = "https://selvbetjening/keyupdater";
     
     private readonly JsonWebKey _jwkPrivateKey = new (
         """
@@ -31,13 +32,13 @@ public class SelvbetjeningSecretUpdaterTests
     {
         var mockHttpMessageHandler = new MockHttpMessageHandlerWithCount();
         mockHttpMessageHandler
-            .When("https://selvbetjening/keyupdater")
+            .When(KeyUpdater)
             .Respond(new StringContent("{\"expiration\": \"2019-08-24T14:15:22Z\"}", Encoding.UTF8, "application/json"));
         
         _signingCredentialsReferenceMock = new SigningCredentialsReferenceMock();
         _httpClientFactoryMock = new HttpClientFactoryMock(mockHttpMessageHandler);
         _keyManagmentServiceMock = new KeyManagmentServiceMock();
-        _clientSecretEndpointMock = new ClientSecretEndpointMock();
+        _clientSecretEndpointMock = new ClientSecretEndpointMock(KeyUpdater);
         
         _selvbetjeningSecretUpdater = new SelvbetjeningSecretUpdater(
             _signingCredentialsReferenceMock,
