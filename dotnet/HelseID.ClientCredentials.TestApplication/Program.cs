@@ -55,18 +55,18 @@ public class TestService : IHostedService
             ParentOrganization = "994598759", // NHN
             ChildOrganization = "987402105" // NHN Trondheim
         };
-            var accessTokenBergen = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersBergen);
-            Console.WriteLine(((AccessTokenResponse)accessTokenBergen).AccessToken);
 
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+        var accessTokenBergen = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersBergen);
+        Console.WriteLine(((AccessTokenResponse)accessTokenBergen).AccessToken);
+
+        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+    
+        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+        await _selvbetjeningSecretUpdater.UpdateClientSecret();
+        await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
         
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            await _selvbetjeningSecretUpdater.UpdateClientSecret();
-            await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
-            
-            var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
-            Console.WriteLine(((AccessTokenResponse)accessTokenTrondheim).AccessToken);
-            
+        var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
+        Console.WriteLine(((AccessTokenResponse)accessTokenTrondheim).AccessToken);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)

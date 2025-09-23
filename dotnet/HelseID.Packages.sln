@@ -12,9 +12,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.ClientCrede
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Mocks", "HelseId.Library.Mocks\HelseId.Library.Mocks.csproj", "{9A08FFA5-6DDE-4C4A-93C0-01B167D76845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.SelfService", "HelseId.Library.SelfService\HelseId.Library.SelfService.csproj", "{C372D78E-2789-4F0A-B2EE-08EBD0665B12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Selvbetjening", "HelseId.Library.Selvbetjening\HelseId.Library.Selvbetjening.csproj", "{C372D78E-2789-4F0A-B2EE-08EBD0665B12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.SelfService.Tests", "HelseId.Library.SelfService.Tests\HelseId.Library.SelfService.Tests.csproj", "{441EF023-33D3-412B-95E9-EBDA03115B17}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelseId.Library.Selvbetjening.Tests", "HelseId.Library.Selvbetjening.Tests\HelseId.Library.Selvbetjening.Tests.csproj", "{441EF023-33D3-412B-95E9-EBDA03115B17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,5 +56,10 @@ Global
 		{441EF023-33D3-412B-95E9-EBDA03115B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{441EF023-33D3-412B-95E9-EBDA03115B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{441EF023-33D3-412B-95E9-EBDA03115B17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A08FFA5-6DDE-4C4A-93C0-01B167D76845} = {66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}
+		{4DF761D6-7D5B-4FA5-BE3B-E6F1D8656BB0} = {66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}
+		{441EF023-33D3-412B-95E9-EBDA03115B17} = {66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}
 	EndGlobalSection
 EndGlobal

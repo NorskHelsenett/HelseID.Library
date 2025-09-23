@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>HelseId.Library.SelfService.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,7 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HelseId.Library.Mocks\HelseId.Library.Mocks.csproj" />
-      <ProjectReference Include="..\HelseId.Library.SelfService\HelseId.Library.SelfService.csproj" />
+      <ProjectReference Include="..\HelseId.Library.Selvbetjening\HelseId.Library.Selvbetjening.csproj" />
       <ProjectReference Include="..\HelseId.Library.Tests\HelseId.Library.Tests.csproj" />
     </ItemGroup>
 
