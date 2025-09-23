@@ -11,15 +11,14 @@ using RichardSzalay.MockHttp;
 
 namespace HelseId.Library.SelfService.Tests;
 
+[TestFixture]
 public class SelvbetjeningSecretUpdaterTests
 {
-    private SelvbetjeningSecretUpdater _selvbetjeningSecretUpdater;
-    private HelseIdClientCredentialsFlowMock  _clientCredentialsFlowMock;
-    private SigningCredentialsReferenceMock _signingCredentialsReferenceMock;
-    private DPoPProofCreatorMock _dpoPProofCreatorMock;
-    private HttpClientFactoryMock _httpClientFactoryMock;
-    private KeyManagmentServiceMock _keyManagmentServiceMock;
-    private SelvbetjeningConfiguration _selvbetjeningConfiguration;
+    private SelvbetjeningSecretUpdater _selvbetjeningSecretUpdater = null!;
+    private SigningCredentialsReferenceMock _signingCredentialsReferenceMock = null!;
+    private ClientSecretEndpointMock _clientSecretEndpointMock = null!;
+    private HttpClientFactoryMock _httpClientFactoryMock = null!;
+    private KeyManagmentServiceMock _keyManagmentServiceMock = null!;
     
     private readonly JsonWebKey _jwkPrivateKey = new (
         """
@@ -35,32 +34,32 @@ public class SelvbetjeningSecretUpdaterTests
             .When("https://selvbetjening/keyupdater")
             .Respond(new StringContent("{\"expiration\": \"2019-08-24T14:15:22Z\"}", Encoding.UTF8, "application/json"));
         
-        _clientCredentialsFlowMock = new HelseIdClientCredentialsFlowMock("abc");
         _signingCredentialsReferenceMock = new SigningCredentialsReferenceMock();
-        _dpoPProofCreatorMock = new DPoPProofCreatorMock("dpop123");
         _httpClientFactoryMock = new HttpClientFactoryMock(mockHttpMessageHandler);
         _keyManagmentServiceMock = new KeyManagmentServiceMock();
-        _selvbetjeningConfiguration = new SelvbetjeningConfiguration
-        {
-            SelvbetjeningScope = "123",
-            UpdateClientSecretEndpoint = "https://selvbetjening/keyupdater",
-            
-        };
+        _clientSecretEndpointMock = new ClientSecretEndpointMock();
         
-        
-        _selvbetjeningSecretUpdater = new SelvbetjeningSecretUpdater(_clientCredentialsFlowMock,
+        _selvbetjeningSecretUpdater = new SelvbetjeningSecretUpdater(
             _signingCredentialsReferenceMock,
-            _dpoPProofCreatorMock,
+            _clientSecretEndpointMock,
             _httpClientFactoryMock,
-            _keyManagmentServiceMock,
-            _selvbetjeningConfiguration);
-        
+            _keyManagmentServiceMock);
     }
     
     [Test]
     public async Task UpdateClientSecret_calls_signingcredentialreference_with_updatesigningcredential_with_privatekey() {
+        
         await _selvbetjeningSecretUpdater.UpdateClientSecret();
+        
         var expectedPrivateKey = _keyManagmentServiceMock.GenerateNewKeyPair().PrivateKey;
         _signingCredentialsReferenceMock.JsonWebKey.Should().Be(expectedPrivateKey);
+    }
+    
+    [Test]
+    public async Task UpdateClientSecret_gets_generate_new_keypair() {
+        
+        await _selvbetjeningSecretUpdater.UpdateClientSecret();
+
+        _keyManagmentServiceMock.GenerateSet.Should().Be(1);
     }
 }

@@ -6,7 +6,7 @@ namespace HelseId.Library.Mocks;
 public class SigningCredentialsReferenceMock : ISigningCredentialReference
 {
     
-    public string JsonWebKey { get; set; }
+    public string JsonWebKey { get; set; } = string.Empty;
     
     public Task<SigningCredentials> GetSigningCredential()
     {
