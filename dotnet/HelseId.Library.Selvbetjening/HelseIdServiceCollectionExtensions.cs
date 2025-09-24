@@ -32,6 +32,7 @@ public static class HelseIdServiceCollectionExtensions
             UpdateClientSecretEndpoint = updateClientSecretEndpoint,
             SelvbetjeningScope = scope
         });
+        helseIdBuilder.Services.AddSingleton<IClientSecretEndpoint, ClientSecretEndpoint>();
         
         return helseIdBuilder;
     }
