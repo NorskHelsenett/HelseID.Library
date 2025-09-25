@@ -394,4 +394,4 @@ HelseId.Data.Configuration.Tests/appsettings.local.json
 /HelseId.Web.Admin.Blazor.Server/GlobalSuppressions.cs
 
 *helseid_*_log*
-
+.idea/*
