@@ -1,3 +1,4 @@
+using HelseId.Library.Services.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseId.Library;
@@ -70,4 +71,54 @@ public static class HelseIdServiceCollectionExtensions
         helseIdBuilder.Services.AddSingleton(configurationGetterInstance);
         return helseIdBuilder;
     }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <param name="jsonWebKey"></param>
+    /// <returns></returns>
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+        
+        var signingKey = new JsonWebKey(jsonWebKey);
+        var signingCredentials = new SigningCredentials(signingKey, signingKey.Alg);
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredentials));
+        return helseIdBuilder;
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <param name="signingCredential"></param>
+    /// <returns></returns>
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, SigningCredentials signingCredential)  {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredential));
+        return helseIdBuilder;
+    }
+    
+    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, X509Certificate2 certificate, string algorithm)  
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+
+        var x509SigningCredentials = new X509SigningCredentials(certificate, algorithm);
+        var key = x509SigningCredentials.Key as X509SecurityKey;
+        var jsonWebKey = JsonWebKeyConverter.ConvertFromX509SecurityKey(key, representAsRsaKey: true);
+        var signingCredental = new SigningCredentials(jsonWebKey, algorithm);
+
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredental));
+        return helseIdBuilder;
+    }
+    
+    public static IHelseIdBuilder AddFileBasedSigningCredential(this IHelseIdBuilder helseIdBuilder, string fileName)  
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new FileBasedSigningCredentialReference(fileName));
+        return helseIdBuilder;
+    }
 }
+

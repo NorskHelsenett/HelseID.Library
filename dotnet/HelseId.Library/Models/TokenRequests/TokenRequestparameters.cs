@@ -5,4 +5,6 @@ namespace HelseId.Library.Models.TokenRequests;
 public abstract class TokenRequestParameters
 {
     public PayloadClaimParameters PayloadClaimParameters { get; set; } = new();
+    
+    public string Scope { get; set; } = string.Empty;
 }

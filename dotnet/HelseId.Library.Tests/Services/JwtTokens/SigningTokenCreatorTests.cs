@@ -14,8 +14,7 @@ public class SigningTokenCreatorTests : ConfigurationTests
     public void Setup()
     {
         _claimsCreatorMock = new();
-        
-        _signingTokenCreator = new SigningTokenCreator(new HelseIdConfigurationGetterMock(HelseIdConfiguration));
+        _signingTokenCreator = new SigningTokenCreator(new HelseIdConfigurationGetterMock(HelseIdConfiguration), CredentialReference);
     }
 
     [Test]

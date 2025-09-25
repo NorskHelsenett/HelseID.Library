@@ -19,7 +19,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
         _fakeTimeProvider = new FakeTimeProvider();
         _fakeTimeProvider.SetUtcNow(new DateTimeOffset(2025, 1, 4, 13, 37, 00, TimeSpan.FromHours(0)));
         
-        _dPoPProofCreator = new DPoPProofCreator(new HelseIdConfigurationGetterMock(HelseIdConfiguration), _fakeTimeProvider);
+        _dPoPProofCreator = new DPoPProofCreator(CredentialReference, _fakeTimeProvider);
     }
     
     [Test]
@@ -64,8 +64,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public async Task CreateDPoPProofForTokenRequest_sets_standard_dpop_proof_with_elliptic_curve()
     {
-        var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithEcKey);
-        _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
+        _dPoPProofCreator = new DPoPProofCreator(CredentialWithEcKey, _fakeTimeProvider);
         
         var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
 
@@ -78,8 +77,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public void CreateDPoPProofForTokenRequest_throws_when_an_invalid_key_is_used()
     {
-        var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithInvalidKey);
-        _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
+        _dPoPProofCreator = new DPoPProofCreator(CredentialWithInvalidKey, _fakeTimeProvider);
 
         Func<Task> createDPoPProof = async () => await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
         
@@ -89,8 +87,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public async Task CreateDPoPProofForTokenRequest_sets_standard_dpop_proof_with_x509_certificate()
     {
-        var configurationGetter = new HelseIdConfigurationGetterMock(SetHelseIdConfigurationWithX509());
-        _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
+        _dPoPProofCreator = new DPoPProofCreator(GetX509CredentialReference(), _fakeTimeProvider);
         
         var dPoPProof = await _dPoPProofCreator.CreateDPoPProofForTokenRequest(Url, HttpMethod);
 
@@ -104,8 +101,7 @@ public class DPoPProofCreatorTests : ConfigurationTests
     [Test]
     public async Task CreateDPoPProofForTokenRequest_rejects_url_with_query_string_parameter()
     {
-        var configurationGetter = new HelseIdConfigurationGetterMock(HelseIdConfigurationWithEcKey);
-        _dPoPProofCreator = new DPoPProofCreator(configurationGetter, _fakeTimeProvider);
+        _dPoPProofCreator = new DPoPProofCreator(CredentialWithEcKey, _fakeTimeProvider);
         
         Func<Task> createProofWithInvalidUrl = async () => await _dPoPProofCreator.CreateDPoPProofForTokenRequest("https://server.com/?query=a&string=b", HttpMethod);
 

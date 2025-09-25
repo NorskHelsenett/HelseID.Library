@@ -5,10 +5,12 @@ namespace HelseId.Library.Services.JwtTokens;
 public class SigningTokenCreator : ISigningTokenCreator
 {
     private readonly IHelseIdConfigurationGetter _helseIdConfigurationGetter;
+    private readonly ISigningCredentialReference _signingCredentialReference;
 
-    public SigningTokenCreator(IHelseIdConfigurationGetter helseIdConfiguration)
+    public SigningTokenCreator(IHelseIdConfigurationGetter helseIdConfiguration, ISigningCredentialReference signingCredentialReference)
     {
         _helseIdConfigurationGetter = helseIdConfiguration;
+        _signingCredentialReference = signingCredentialReference;
     }
     
     public async Task<string> CreateSigningToken(IPayloadClaimsCreator payloadClaimsCreator, PayloadClaimParameters payloadClaimParameters)
@@ -20,7 +22,7 @@ public class SigningTokenCreator : ISigningTokenCreator
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             Claims = claims,
-            SigningCredentials = helseIdConfiguration.SigningCredentials,
+            SigningCredentials = await _signingCredentialReference.GetSigningCredential(),
             TokenType = payloadClaimParameters.TokenType
         };
 

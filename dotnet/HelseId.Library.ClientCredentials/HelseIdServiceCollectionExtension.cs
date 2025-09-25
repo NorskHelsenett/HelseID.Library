@@ -19,6 +19,13 @@ public static class HelseIdServiceCollectionExtension
         helseIdBuilder.Services.AddSingleton<IHelseIdConfigurationGetter, RegisteredSingletonHelseIdConfigurationGetter>();
         return helseIdBuilder;
     }
+    
+    public static IHelseIdBuilder AddHelseIdClientCredentials(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration, string jwkPrivateKey)
+    {
+        var helseIdBuilder = AddHelseIdClientCredentials(services, helseIdConfiguration);
+        helseIdBuilder.AddSigningCredential(jwkPrivateKey);
+        return helseIdBuilder;
+    }
 
     /// <summary>
     /// Registers the HelseID client credentials flow for a single-tenant client with caching of tokens in local memory.

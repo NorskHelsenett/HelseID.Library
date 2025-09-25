@@ -17,11 +17,8 @@ public class HelseIdServiceCollectionExtensionTests
     public void SetUp()
     {
         _serviceCollection = new ServiceCollection();
-        _config = HelseIdConfiguration.ConfigurationForJsonWebKey(
-            _jwkPrivateKey, 
-            "client id",
-            "scope",
-            "sts");    }
+        _config = new HelseIdConfiguration("client id", "scope", "sts"); 
+    }
 
     [Test]
     public void AddInMemoryHelseIdCaching_registers_expected_services()
