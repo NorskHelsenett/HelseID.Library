@@ -15,6 +15,7 @@ public class ClientSecretEndpointMock : IClientSecretEndpoint
     
     public Task<HttpRequestMessage> GetClientSecretRequest(string publicKey)
     {
+        PublicKey = publicKey;
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, _uri);
         httpRequest.Content = new StringContent(publicKey, Encoding.UTF8, mediaType: "application/json");
         httpRequest.Headers.Add("Authorization", $"DPoP eyFoobar");

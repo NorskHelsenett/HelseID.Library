@@ -2,8 +2,10 @@
 using System.Text;
 using FluentAssertions;
 using HelseId.Library.ClientCredentials.Interfaces;
+using HelseId.Library.Exceptions;
 using HelseId.Library.Mocks;
 using HelseId.Library.SelfService.Configuration;
+using HelseId.Library.SelfService.Models;
 using HelseId.Library.Tests.Mocks;
 using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
@@ -20,6 +22,7 @@ public class SelvbetjeningSecretUpdaterTests
     private HttpClientFactoryMock _httpClientFactoryMock = null!;
     private KeyManagmentServiceMock _keyManagmentServiceMock = null!;
     private const string KeyUpdater = "https://selvbetjening/keyupdater";
+    private PublicPrivateKeyPair _publicPrivateKeyPair = null!;
     
     private readonly JsonWebKey _jwkPrivateKey = new (
         """
@@ -37,7 +40,12 @@ public class SelvbetjeningSecretUpdaterTests
         
         _signingCredentialsReferenceMock = new SigningCredentialsReferenceMock();
         _httpClientFactoryMock = new HttpClientFactoryMock(mockHttpMessageHandler);
-        _keyManagmentServiceMock = new KeyManagmentServiceMock();
+        _publicPrivateKeyPair = new PublicPrivateKeyPair
+        {
+            PublicKey = "123123",
+            PrivateKey = "456456"
+        };
+        _keyManagmentServiceMock = new KeyManagmentServiceMock(_publicPrivateKeyPair);
         _clientSecretEndpointMock = new ClientSecretEndpointMock(KeyUpdater);
         
         _selvbetjeningSecretUpdater = new SelvbetjeningSecretUpdater(
@@ -48,19 +56,59 @@ public class SelvbetjeningSecretUpdaterTests
     }
     
     [Test]
-    public async Task UpdateClientSecret_calls_signingcredentialreference_with_updatesigningcredential_with_privatekey() {
-        
-        await _selvbetjeningSecretUpdater.UpdateClientSecret();
-        
-        var expectedPrivateKey = _keyManagmentServiceMock.GenerateNewKeyPair().PrivateKey;
-        _signingCredentialsReferenceMock.JsonWebKey.Should().Be(expectedPrivateKey);
-    }
-    
-    [Test]
     public async Task UpdateClientSecret_gets_generate_new_keypair() {
         
         await _selvbetjeningSecretUpdater.UpdateClientSecret();
 
         _keyManagmentServiceMock.GenerateSet.Should().Be(1);
+    }
+
+    [Test]
+    public async Task UpdateClientSecret_calls_httpclientfactory_createclient()
+    {
+        await _selvbetjeningSecretUpdater.UpdateClientSecret();
+        
+        _httpClientFactoryMock.RequestCount.Should().Be(1);
+    }
+
+
+    [Test]
+    public async Task UpdateClientSecret_calls_httpclientfactory_updateclientsecret()
+    {
+        await _selvbetjeningSecretUpdater.UpdateClientSecret();
+        
+        _signingCredentialsReferenceMock.JsonWebKey.Should().NotBeEmpty();
+        
+    }
+
+
+    [Test]
+    public async Task UpdateClientSecret_calls_clientsecretendpoint()
+    {
+        await _selvbetjeningSecretUpdater.UpdateClientSecret();
+        
+        _clientSecretEndpointMock.PublicKey.Should().Be(_publicPrivateKeyPair.PublicKey);
+    }
+
+    [Test]
+    public void UpdateClientSecret_throws_HelseIdException_when_updateclientsecret_response_is_not_success()
+    {
+        var mockHttpMessageHandler = new MockHttpMessageHandlerWithCount();
+        
+        mockHttpMessageHandler
+            .When(KeyUpdater)
+            .Respond(System.Net.HttpStatusCode.BadRequest, "application/json", "{\"error\": \"invalid_request\"}");
+        
+        var httpClientFactoryMock = new HttpClientFactoryMock(mockHttpMessageHandler);
+    
+        var selvbetjeningSecretUpdater = new SelvbetjeningSecretUpdater(
+            _signingCredentialsReferenceMock,
+            _clientSecretEndpointMock,
+            httpClientFactoryMock,
+            _keyManagmentServiceMock);
+    
+        var exception = Assert.ThrowsAsync<HelseIdException>(async () => await selvbetjeningSecretUpdater.UpdateClientSecret());
+        exception!.Message.Should().Be("{\"error\": \"invalid_request\"}");
+        exception.Error.Should().Be("Error from Selvbetjening");
     }
 }

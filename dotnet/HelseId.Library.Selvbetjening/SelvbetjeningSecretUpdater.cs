@@ -35,23 +35,19 @@ public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
     {
         var publicPrivateKeyPair = _keyManagementService.GenerateNewKeyPair();
         
-        // 1: check mock
         var httpRequest = await _clientSecretEndpoint.GetClientSecretRequest(publicPrivateKeyPair.PublicKey);
 
         var httpClient = _httpClientFactory.CreateClient();
         var response = await httpClient.SendAsync(httpRequest);
-        
-        // 2: check succes
 
-        if(!response.IsSuccessStatusCode){
+        if (!response.IsSuccessStatusCode)
+        {
             var content = await response.Content.ReadAsStringAsync();
             throw new HelseIdException(content, "Error from Selvbetjening");
         }
-        // 3: check _signingCredentialReferenceMock
+
         var result = await response.Content.ReadFromJsonAsync<ClientSecretUpdateResponse>();
         await _signingCredentialReference.UpdateSigningCredential(publicPrivateKeyPair.PrivateKey);
         return result!.Expiration;
-        
-        //return new DateTime();
     }
 }

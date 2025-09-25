@@ -6,15 +6,17 @@ namespace HelseId.Library.Mocks;
 public class KeyManagmentServiceMock : IKeyManagementService
 {
     public int GenerateSet { get; set; }
-    
+
+    public KeyManagmentServiceMock(PublicPrivateKeyPair publicPrivateKeyPair)
+    {
+        PublicPrivateKeyPair = publicPrivateKeyPair;
+    }
     public PublicPrivateKeyPair GenerateNewKeyPair()
     {
         GenerateSet += 1;
-        
-        return new PublicPrivateKeyPair
-        {
-            PublicKey = "123",
-            PrivateKey = "456"
-        };
+
+        return PublicPrivateKeyPair;
     }
+
+    public PublicPrivateKeyPair PublicPrivateKeyPair { get; set; }
 }
