@@ -2,6 +2,7 @@
 
 public abstract class TokenResponse
 {
+    public string RawResponse { get; set; } = "";
 }
 
 public class AccessTokenResponse : TokenResponse
@@ -21,6 +22,4 @@ public class TokenErrorResponse : TokenResponse
 
     [JsonPropertyName("error_description")]
     public string ErrorDescription { get; set; } = "";
-
-    public string RawResponse { get; set; } = "";
 }

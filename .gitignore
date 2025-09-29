@@ -395,3 +395,7 @@ HelseId.Data.Configuration.Tests/appsettings.local.json
 
 *helseid_*_log*
 .idea/*
+
+dotnet/.idea/.idea.HelseID.Packages/.idea/
+
+HelseId.Library/.idea/
