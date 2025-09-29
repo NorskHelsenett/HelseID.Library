@@ -87,17 +87,17 @@ internal sealed class HelseIdClientCredentialsFlow : IHelseIdClientCredentialsFl
 
     private async Task AddTokenToCache(string scope, OrganizationNumbers organizationNumbers, AccessTokenResponse tokenResponse)
     {
-        var cacheKey = await GetCacheKeyForOrganization(scope, organizationNumbers); 
+        var cacheKey = await GetCacheKey(scope, organizationNumbers); 
         await _tokenCache.AddTokenToCache(cacheKey, tokenResponse);
     }
 
     private async Task<AccessTokenResponse?> GetCachedToken(string scope, OrganizationNumbers organizationNumbers)
     {
-        var cacheKey = await GetCacheKeyForOrganization(scope, organizationNumbers);
+        var cacheKey = await GetCacheKey(scope, organizationNumbers);
         return await _tokenCache.GetAccessToken(cacheKey);
     }
 
-    private async Task<string> GetCacheKeyForOrganization(string scope, OrganizationNumbers organizationNumbers)
+    private async Task<string> GetCacheKey(string scope, OrganizationNumbers organizationNumbers)
     {
         var signingCredential = await _signingCredentialReference.GetSigningCredential();
         return CacheKeyFromParts(HelseIdConstants.TokenResponseCacheKey,
