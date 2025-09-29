@@ -8,15 +8,10 @@ public class AccessTokenResponse : TokenResponse
 {
 
     [JsonPropertyName(JsonProperties.AccessToken)]
-    public string? AccessToken { get; init; }
+    public required string AccessToken { get; init; }
 
     [JsonPropertyName(JsonProperties.ExpiresIn)]
-    public int ExpiresIn { get; init; }
-}
-
-public class DPoPNonceResponse : TokenResponse
-{
-    public string? DPoPNonce { get; init; }
+    public required int ExpiresIn { get; init; }
 }
 
 public class TokenErrorResponse : TokenResponse
