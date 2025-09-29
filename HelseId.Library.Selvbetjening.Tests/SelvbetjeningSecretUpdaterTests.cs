@@ -77,7 +77,7 @@ public class SelvbetjeningSecretUpdaterTests
     {
         await _selvbetjeningSecretUpdater.UpdateClientSecret();
         
-        _signingCredentialsReferenceMock.JsonWebKey.Should().NotBeEmpty();
+        _signingCredentialsReferenceMock.Jwk.Should().NotBeEmpty();
         
     }
 
