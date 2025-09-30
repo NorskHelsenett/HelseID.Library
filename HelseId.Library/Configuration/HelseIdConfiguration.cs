@@ -7,15 +7,10 @@ namespace HelseId.Library.Configuration;
 /// </summary>
 public class HelseIdConfiguration
 {
-    public string ClientId { get; private set; }
-    public string Scope { get; private set; }
-    public string StsUrl { get; private set; }
-    public string MetadataUrl { get; }
-    
-    public SelvbetjeningConfiguration SelvbetjeningConfiguration { get; set; } 
-    
-    // These are used for clients that are using resource indicators against the PAR and token endpoints:
-    public List<string> ResourceIndicators { get; private set; } = new();    
+    public required string ClientId { get; init; }
+    public required string Scope { get; init; }
+    public required string StsUrl { get; init; }
+    public SelvbetjeningConfiguration SelvbetjeningConfiguration { get; set; } = new(); 
     
     /// <summary>
     /// Creates a HelseIdConfiguration object from the given configuration section in appsettings.json
@@ -28,40 +23,16 @@ public class HelseIdConfiguration
         var stsUrl = configurationSection.GetValue<string>("StsUrl")!;
         var scope = configurationSection.GetValue<string>("Scope")!;
  
-        return new HelseIdConfiguration(clientId, scope, stsUrl);
+        return new HelseIdConfiguration {
+            ClientId = clientId,
+            Scope = scope,
+            StsUrl = stsUrl,
+        };
     }
     
-    /// <summary>
-    /// Creates a HelseIdConfiguration object from the HelseID section of the given configuration 
-    /// </summary>
-    /// <returns>Returns a HelseIdConfiguration object</returns>
-    public static HelseIdConfiguration ConfigurationFromAppSettings(IConfiguration configuration)
-    {
-        var configurationSection = configuration.GetSection("HelseID");
-        return ConfigurationFromAppSettings(configurationSection); 
-    }
- 
-    public HelseIdConfiguration(
-         string clientId,
-         string scope,
-         string stsUrl,
-         List<string>? resourceIndicators = null)
+     public string GetMetadataUrl()
      {
-         ClientId = clientId;
-         Scope = scope;
-         StsUrl = stsUrl;
-  
-         MetadataUrl = MetadataUrlFromStsUrl(stsUrl);
- 
-         if (resourceIndicators != null)
-         {
-             ResourceIndicators = resourceIndicators;
-         }
-     }
- 
-     private static string MetadataUrlFromStsUrl(string stsUrl)
-     {
-         var metadataUrl = stsUrl;
+         var metadataUrl = StsUrl;
          if (metadataUrl.EndsWith('/'))
          {
              metadataUrl = metadataUrl.TrimEnd('/');

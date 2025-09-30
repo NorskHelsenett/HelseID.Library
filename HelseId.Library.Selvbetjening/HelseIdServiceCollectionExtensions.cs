@@ -1,7 +1,5 @@
-﻿using HelseId.Library.Configuration;
-using HelseId.Library.Selvbetjening.Interfaces;
+﻿using HelseId.Library.Selvbetjening.Interfaces;
 using HelseId.Library.Selvbetjening.Services;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelseId.Library.Selvbetjening;

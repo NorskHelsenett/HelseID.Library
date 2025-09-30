@@ -12,21 +12,21 @@ public class ClientSecretEndpoint : IClientSecretEndpoint
 {
     private readonly IHelseIdClientCredentialsFlow _clientCredentialsFlow;
     private readonly IDPoPProofCreator _dPoPProofCreator;
-    private readonly SelvbetjeningConfiguration _configuration;
+    private readonly SelvbetjeningConfiguration _selvbetjeningConfiguration;
 
     public ClientSecretEndpoint(
         IHelseIdClientCredentialsFlow clientCredentialsFlow, 
         IDPoPProofCreator dPoPProofCreator, 
-        SelvbetjeningConfiguration configuration)
+        HelseIdConfiguration helseIdConfiguration)
     {
         _clientCredentialsFlow = clientCredentialsFlow;
         _dPoPProofCreator = dPoPProofCreator;
-        _configuration = configuration;
+        _selvbetjeningConfiguration = helseIdConfiguration.SelvbetjeningConfiguration;
     }
     
     public async Task<HttpRequestMessage> GetClientSecretRequest(string publicKey)
     {
-        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync(_configuration.SelvbetjeningScope);
+        var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync(_selvbetjeningConfiguration.SelvbetjeningScope);
         
         if (tokenResponse is TokenErrorResponse tokenErrorResponse)
         {
@@ -34,9 +34,9 @@ public class ClientSecretEndpoint : IClientSecretEndpoint
         }
 
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
-        var dPopProof = await _dPoPProofCreator.CreateDPoPProofForApiCall(_configuration.UpdateClientSecretEndpoint, "POST", accessTokenResponse.AccessToken);
+        var dPopProof = await _dPoPProofCreator.CreateDPoPProofForApiCall(_selvbetjeningConfiguration.UpdateClientSecretEndpoint, "POST", accessTokenResponse.AccessToken);
     
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, _configuration.UpdateClientSecretEndpoint);
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post, _selvbetjeningConfiguration.UpdateClientSecretEndpoint);
         httpRequest.Content = new StringContent(publicKey, Encoding.UTF8, mediaType: "application/json");
         httpRequest.Headers.Add("Authorization", $"DPoP {accessTokenResponse.AccessToken}");
         httpRequest.Headers.Add("DPoP", dPopProof);

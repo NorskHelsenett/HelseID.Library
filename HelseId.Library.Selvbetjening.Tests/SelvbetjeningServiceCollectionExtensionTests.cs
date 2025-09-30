@@ -19,7 +19,12 @@ public class SelvbetjeningServiceCollectionExtensionTests
     public void SetUp()
     {
         _serviceCollection = new ServiceCollection();
-        _config = new HelseIdConfiguration("client id", "scope", "sts");
+        _config = new HelseIdConfiguration
+        {
+            ClientId = "client id",
+            Scope = "scope",
+            StsUrl = "sts"
+        };
 
         _helseIdBuilder = _serviceCollection.AddHelseIdClientCredentials(_config);
     }
