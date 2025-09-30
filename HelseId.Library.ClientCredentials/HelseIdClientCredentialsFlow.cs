@@ -1,5 +1,6 @@
-﻿using HelseId.Library.ClientCredentials.Models;
+using HelseId.Library.ClientCredentials.Models;
 using HelseId.Library.Exceptions;
+using HelseId.Library.Interfaces.Configuration;
 
 namespace HelseId.Library.ClientCredentials;
 
@@ -9,17 +10,20 @@ internal sealed class HelseIdClientCredentialsFlow : IHelseIdClientCredentialsFl
     private readonly IPayloadClaimsCreator _payloadClaimsCreator;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ITokenCache _tokenCache;
+    private readonly ISigningCredentialReference _signingCredentialReference;
 
     public HelseIdClientCredentialsFlow(
         IClientCredentialsTokenRequestBuilder clientCredentialsTokenRequestBuilder, 
         IPayloadClaimsCreator payloadClaimsCreator, 
         IHttpClientFactory httpClientFactory, 
-        ITokenCache tokenCache)
+        ITokenCache tokenCache,
+        ISigningCredentialReference signingCredentialReference)
     {
         _clientCredentialsTokenRequestBuilder = clientCredentialsTokenRequestBuilder;
         _payloadClaimsCreator = payloadClaimsCreator;
         _httpClientFactory = httpClientFactory;
         _tokenCache = tokenCache;
+        _signingCredentialReference = signingCredentialReference;
     }
 
     public Task<TokenResponse> GetTokenResponseAsync(OrganizationNumbers organizationNumbers)
@@ -82,21 +86,31 @@ internal sealed class HelseIdClientCredentialsFlow : IHelseIdClientCredentialsFl
         return response;
     }
 
-    private Task AddTokenToCache(string scope, OrganizationNumbers organizationNumbers, AccessTokenResponse tokenResponse)
+    private async Task AddTokenToCache(string scope, OrganizationNumbers organizationNumbers, AccessTokenResponse tokenResponse)
     {
-        var cacheKey = GetCacheKeyForOrganization(scope, organizationNumbers);
-        return _tokenCache.AddTokenToCache(cacheKey, tokenResponse);
-    }
-    
-    private Task<AccessTokenResponse?> GetCachedToken(string scope, OrganizationNumbers organizationNumbers)
-    {
-        var cacheKey = GetCacheKeyForOrganization(scope, organizationNumbers);
-        return _tokenCache.GetAccessToken(cacheKey);
+        var cacheKey = await GetCacheKey(scope, organizationNumbers); 
+        await _tokenCache.AddTokenToCache(cacheKey, tokenResponse);
     }
 
-    private static string GetCacheKeyForOrganization(string scope, OrganizationNumbers organizationNumbers)
+    private async Task<AccessTokenResponse?> GetCachedToken(string scope, OrganizationNumbers organizationNumbers)
     {
-        return $"{HelseIdConstants.TokenResponseCacheKey}_{scope}_{organizationNumbers.ParentOrganization}_{organizationNumbers.ChildOrganization}";
+        var cacheKey = await GetCacheKey(scope, organizationNumbers);
+        return await _tokenCache.GetAccessToken(cacheKey);
+    }
+
+    private async Task<string> GetCacheKey(string scope, OrganizationNumbers organizationNumbers)
+    {
+        var signingCredential = await _signingCredentialReference.GetSigningCredential();
+        return CacheKeyFromParts(HelseIdConstants.TokenResponseCacheKey,
+            signingCredential.Kid ?? "",
+            scope,
+            organizationNumbers.ParentOrganization,
+            organizationNumbers.ChildOrganization);
+    }
+
+    private static string CacheKeyFromParts(params string[] parts)
+    {
+        return string.Join('_', parts);
     }
     
     private async Task<TokenResponse> GetClientCredentialsTokenResponse(HelseIdTokenRequest request)
