@@ -314,6 +314,7 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         tokenResponse.Should().BeOfType<AccessTokenResponse>();
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
         accessTokenResponse.AccessToken.Should().Be("access token from endpoint");
+        accessTokenResponse.RawResponse.Should().Be("{\"access_token\":\"access token from endpoint\",\"expires_in\":60}");
     }
     
     [Test]
