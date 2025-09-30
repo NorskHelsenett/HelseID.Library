@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using HelseId.Library.SelfService.Interfaces;
+using HelseId.Library.Selvbetjening.Interfaces;
 
 namespace HelseId.Library.Mocks;
 

@@ -1,4 +1,4 @@
-﻿namespace HelseId.Library.SelfService.Configuration;
+﻿namespace HelseId.Library.Configuration;
 
 public class SelvbetjeningConfiguration
 {

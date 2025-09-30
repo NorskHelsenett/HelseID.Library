@@ -1,5 +1,3 @@
-using HelseId.Library.ClientCredentials.Interfaces.TokenRequests;
-using HelseId.Library.ClientCredentials.Models.TokenRequests;
 using HelseId.Library.Interfaces.Configuration;
 
 namespace HelseId.Library.ClientCredentials.Services.TokenRequests;

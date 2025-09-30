@@ -5,5 +5,6 @@ namespace HelseId.Library;
 public interface IHelseIdBuilder
 {
     IServiceCollection Services { get; }
+    
     void RemoveServiceRegistrations<TService>();
 }

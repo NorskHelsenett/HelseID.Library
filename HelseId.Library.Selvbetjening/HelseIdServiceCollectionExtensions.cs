@@ -1,39 +1,27 @@
-﻿using HelseId.Library.SelfService.Configuration;
-using HelseId.Library.SelfService.Interfaces;
-using HelseId.Library.SelfService.Services;
+﻿using HelseId.Library.Configuration;
+using HelseId.Library.Selvbetjening.Interfaces;
+using HelseId.Library.Selvbetjening.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HelseId.Library.SelfService;
+namespace HelseId.Library.Selvbetjening;
 
 public static class HelseIdServiceCollectionExtensions
 {
-    public static IHelseIdBuilder AddSelvbetjeningKeyRotation(this IHelseIdBuilder helseIdBuilder, IConfigurationSection selvbetjeningConfiguration)
+    public static IHelseIdBuilder AddSelvbetjeningKeyRotation(this IHelseIdBuilder helseIdBuilder)
     {
-        helseIdBuilder.RemoveServiceRegistrations<ISelvbetjeningSecretUpdater>();
+        RemoveServiceRegistrations(helseIdBuilder);
         helseIdBuilder.Services.AddSingleton<ISelvbetjeningSecretUpdater, SelvbetjeningSecretUpdater>();
         helseIdBuilder.Services.AddSingleton<IKeyManagementService, KeyManagementService>();
-        helseIdBuilder.Services.AddSingleton(new SelvbetjeningConfiguration
-        {
-            UpdateClientSecretEndpoint = selvbetjeningConfiguration.GetValue<string>("UpdateClientSecretEndpoint")!,
-            SelvbetjeningScope = selvbetjeningConfiguration.GetValue<string>("Scope")!
-        });
-        
-        return helseIdBuilder;
-    }
-    
-    public static IHelseIdBuilder AddSelvbetjeningKeyRotation(this IHelseIdBuilder helseIdBuilder, string updateClientSecretEndpoint, string scope)
-    {
-        helseIdBuilder.RemoveServiceRegistrations<ISelvbetjeningSecretUpdater>();
-        helseIdBuilder.Services.AddSingleton<ISelvbetjeningSecretUpdater, SelvbetjeningSecretUpdater>();
-        helseIdBuilder.Services.AddSingleton<IKeyManagementService, KeyManagementService>();
-        helseIdBuilder.Services.AddSingleton(new SelvbetjeningConfiguration
-        {
-            UpdateClientSecretEndpoint = updateClientSecretEndpoint,
-            SelvbetjeningScope = scope
-        });
         helseIdBuilder.Services.AddSingleton<IClientSecretEndpoint, ClientSecretEndpoint>();
         
         return helseIdBuilder;
+    }
+
+    private static void RemoveServiceRegistrations(IHelseIdBuilder helseIdBuilder)
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISelvbetjeningSecretUpdater>();
+        helseIdBuilder.RemoveServiceRegistrations<IKeyManagementService>();
+        helseIdBuilder.RemoveServiceRegistrations<IClientSecretEndpoint>();
     }
 }

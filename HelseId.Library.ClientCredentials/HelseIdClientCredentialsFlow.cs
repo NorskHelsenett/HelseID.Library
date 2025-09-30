@@ -1,5 +1,4 @@
 using HelseId.Library.ClientCredentials.Models;
-using HelseId.Library.Exceptions;
 using HelseId.Library.Interfaces.Configuration;
 
 namespace HelseId.Library.ClientCredentials;

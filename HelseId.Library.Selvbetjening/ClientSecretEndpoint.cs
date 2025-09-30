@@ -1,12 +1,12 @@
 using System.Text;
 using HelseId.Library.ClientCredentials.Interfaces;
+using HelseId.Library.Configuration;
 using HelseId.Library.Exceptions;
 using HelseId.Library.Interfaces.JwtTokens;
 using HelseId.Library.Models;
-using HelseId.Library.SelfService.Configuration;
-using HelseId.Library.SelfService.Interfaces;
+using HelseId.Library.Selvbetjening.Interfaces;
 
-namespace HelseId.Library.SelfService;
+namespace HelseId.Library.Selvbetjening;
 
 public class ClientSecretEndpoint : IClientSecretEndpoint
 {

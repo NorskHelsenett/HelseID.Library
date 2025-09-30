@@ -1,5 +1,3 @@
-using HelseId.Library.ClientCredentials.Interfaces.PayloadClaimCreators;
-
 namespace HelseId.Library.ClientCredentials.PayloadClaimCreators;
 
 // This class generates the (general) claims that are required for the token that is sent

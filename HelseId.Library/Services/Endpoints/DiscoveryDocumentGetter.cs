@@ -1,5 +1,3 @@
-using HelseId.Library.Interfaces.Configuration;
-
 namespace HelseId.Library.Services.Endpoints;
 
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter

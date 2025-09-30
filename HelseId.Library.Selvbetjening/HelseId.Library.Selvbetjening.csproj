@@ -14,7 +14,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://www.nhn.no/tjenester/helseid</PackageProjectUrl>
         <PackageReadmeFile>readme.md</PackageReadmeFile>
-        <RootNamespace>HelseId.Library.SelfService</RootNamespace>
+        <RootNamespace>HelseId.Library.Selvbetjening</RootNamespace>
     </PropertyGroup>
 
   <ItemGroup>

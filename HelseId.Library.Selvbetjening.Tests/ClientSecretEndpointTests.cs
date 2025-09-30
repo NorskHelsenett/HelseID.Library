@@ -1,11 +1,11 @@
 using System.Text;
 using FluentAssertions;
+using HelseId.Library.Configuration;
 using HelseId.Library.Exceptions;
 using HelseId.Library.Mocks;
-using HelseId.Library.SelfService.Configuration;
 using NUnit.Framework;
 
-namespace HelseId.Library.SelfService.Tests;
+namespace HelseId.Library.Selvbetjening.Tests;
 
 [TestFixture]
 public class ClientSecretEndpointTests

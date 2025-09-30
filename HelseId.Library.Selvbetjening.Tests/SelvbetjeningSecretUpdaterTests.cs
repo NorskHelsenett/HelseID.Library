@@ -1,17 +1,14 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Text;
 using FluentAssertions;
-using HelseId.Library.ClientCredentials.Interfaces;
 using HelseId.Library.Exceptions;
 using HelseId.Library.Mocks;
-using HelseId.Library.SelfService.Configuration;
-using HelseId.Library.SelfService.Models;
+using HelseId.Library.Selvbetjening.Models;
 using HelseId.Library.Tests.Mocks;
 using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 using RichardSzalay.MockHttp;
 
-namespace HelseId.Library.SelfService.Tests;
+namespace HelseId.Library.Selvbetjening.Tests;
 
 [TestFixture]
 public class SelvbetjeningSecretUpdaterTests

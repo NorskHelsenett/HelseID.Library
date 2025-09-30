@@ -1,7 +1,4 @@
-﻿using System.Text;
-using HelseId.Library.SelfService.Interfaces;
-
-namespace HelseId.Library.Mocks;
+﻿namespace HelseId.Library.Mocks;
 
 
 
