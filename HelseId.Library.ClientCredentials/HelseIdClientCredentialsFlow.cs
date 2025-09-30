@@ -1,4 +1,5 @@
-﻿using HelseId.Library.Exceptions;
+﻿using HelseId.Library.ClientCredentials.Models;
+using HelseId.Library.Exceptions;
 
 namespace HelseId.Library.ClientCredentials;
 
@@ -122,6 +123,7 @@ internal sealed class HelseIdClientCredentialsFlow : IHelseIdClientCredentialsFl
                     var accessTokenResponse = await response.Content.ReadFromJsonAsync<AccessTokenResponse>();
                     if (accessTokenResponse != null)
                     {
+                        accessTokenResponse.RawResponse = await response.Content.ReadAsStringAsync();
                         return accessTokenResponse;
                     }
                 }

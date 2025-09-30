@@ -2,21 +2,17 @@
 
 public abstract class TokenResponse
 {
+    public string RawResponse { get; set; } = "";
 }
 
 public class AccessTokenResponse : TokenResponse
 {
 
     [JsonPropertyName(JsonProperties.AccessToken)]
-    public string? AccessToken { get; init; }
+    public required string AccessToken { get; init; }
 
     [JsonPropertyName(JsonProperties.ExpiresIn)]
-    public int ExpiresIn { get; init; }
-}
-
-public class DPoPNonceResponse : TokenResponse
-{
-    public string? DPoPNonce { get; init; }
+    public required int ExpiresIn { get; init; }
 }
 
 public class TokenErrorResponse : TokenResponse
@@ -26,6 +22,4 @@ public class TokenErrorResponse : TokenResponse
 
     [JsonPropertyName("error_description")]
     public string ErrorDescription { get; set; } = "";
-
-    public string RawResponse { get; set; } = "";
 }
