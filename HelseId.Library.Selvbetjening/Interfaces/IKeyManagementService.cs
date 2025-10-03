@@ -1,6 +1,6 @@
-using HelseId.Library.SelfService.Models;
+using HelseId.Library.Selvbetjening.Models;
 
-namespace HelseId.Library.SelfService.Interfaces;
+namespace HelseId.Library.Selvbetjening.Interfaces;
 
 public interface IKeyManagementService
 {

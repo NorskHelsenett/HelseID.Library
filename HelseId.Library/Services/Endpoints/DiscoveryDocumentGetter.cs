@@ -1,5 +1,3 @@
-using HelseId.Library.Interfaces.Configuration;
-
 namespace HelseId.Library.Services.Endpoints;
 
 public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
@@ -43,7 +41,7 @@ public class DiscoveryDocumentGetter : IDiscoveryDocumentGetter
 
         var configuration = await _helseIdConfiguration.GetConfiguration();
         
-        var discoveryDocumentResponse = await httpClient.GetAsync(configuration.MetadataUrl);
+        var discoveryDocumentResponse = await httpClient.GetAsync(configuration.GetMetadataUrl());
         if (!discoveryDocumentResponse.IsSuccessStatusCode)
         {
             throw new Exception("Error getting discovery document");

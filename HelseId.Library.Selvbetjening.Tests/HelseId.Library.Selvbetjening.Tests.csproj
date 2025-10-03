@@ -4,7 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>HelseId.Library.SelfService.Tests</RootNamespace>
+        <RootNamespace>HelseId.Library.Selvbetjening.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

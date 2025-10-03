@@ -1,5 +1,5 @@
-﻿using HelseId.Library.SelfService.Interfaces;
-using HelseId.Library.SelfService.Models;
+﻿using HelseId.Library.Selvbetjening.Interfaces;
+using HelseId.Library.Selvbetjening.Models;
 
 namespace HelseId.Library.Mocks;
 

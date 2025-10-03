@@ -1,0 +1,7 @@
+﻿namespace HelseId.Library.Configuration;
+
+public class SelvbetjeningConfiguration
+{
+    public string UpdateClientSecretEndpoint { get; init; } = "https://api.selvbetjening.nhn.no/v1/client-secret";
+    public string SelvbetjeningScope { get; init; } = "nhn:selvbetjening/client";
+}

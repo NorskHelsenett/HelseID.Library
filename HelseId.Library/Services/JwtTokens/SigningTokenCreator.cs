@@ -1,5 +1,3 @@
-using HelseId.Library.Interfaces.Configuration;
-
 namespace HelseId.Library.Services.JwtTokens;
 
 public class SigningTokenCreator : ISigningTokenCreator

@@ -1,5 +1,4 @@
 using HelseId.Library.Tests.Configuration;
-using HelseId.Library.Tests.Mocks;
 using Microsoft.Extensions.Time.Testing;
 using Microsoft.IdentityModel.JsonWebTokens;
 

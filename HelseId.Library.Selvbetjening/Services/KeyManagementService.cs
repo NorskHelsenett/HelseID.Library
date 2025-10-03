@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text.Json;
-using HelseId.Library.SelfService.Interfaces;
-using HelseId.Library.SelfService.Models;
+using HelseId.Library.Selvbetjening.Interfaces;
+using HelseId.Library.Selvbetjening.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HelseId.Library.SelfService.Services;
+namespace HelseId.Library.Selvbetjening.Services;
 
 public class KeyManagementService : IKeyManagementService
 {

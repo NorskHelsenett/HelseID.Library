@@ -1,4 +1,4 @@
-﻿namespace HelseId.Library.SelfService.Models;
+﻿namespace HelseId.Library.Selvbetjening.Models;
 
 public class PublicPrivateKeyPair
 {

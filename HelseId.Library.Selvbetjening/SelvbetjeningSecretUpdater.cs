@@ -1,16 +1,10 @@
 ﻿using System.Net.Http.Json;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
-using HelseId.Library.ClientCredentials.Interfaces;
 using HelseId.Library.Exceptions;
 using HelseId.Library.Interfaces.Configuration;
-using HelseId.Library.Interfaces.JwtTokens;
-using HelseId.Library.Models;
-using HelseId.Library.SelfService.Configuration;
-using HelseId.Library.SelfService.Interfaces;
-using HelseId.Library.SelfService.Models;
+using HelseId.Library.Selvbetjening.Interfaces;
+using HelseId.Library.Selvbetjening.Models;
 
-namespace HelseId.Library.SelfService;
+namespace HelseId.Library.Selvbetjening;
 
 public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
 {

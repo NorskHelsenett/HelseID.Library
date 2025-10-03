@@ -1,18 +1,18 @@
 using System.Text;
 using FluentAssertions;
+using HelseId.Library.Configuration;
 using HelseId.Library.Exceptions;
 using HelseId.Library.Mocks;
-using HelseId.Library.SelfService.Configuration;
 using NUnit.Framework;
 
-namespace HelseId.Library.SelfService.Tests;
+namespace HelseId.Library.Selvbetjening.Tests;
 
 [TestFixture]
 public class ClientSecretEndpointTests
 {
     private HelseIdClientCredentialsFlowMock _clientCredentialsFlowMock = null!;
     private DPoPProofCreatorMock _dpoPProofCreatorMock = null!;
-    private SelvbetjeningConfiguration _selvbetjeningConfiguration = null!;
+    private HelseIdConfiguration _helseIdConfiguration = null!;
 
     private ClientSecretEndpoint _clientSecretEndpoint = null!;
 
@@ -36,16 +36,20 @@ public class ClientSecretEndpointTests
     {
         _clientCredentialsFlowMock = new HelseIdClientCredentialsFlowMock(AccessToken);
         _dpoPProofCreatorMock = new DPoPProofCreatorMock(DpopProof);
-        _selvbetjeningConfiguration = new SelvbetjeningConfiguration
+        _helseIdConfiguration = new HelseIdConfiguration
         {
-            SelvbetjeningScope = SelvbetjeningScope,
-            UpdateClientSecretEndpoint = UpdateClientSecretEndpoint,
+            ClientId = "client id", Scope = "scope", StsUrl = "sts",
+            SelvbetjeningConfiguration = new SelvbetjeningConfiguration()
+            {
+                SelvbetjeningScope = SelvbetjeningScope,
+                UpdateClientSecretEndpoint = UpdateClientSecretEndpoint,
+            }
         };
         
         _clientSecretEndpoint = new ClientSecretEndpoint(
             _clientCredentialsFlowMock,
             _dpoPProofCreatorMock,
-            _selvbetjeningConfiguration);
+            _helseIdConfiguration);
     }
 
     [Test]
@@ -91,5 +95,4 @@ public class ClientSecretEndpointTests
         _dpoPProofCreatorMock.HttpMethod.Should().Be("POST");
         _dpoPProofCreatorMock.AccessToken.Should().Be(AccessToken);
     }
-
 }

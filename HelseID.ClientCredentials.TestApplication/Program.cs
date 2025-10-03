@@ -4,8 +4,8 @@ using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
 using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
-using HelseId.Library.SelfService;
-using HelseId.Library.SelfService.Interfaces;
+using HelseId.Library.Selvbetjening;
+using HelseId.Library.Selvbetjening.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,12 +16,15 @@ sealed class Program
     static void Main(string[] args)
     {
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-        var helseIdConfiguration = new HelseIdConfiguration("f2778e88-4c3d-44b5-a4ae-8ae8e6ca0692",
-            "nhn:helseid-testapi/api nhn:selvbetjening/client",
-            "https://helseid-sts.test.nhn.no");
+        var helseIdConfiguration = new HelseIdConfiguration
+        {
+            ClientId = "f2778e88-4c3d-44b5-a4ae-8ae8e6ca0692",
+            Scope = "nhn:helseid-testapi/api nhn:selvbetjening/client",
+            StsUrl = "https://helseid-sts.test.nhn.no",
+        };
 
         builder.Services.AddHelseIdClientCredentials(helseIdConfiguration)
-            .AddSelvbetjeningKeyRotation("https://api.selvbetjening.test.nhn.no/v1/client-secret", "nhn:selvbetjening/client")
+            .AddSelvbetjeningKeyRotation()
             .AddFileBasedSigningCredential("jwk.json")
             .AddHelseIdMultiTenant();
     
