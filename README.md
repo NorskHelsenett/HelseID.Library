@@ -9,24 +9,45 @@ The easiest way to integrate with HelseID! This library conforms to the requirem
 A simple setting where the configuration is hard-coded:
 
 ```csharp
-    // This comes from the .NET Generic Host (https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder)
-    HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+// This comes from the .NET Generic Host (https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder)
+
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
     
-    var helseIdConfiguration = new HelseIdConfiguration
-    {
-        ClientId = "7e3816ca-7d11-41cd-be55-fb9e8954e058",
-        Scope = "nhn:hgd-persontjenesten-api/restricted-access nhn:selvbetjening/client",
-        StsUrl = "https://helseid-sts.test.nhn.no",
-    };
+var helseIdConfiguration = new HelseIdConfiguration
+{
+    ClientId = "7e3816ca-7d11-41cd-be55-fb9e8954e058",
+    Scope = "nhn:hgd-persontjenesten-api/restricted-access nhn:selvbetjening/client",
+    StsUrl = "https://helseid-sts.test.nhn.no",
+};
 
-// Read configuration variables from the HelseID-section in appsettings.json
+builder.Services
+    .AddHelseIdClientCredentials(helseIdConfiguration)
+    .AddJwkForClientAuthentication(YOUR_PRIVATE_KEY_HERE);
 
-var helseIdConfiguration = HelseIdConfiguration.ConfigurationFromAppSettings();
-// Setup a client for machine to machine
-services.AddHelseIdMachineToMachine(helseIdConfiguration);
+// The service is now configurated
 ```
 
-Then later you will use an instance of the `IHelseIdMachineToMachineFlow` to retrieve an access token:
+Later on you will need to use an instance of the `IHelseIdClientCredentialsFlow` to retrieve an Access token response:
+
 ```csharp
-var accessToken = await helseIdMachineToMachineFlow.GetAccessToken();
+// This is constructed by the service locator
+IHelseIdClientCredentialsFlow helseIdClientCredentialsFlow;
+
+...
+
+var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync();
+
+// If the token response is successful, you will get an AccessTokenResponse object:
+if (tokenResponse.IsSuccessful(out var accessTokenResponse))
+{
+    ...
+}
+else
+{
+    // If the token response failed, you can inspect the error response from the TokenErrorResponse object:
+    var errorResponse = tokenResponse.AsError();
+    Console.WriteLine(errorResponse.Error + " " + errorResponse.ErrorDescription);
+    ...
+}
+
 ```

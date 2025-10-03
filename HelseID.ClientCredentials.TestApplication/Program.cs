@@ -2,6 +2,7 @@
 using HelseId.Library.Configuration;
 using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
+using HelseId.Library.ExtensionMethods;
 using HelseId.Library.Models;
 using HelseId.Library.Models.DetailsFromClient;
 using HelseId.Library.Selvbetjening;
@@ -59,17 +60,25 @@ public class TestService : IHostedService
             ChildOrganization = "987402105" // NHN Trondheim
         };
 
-        var accessTokenBergen = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersBergen);
-        Console.WriteLine(((AccessTokenResponse)accessTokenBergen).AccessToken);
-
+        var tokenResponseBergen = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersBergen);
+        if (tokenResponseBergen.IsSuccessful(out var accessTokenResponse))
+        {
+            Console.WriteLine(accessTokenResponse.AccessToken);    
+        }
+        else
+        {
+            var errorResponse = tokenResponseBergen.AsError();
+            Console.WriteLine(errorResponse.Error + " " + errorResponse.ErrorDescription);
+        }
+        
         await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
     
         await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         await _selvbetjeningSecretUpdater.UpdateClientSecret();
         await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
         
-        var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
-        Console.WriteLine(((AccessTokenResponse)accessTokenTrondheim).AccessToken);
+        var tokenResponseTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
+        Console.WriteLine(((AccessTokenResponse)tokenResponseTrondheim).AccessToken);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
