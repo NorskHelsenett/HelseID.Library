@@ -39,7 +39,7 @@ public class ServiceProviderIntegrationTests
         
         serviceCollection
             .AddHelseIdClientCredentials(config)
-            .AddSigningCredential(privateKey)
+            .AddJwkForClientAuthentication(privateKey)
             .AddSelvbetjeningKeyRotation();
         
         _serviceProvider = serviceCollection.BuildServiceProvider();

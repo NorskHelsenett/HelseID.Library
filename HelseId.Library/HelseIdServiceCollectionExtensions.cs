@@ -64,13 +64,18 @@ public static class HelseIdServiceCollectionExtensions
     /// <param name="helseIdBuilder"></param>
     /// <param name="jsonWebKey"></param>
     /// <returns></returns>
-    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
+    public static IHelseIdBuilder AddJwkForClientAuthentication(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
     {
-        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
-        
         var signingKey = new JsonWebKey(jsonWebKey);
         var signingCredentials = new SigningCredentials(signingKey, signingKey.Alg);
-        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredentials));
+        return helseIdBuilder.AddSigningCredentialForClientAuthentication(signingCredentials);
+    }
+    
+    public static IHelseIdBuilder AddJwkFileForClientAuthentication(this IHelseIdBuilder helseIdBuilder, string jwkFileName)  
+    {
+        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+
+        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new FileBasedSigningCredentialReference(jwkFileName));
         return helseIdBuilder;
     }
     
@@ -80,13 +85,16 @@ public static class HelseIdServiceCollectionExtensions
     /// <param name="helseIdBuilder"></param>
     /// <param name="signingCredential"></param>
     /// <returns></returns>
-    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, SigningCredentials signingCredential)  {
+    public static IHelseIdBuilder AddSigningCredentialForClientAuthentication(this IHelseIdBuilder helseIdBuilder, SigningCredentials signingCredential)  
+    {
         helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
+        
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredential));
+        
         return helseIdBuilder;
     }
     
-    public static IHelseIdBuilder AddSigningCredential(this IHelseIdBuilder helseIdBuilder, X509Certificate2 certificate, string algorithm)  
+    public static IHelseIdBuilder AddX509CertificateForForClientAuthentication(this IHelseIdBuilder helseIdBuilder, X509Certificate2 certificate, string algorithm)  
     {
         helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
 
@@ -96,14 +104,6 @@ public static class HelseIdServiceCollectionExtensions
         var signingCredental = new SigningCredentials(jsonWebKey, algorithm);
 
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredental));
-        return helseIdBuilder;
-    }
-    
-    public static IHelseIdBuilder AddFileBasedSigningCredential(this IHelseIdBuilder helseIdBuilder, string fileName)  
-    {
-        helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
-
-        helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new FileBasedSigningCredentialReference(fileName));
         return helseIdBuilder;
     }
 }

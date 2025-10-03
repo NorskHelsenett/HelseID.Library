@@ -48,7 +48,7 @@ public class HelseIdServiceCollectionExtensionTests
     [Test, Ignore("TODO")]
     public void AddHelseIdClientCredentials_with_configuration_registers_expected_services_with_jwt_private_key()
     {
-        _serviceCollection.AddHelseIdClientCredentials(_config).AddSigningCredential(JwkPrivateKeyAsString);
+        _serviceCollection.AddHelseIdClientCredentials(_config).AddJwkForClientAuthentication(JwkPrivateKeyAsString);
         
         EnsureSingletonRegistration<IHelseIdConfigurationGetter, RegisteredSingletonHelseIdConfigurationGetter>();
         EnsureSingletonRegistration<ISigningCredentialReference, StaticSigningCredentialReference>(); 

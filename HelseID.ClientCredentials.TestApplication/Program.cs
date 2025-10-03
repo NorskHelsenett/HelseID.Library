@@ -25,7 +25,7 @@ sealed class Program
 
         builder.Services.AddHelseIdClientCredentials(helseIdConfiguration)
             .AddSelvbetjeningKeyRotation()
-            .AddFileBasedSigningCredential("jwk.json")
+            .AddJwkFileForClientAuthentication("jwk.json")
             .AddHelseIdMultiTenant();
     
         builder.Services.AddHostedService<TestService>();
