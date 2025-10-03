@@ -58,20 +58,6 @@ public static class HelseIdServiceCollectionExtensions
         return helseIdBuilder;
     }
     
-    public static IHelseIdBuilder AddHelseIdConfigurationGetter<TService>(this IHelseIdBuilder helseIdBuilder) where TService : class, IHelseIdConfigurationGetter
-    {
-        helseIdBuilder.Services.AddSingleton<IHelseIdConfigurationGetter, TService>();
-        return helseIdBuilder;
-    }
-
-    public static IHelseIdBuilder AddHelseIdConfigurationGetter(
-        this IHelseIdBuilder helseIdBuilder,
-        IHelseIdConfigurationGetter configurationGetterInstance)
-    {
-        helseIdBuilder.Services.AddSingleton(configurationGetterInstance);
-        return helseIdBuilder;
-    }
-
     /// <summary>
     ///
     /// </summary>

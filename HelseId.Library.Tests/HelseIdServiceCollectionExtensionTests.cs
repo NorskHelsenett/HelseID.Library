@@ -38,15 +38,6 @@ public class HelseIdServiceCollectionExtensionTests
         _serviceCollection.EnsureSingletonRegistration<ITokenCache, DistributedTokenCache>();
         _serviceCollection.EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
     }
-
-    [Test]
-    public void AddHelseIdConfigurationGetter_registers_supplied_instance_as_singleton()
-    {
-        var configurationGetter = new TestConfigurationGetter();
-        _serviceCollection.AddHelseIdClientCredentials().AddHelseIdConfigurationGetter(configurationGetter);
-        
-        _serviceCollection.EnsureSingletonRegistration<IHelseIdConfigurationGetter, TestConfigurationGetter>(configurationGetter);
-    }
     
     private sealed class TestConfigurationGetter : IHelseIdConfigurationGetter
     {

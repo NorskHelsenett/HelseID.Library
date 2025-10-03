@@ -9,7 +9,7 @@ public class HelseIdConfiguration
 {
     public required string ClientId { get; init; }
     public required string Scope { get; init; }
-    public required string StsUrl { get; init; }
+    public required string StsUrl { get; init; } = "https://helseid-sts.nhn.no";
     public SelvbetjeningConfiguration SelvbetjeningConfiguration { get; set; } = new(); 
     
     /// <summary>

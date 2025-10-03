@@ -28,21 +28,6 @@ public class HelseIdServiceCollectionExtensionTests
     }
 
     [Test]
-    public void AddHelseIdClientCredentials_registers_expected_services()
-    {
-        _serviceCollection.AddHelseIdClientCredentials();
-        
-        EnsureSingletonRegistration<IHelseIdClientCredentialsFlow, HelseIdClientCredentialsFlow>();
-        EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
-        EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
-        EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
-        EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
-        EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
-        EnsureSingletonRegistration<IAssertionDetailsCreator, AssertionDetailsCreator>(); EnsureSingletonRegistration<IStructuredClaimsCreator, OrganizationNumberCreatorForSingleTenantClient>();
-        EnsureSingletonRegistration<TimeProvider>();
-    }
-
-    [Test]
     public void AddHelseIdClientCredentials_with_configuration_registers_expected_services()
     {
         _serviceCollection.AddHelseIdClientCredentials(_config);
@@ -63,7 +48,7 @@ public class HelseIdServiceCollectionExtensionTests
     [Test, Ignore("TODO")]
     public void AddHelseIdClientCredentials_with_configuration_registers_expected_services_with_jwt_private_key()
     {
-        _serviceCollection.AddHelseIdClientCredentials(_config, JwkPrivateKeyAsString);
+        _serviceCollection.AddHelseIdClientCredentials(_config).AddSigningCredential(JwkPrivateKeyAsString);
         
         EnsureSingletonRegistration<IHelseIdConfigurationGetter, RegisteredSingletonHelseIdConfigurationGetter>();
         EnsureSingletonRegistration<ISigningCredentialReference, StaticSigningCredentialReference>(); 
