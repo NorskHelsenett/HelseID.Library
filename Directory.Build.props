@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.14</Version>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Norsk Helsenett SF</Authors>
+    <Company>Norsk Helsenett SF</Company>
+    <Copyright>Copyright © Norsk Helsenett 2025</Copyright>
+    <RepositoryUrl>https://github.com/NorskHelsenett/HelseId.Libraryk</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://www.nhn.no/tjenester/helseid</PackageProjectUrl>
+    <TreatWarningsAsError>true</TreatWarningsAsError>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>
