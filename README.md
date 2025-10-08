@@ -51,3 +51,14 @@ else
 }
 
 ```
+
+To retrieve a DPoP Proof you can use the `IDPoPProofCreatorForApiCalls`:
+
+```csharp
+...
+var url = "URL TO THE HTTP ENDPOINT";
+var accessToken = accessTokenResponse.AccessToken;
+var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiCall(url, "GET", accessToken);
+...
+
+```

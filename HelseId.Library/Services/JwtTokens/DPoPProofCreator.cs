@@ -1,6 +1,6 @@
 namespace HelseId.Library.Services.JwtTokens;
 
-public class DPoPProofCreator : IDPoPProofCreator
+public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiCalls
 {
     private readonly ISigningCredentialReference _signingCredentialReference;
     private readonly TimeProvider _timeProvider;
@@ -27,7 +27,15 @@ public class DPoPProofCreator : IDPoPProofCreator
             null,
             accessToken);
     }
-    
+
+    public Task<string> CreateDPoPProofForApiCall(string url, string httpMethod, AccessTokenResponse accessTokenResponse)
+    {
+        return CreateDPoPProofInternal(url,
+            httpMethod,
+            null,
+            accessTokenResponse.AccessToken);
+    }
+
     private async Task<string> CreateDPoPProofInternal(string url, string httpMethod, string? dPoPNonce = null, string? accessToken = null)
     {
         if (!string.IsNullOrEmpty(new Uri(url).Query))

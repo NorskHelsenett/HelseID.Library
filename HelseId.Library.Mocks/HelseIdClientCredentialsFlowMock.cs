@@ -1,16 +1,16 @@
 ﻿namespace HelseId.Library.Mocks;
 
-
-
 public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
 {
     public OrganizationNumbers? OrganizationNumbers { get; private set; }
 
     public string Scope { get; set; } = string.Empty;
-    
+
     public bool SetTokenErrorResponse { get; set; }
 
     public string ErrorResponse { get; set; } = "ErrorResponse";
+    
+    public int CallCount { get; private set; }
 
     private readonly string _accessToken;
 
@@ -18,21 +18,24 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
     {
         _accessToken = accessToken;
     }
-    
+
     public Task<TokenResponse> GetTokenResponseAsync()
     {
+        CallCount++;
         OrganizationNumbers = null;
         return Task.FromResult(AccessTokenResponse());
     }
-    
+
     public Task<TokenResponse> GetTokenResponseAsync(OrganizationNumbers organizationNumbers)
     {
+        CallCount++;
         OrganizationNumbers = organizationNumbers;
         return Task.FromResult(AccessTokenResponse());
     }
 
     public Task<TokenResponse> GetTokenResponseAsync(string scope)
     {
+        CallCount++;
         Scope = scope;
         OrganizationNumbers = null;
         return Task.FromResult(AccessTokenResponse());
@@ -40,6 +43,7 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
 
     public Task<TokenResponse> GetTokenResponseAsync(string scope, OrganizationNumbers organizationNumbers)
     {
+        CallCount++;
         OrganizationNumbers = organizationNumbers;
         return Task.FromResult(AccessTokenResponse());
     }
@@ -54,6 +58,7 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
                 ErrorDescription = ErrorResponse,
             };
         }
+
         return new AccessTokenResponse
         {
             AccessToken = _accessToken,

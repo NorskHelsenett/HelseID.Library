@@ -11,12 +11,12 @@ namespace HelseId.Library.Selvbetjening;
 public class ClientSecretEndpoint : IClientSecretEndpoint
 {
     private readonly IHelseIdClientCredentialsFlow _clientCredentialsFlow;
-    private readonly IDPoPProofCreator _dPoPProofCreator;
+    private readonly IDPoPProofCreatorForApiCalls _dPoPProofCreator;
     private readonly SelvbetjeningConfiguration _selvbetjeningConfiguration;
 
     public ClientSecretEndpoint(
         IHelseIdClientCredentialsFlow clientCredentialsFlow, 
-        IDPoPProofCreator dPoPProofCreator, 
+        IDPoPProofCreatorForApiCalls dPoPProofCreator, 
         HelseIdConfiguration helseIdConfiguration)
     {
         _clientCredentialsFlow = clientCredentialsFlow;
