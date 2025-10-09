@@ -27,6 +27,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		LICENSE = LICENSE
 		README.md = README.md
 		Directory.Build.props = Directory.Build.props
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{4F7CB35B-8E92-4957-B499-0B4F75E78630}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{45EA8135-2798-4045-B345-A830ADB73DC0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\nuget_deploy.yml = .github\workflows\nuget_deploy.yml
 	EndProjectSection
 EndProject
 Global
@@ -78,5 +87,7 @@ Global
 		{8B8A2F35-D18E-41A9-8ECA-6906AC29F3D4} = {66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}
 		{3420CB44-14F4-402E-822C-CA6C27348018} = {ADFC1972-EBCC-4729-B4B5-ECAB680BC886}
 		{8B792B0E-FA48-4EBD-B222-5AACFC7A69C9} = {66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}
+		{4F7CB35B-8E92-4957-B499-0B4F75E78630} = {663521E1-1857-4961-9B57-BAB9EFAB281E}
+		{45EA8135-2798-4045-B345-A830ADB73DC0} = {4F7CB35B-8E92-4957-B499-0B4F75E78630}
 	EndGlobalSection
 EndGlobal
