@@ -39,6 +39,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\nuget_deploy.yml = .github\workflows\nuget_deploy.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{6F5670DE-8FA5-4E60-A18B-E5F8DAE65166}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\Release.md = Documentation\Release.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,5 +95,6 @@ Global
 		{8B792B0E-FA48-4EBD-B222-5AACFC7A69C9} = {66D3DBC2-0D94-45DF-A8E9-8C541F7F9CE6}
 		{4F7CB35B-8E92-4957-B499-0B4F75E78630} = {663521E1-1857-4961-9B57-BAB9EFAB281E}
 		{45EA8135-2798-4045-B345-A830ADB73DC0} = {4F7CB35B-8E92-4957-B499-0B4F75E78630}
+		{6F5670DE-8FA5-4E60-A18B-E5F8DAE65166} = {663521E1-1857-4961-9B57-BAB9EFAB281E}
 	EndGlobalSection
 EndGlobal
