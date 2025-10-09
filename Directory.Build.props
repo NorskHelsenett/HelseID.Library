@@ -6,7 +6,7 @@
     <Authors>Norsk Helsenett SF</Authors>
     <Company>Norsk Helsenett SF</Company>
     <Copyright>Copyright © Norsk Helsenett 2025</Copyright>
-    <RepositoryUrl>https://github.com/NorskHelsenett/HelseId.Libraryk</RepositoryUrl>
+    <RepositoryUrl>https://github.com/NorskHelsenett/HelseId.Library</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://www.nhn.no/tjenester/helseid</PackageProjectUrl>
