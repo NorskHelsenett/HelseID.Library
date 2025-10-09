@@ -24,7 +24,7 @@ builder.Services
     .AddHelseIdClientCredentials(helseIdConfiguration)
     .AddJwkForClientAuthentication(YOUR_PRIVATE_KEY_HERE);
 
-// The service is now configurated
+// The service is now configured
 ```
 
 Later on you will need to use an instance of the `IHelseIdClientCredentialsFlow` to retrieve an Access token response:
