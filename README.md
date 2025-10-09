@@ -57,8 +57,16 @@ To retrieve a DPoP Proof you can use the `IDPoPProofCreatorForApiCalls`:
 ```csharp
 ...
 var url = "URL TO THE HTTP ENDPOINT";
-var accessToken = accessTokenResponse.AccessToken;
-var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiCall(url, "GET", accessToken);
+var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiCall(url, "GET", accessTokenResponse);
 ...
+```
 
+Finally to make a request to an API you can do the following using our SetDPoPTokenAndProof extension method to set both Access Token and DPoP proof on the http request:
+```csharp
+...
+var apiRequest = new HttpRequestMessage(HttpMethod.Get, url);
+apiRequest.SetDPoPTokenAndProof(accessTokenResponse, dPoPProof);
+
+var response = await httpClient.SendAsync(apiRequest);
+...
 ```
