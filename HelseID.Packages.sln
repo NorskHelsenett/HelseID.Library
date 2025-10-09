@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{4F7C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{45EA8135-2798-4045-B345-A830ADB73DC0}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
 		.github\workflows\nuget_deploy.yml = .github\workflows\nuget_deploy.yml
 	EndProjectSection
 EndProject
