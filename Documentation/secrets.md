@@ -1,7 +1,7 @@
 # Handling of signing keys in HelseID.Library
 HelseID requires use of a signing key to do client authentication. The public key is registered via HelseID Selvbetjening while the private key is protected and only accessible for use the application itself.
 
-HelseID.Library builds on the `SigningCredentials` abstraction in .NET, any implementation should be usable via the `AddSigningCredentialForClientAuthentication` method:
+HelseID.Library builds on the [SigningCredentials](https://learn.microsoft.com/en-us/dotnet/api/microsoft.identitymodel.tokens.signingcredentials) abstraction in .NET, any implementation should be usable via the `AddSigningCredentialForClientAuthentication` method:
 
 ```csharp
 var signingCredential = ...;
