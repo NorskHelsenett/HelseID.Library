@@ -1,4 +1,4 @@
-# Configuring HelseID.Library
+# Advanced setup of HelseID.Library
 Configuration of the library is normally done using extension methods on the IServiceCollection interface:
 
 
