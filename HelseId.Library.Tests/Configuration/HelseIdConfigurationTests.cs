@@ -21,7 +21,7 @@ public class HelseIdConfigurationTests : ConfigurationTests
         var configuration = HelseIdConfiguration.ConfigurationFromAppSettings(configSection);
         
         configuration.ClientId.Should().Be("client id");
-        configuration.StsUrl.Should().Be("sts url");
+        configuration.IssuerUri.Should().Be("sts url");
         configuration.Scope.Should().Be("scope");
     }
     
@@ -41,7 +41,7 @@ public class HelseIdConfigurationTests : ConfigurationTests
         var configuration = HelseIdConfiguration.ConfigurationFromAppSettings(configSection);
         
         configuration.ClientId.Should().Be("client id");
-        configuration.StsUrl.Should().Be("sts url");
+        configuration.IssuerUri.Should().Be("sts url");
         configuration.Scope.Should().Be("scope");
     }
 }

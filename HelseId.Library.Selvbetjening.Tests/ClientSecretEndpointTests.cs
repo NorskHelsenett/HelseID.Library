@@ -38,7 +38,7 @@ public class ClientSecretEndpointTests
         _dpoPProofCreatorMock = new DPoPProofCreatorMock(DpopProof);
         _helseIdConfiguration = new HelseIdConfiguration
         {
-            ClientId = "client id", Scope = "scope", StsUrl = "sts",
+            ClientId = "client id", Scope = "scope", IssuerUri = "sts",
             SelvbetjeningConfiguration = new SelvbetjeningConfiguration()
             {
                 SelvbetjeningScope = SelvbetjeningScope,

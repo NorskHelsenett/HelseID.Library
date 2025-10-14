@@ -24,7 +24,7 @@ public class HelseIdServiceCollectionExtensionTests
     public void SetUp()
     {
         _serviceCollection = new ServiceCollection();
-        _config = new HelseIdConfiguration { ClientId = "client id", Scope = "scope", StsUrl = "sts"};    
+        _config = new HelseIdConfiguration { ClientId = "client id", Scope = "scope", IssuerUri = "sts"};    
     }
 
     [Test]

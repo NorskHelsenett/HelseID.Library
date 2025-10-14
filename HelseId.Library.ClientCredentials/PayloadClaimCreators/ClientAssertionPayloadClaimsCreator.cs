@@ -42,7 +42,7 @@ internal class ClientAssertionPayloadClaimsCreator : IPayloadClaimsCreatorForCli
             // "sub" (subject): a unique identifier for the End-User at the Issuer. HelseID expects this to be the client ID.
             { JwtRegisteredClaimNames.Sub, configuration.ClientId },
             // "aud" (audience): the audience for our client assertion is the HelseID server
-            { JwtRegisteredClaimNames.Aud, configuration.StsUrl },
+            { JwtRegisteredClaimNames.Aud, configuration.IssuerUri },
             // "exp" (expires at): this describes the end of the token usage period
             { JwtRegisteredClaimNames.Exp, tokenIssuedAtEpochTime + PayloadConfiguration.TokenExpirationTimeInSeconds },
             // "iat" (issued at time): this describes the time when the token was issued

@@ -9,7 +9,7 @@ public class HelseIdConfiguration
 {
     public required string ClientId { get; init; }
     public required string Scope { get; init; }
-    public required string StsUrl { get; init; } = "https://helseid-sts.nhn.no";
+    public required string IssuerUri { get; init; } = "https://helseid-sts.nhn.no";
     public SelvbetjeningConfiguration SelvbetjeningConfiguration { get; set; } = new(); 
     
     /// <summary>
@@ -26,13 +26,13 @@ public class HelseIdConfiguration
         return new HelseIdConfiguration {
             ClientId = clientId,
             Scope = scope,
-            StsUrl = stsUrl,
+            IssuerUri = stsUrl,
         };
     }
     
      public string GetMetadataUrl()
      {
-         var metadataUrl = StsUrl;
+         var metadataUrl = IssuerUri;
          if (metadataUrl.EndsWith('/'))
          {
              metadataUrl = metadataUrl.TrimEnd('/');

@@ -72,7 +72,7 @@ public abstract class ConfigurationTests
     [SetUp]
     public void SetUpConfiguration()
     {
-        HelseIdConfiguration = new HelseIdConfiguration { ClientId = ClientId, Scope = Scope, StsUrl = StsUrl };
+        HelseIdConfiguration = new HelseIdConfiguration { ClientId = ClientId, Scope = Scope, IssuerUri = StsUrl };
 
         CredentialReference = new StaticSigningCredentialReference(new SigningCredentials(new JsonWebKey(GeneralPrivateRsaKey), "RS384"));
         CredentialWithEcKey = new StaticSigningCredentialReference(new SigningCredentials(new JsonWebKey(GeneralPrivateEcKey), "ES384"));

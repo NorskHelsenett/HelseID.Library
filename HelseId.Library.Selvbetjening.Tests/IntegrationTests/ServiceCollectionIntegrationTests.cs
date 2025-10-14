@@ -21,7 +21,7 @@ public class ServiceProviderIntegrationTests
         {
             ClientId = "client id",
             Scope = "scope",
-            StsUrl = "sts"
+            IssuerUri = "sts"
         };
         
         var privateKey = """

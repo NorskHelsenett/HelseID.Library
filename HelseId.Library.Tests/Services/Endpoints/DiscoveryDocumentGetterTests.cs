@@ -36,7 +36,7 @@ public class DiscoveryDocumentGetterTests
     {
         ClientId = "clientid",
         Scope = "scope",
-        StsUrl = StsUrl,
+        IssuerUri = StsUrl,
     };
     
     [SetUp]
