@@ -8,6 +8,9 @@ The easiest way to integrate with HelseID! This library conforms to the requirem
 ## How to use:
 A simple setting where the configuration is hard-coded:
 
+You start by installing the NuGet package `HelseID.Library.ClientCredentials`.
+
+
 ```csharp
 // This comes from the .NET Generic Host (https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder)
 
