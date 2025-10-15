@@ -11,16 +11,16 @@ namespace HelseId.Library.Selvbetjening;
 public class ClientSecretEndpoint : IClientSecretEndpoint
 {
     private readonly IHelseIdClientCredentialsFlow _clientCredentialsFlow;
-    private readonly IDPoPProofCreatorForApiCalls _dPoPProofCreator;
+    private readonly IDPoPProofCreatorForApiRequests _idPoPProofCreator;
     private readonly SelvbetjeningConfiguration _selvbetjeningConfiguration;
 
     public ClientSecretEndpoint(
         IHelseIdClientCredentialsFlow clientCredentialsFlow, 
-        IDPoPProofCreatorForApiCalls dPoPProofCreator, 
+        IDPoPProofCreatorForApiRequests idPoPProofCreator, 
         HelseIdConfiguration helseIdConfiguration)
     {
         _clientCredentialsFlow = clientCredentialsFlow;
-        _dPoPProofCreator = dPoPProofCreator;
+        _idPoPProofCreator = idPoPProofCreator;
         _selvbetjeningConfiguration = helseIdConfiguration.SelvbetjeningConfiguration;
     }
     
@@ -34,7 +34,7 @@ public class ClientSecretEndpoint : IClientSecretEndpoint
         }
 
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
-        var dPopProof = await _dPoPProofCreator.CreateDPoPProofForApiCall(_selvbetjeningConfiguration.UpdateClientSecretEndpoint, "POST", accessTokenResponse.AccessToken);
+        var dPopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(_selvbetjeningConfiguration.UpdateClientSecretEndpoint, "POST", accessTokenResponse.AccessToken);
     
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, _selvbetjeningConfiguration.UpdateClientSecretEndpoint);
         httpRequest.Content = new StringContent(publicKey, Encoding.UTF8, mediaType: "application/json");

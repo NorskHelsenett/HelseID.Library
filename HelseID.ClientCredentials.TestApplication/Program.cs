@@ -1,4 +1,5 @@
-﻿using HelseId.Library;
+﻿using System.Net.Http.Headers;
+using HelseId.Library;
 using HelseId.Library.Configuration;
 using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
@@ -45,16 +46,16 @@ public class TestService : IHostedService
 {
     private readonly IHelseIdClientCredentialsFlow _helseIdClientCredentialsFlow;
     private readonly ISelvbetjeningSecretUpdater _selvbetjeningSecretUpdater;
-    private readonly IDPoPProofCreatorForApiCalls _dPoPProofCreator;
+    private readonly IDPoPProofCreatorForApiRequests _idPoPProofCreator;
 
     public TestService(
         IHelseIdClientCredentialsFlow helseIdClientCredentialsFlow,
         ISelvbetjeningSecretUpdater selvbetjeningSecretUpdater,
-        IDPoPProofCreatorForApiCalls dPoPProofCreator)
+        IDPoPProofCreatorForApiRequests idPoPProofCreator)
     {
         _helseIdClientCredentialsFlow = helseIdClientCredentialsFlow;
         _selvbetjeningSecretUpdater = selvbetjeningSecretUpdater;
-        _dPoPProofCreator = dPoPProofCreator;
+        _idPoPProofCreator = idPoPProofCreator;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -88,10 +89,14 @@ public class TestService : IHostedService
         await _selvbetjeningSecretUpdater.UpdateClientSecret();
         await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
 
-        var dpopProof = await _dPoPProofCreator.CreateDPoPProofForApiCall("", "GET", "");
+        var dpopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest("", "GET", "");
 
         var tokenResponseTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
         Console.WriteLine(((AccessTokenResponse)tokenResponseTrondheim).AccessToken);
+        
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("DPoP", accessTokenResponse.AccessToken);
+        httpClient.DefaultRequestHeaders.Add("DPoP", dpopProof);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)

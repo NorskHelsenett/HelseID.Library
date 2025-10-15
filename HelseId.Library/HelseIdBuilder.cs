@@ -15,7 +15,7 @@ public sealed class HelseIdBuilder : IHelseIdBuilder
     private void AddHelseIdBasics()
     {
         Services.AddSingleton<IDPoPProofCreator, DPoPProofCreator>();
-        Services.AddSingleton<IDPoPProofCreatorForApiCalls, DPoPProofCreator>();
+        Services.AddSingleton<IDPoPProofCreatorForApiRequests, DPoPProofCreator>();
         Services.AddSingleton<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
         Services.AddSingleton<ISigningTokenCreator, SigningTokenCreator>();
         Services.AddSingleton<IDiscoveryDocumentGetter, DiscoveryDocumentGetter>();

@@ -15,7 +15,7 @@ public static class HelseIdHttpClientBuilderExtensions
         httpClientBuilder.AddHttpMessageHandler(sp =>
         {
             var clientCredentialsFlow = sp.GetService<IHelseIdClientCredentialsFlow>()!;
-            var dpopProofCreator = sp.GetService<IDPoPProofCreatorForApiCalls>()!;
+            var dpopProofCreator = sp.GetService<IDPoPProofCreatorForApiRequests>()!;
             return new HelseIdDPoPDelegatingHandler(clientCredentialsFlow, dpopProofCreator, scope);
         });
 

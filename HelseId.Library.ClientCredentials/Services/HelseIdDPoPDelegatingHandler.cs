@@ -5,16 +5,16 @@ namespace HelseId.Library.ClientCredentials.Services;
 internal class HelseIdDPoPDelegatingHandler : DelegatingHandler
 {
     private readonly IHelseIdClientCredentialsFlow _helseIdClientCredentialsFlow;
-    private readonly IDPoPProofCreatorForApiCalls _dPoPProofCreator;
+    private readonly IDPoPProofCreatorForApiRequests _idPoPProofCreator;
     private readonly string _scope;
 
     public HelseIdDPoPDelegatingHandler(
         IHelseIdClientCredentialsFlow helseIdClientCredentialsFlow,
-        IDPoPProofCreatorForApiCalls dPoPProofCreator,
+        IDPoPProofCreatorForApiRequests idPoPProofCreator,
         string scope)
     {
         _helseIdClientCredentialsFlow = helseIdClientCredentialsFlow;
-        _dPoPProofCreator = dPoPProofCreator;
+        _idPoPProofCreator = idPoPProofCreator;
         _scope = scope;
     }
 
@@ -29,7 +29,7 @@ internal class HelseIdDPoPDelegatingHandler : DelegatingHandler
 
         if (tokenResponse.IsSuccessful(out var accessTokenResponse))
         {
-            var dpopProof = await _dPoPProofCreator.CreateDPoPProofForApiCall(request.RequestUri.ToString(),
+            var dpopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(request.RequestUri.ToString(),
                 request.Method.ToString(),
                 accessTokenResponse);
 

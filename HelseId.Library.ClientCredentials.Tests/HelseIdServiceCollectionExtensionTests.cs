@@ -35,7 +35,7 @@ public class HelseIdServiceCollectionExtensionTests
         EnsureSingletonRegistration<IHelseIdClientCredentialsFlow, HelseIdClientCredentialsFlow>();
         EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
         EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
-        EnsureSingletonRegistration<IDPoPProofCreatorForApiCalls, DPoPProofCreator>();
+        EnsureSingletonRegistration<IDPoPProofCreatorForApiRequests, DPoPProofCreator>();
         EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
         EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
         EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
