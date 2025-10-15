@@ -15,15 +15,15 @@ var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync();
 
 ## Passing scopes
 
-Per default the library will request an Access Token containing all scopes from the setup. You can request a more narrow token by specifying one or several scopes in the request:
+Per default the library will request an Access Token containing all scopes from the initial configuration you provided. You can request a more narrow token by specifying one or several scopes in the request:
 
 ```csharp
 var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync("scope1 scope2");
 ```
 
-## Passing organization numbers
+## Submitting organization numbers
 
-The library also handles passing of organization information in the token request. You can always pass [a parent unit and a child unit](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/tekniske-mekanismer/organisasjonsnumre_enmd) to the library, when using the Single-Tenant setup only the child unit will be used:
+The library also handles the submitting of organization information in the token request. You can always submit [a parent unit and a child unit](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/tekniske-mekanismer/organisasjonsnumre_enmd) to the library, when using the Single-Tenant setup only the child unit will be used:
 
 ```csharp
 var organizationNumbers = new OrganizationNumbers
@@ -37,7 +37,7 @@ var tokenResponse = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(or
 
 
 ## Handling the response from the Token endpoint
-The TokenResponse will always be an instance of either AccessTokenResponse or TokenErrorResponse:
+The TokenResponse will always be an instance of *either* `AccessTokenResponse` *or* `TokenErrorResponse`:
 
 ```csharp
 public class AccessTokenResponse : TokenResponse
@@ -53,7 +53,7 @@ public class TokenErrorResponse : TokenResponse
 }
 ```
 
-To check if a Client Credentials token request was successful you either check the type of the TokenResponse object or you use the supplied extension methods;
+To check if a Client Credentials token request was successful, you either check the type of the `TokenResponse` object:
 
 
 ```csharp
@@ -68,9 +68,11 @@ else
     var tokenErrorResponse = (TokenErrorResponse)tokenResponse;
     // Act on error response
 }
+```
 
-// Or use extension methods
+Or you can use the supplied extension methods:
 
+```csharp
 if (tokenResponse.IsSuccessful(out var accessTokenResponse))
 {
     // Act on successful response
