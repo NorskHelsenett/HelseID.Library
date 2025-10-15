@@ -1,14 +1,17 @@
 # HelseId.Library
-The easiest way to integrate with HelseID! This library conforms to the requirements from the HelseID security profile for the machine-to-machine flow. 
+The easiest way to integrate with HelseID! This library conforms to the requirements from the HelseID [security profile](https://utviklerportal.nhn.no/informasjonstjenester/helseid/protokoller-og-sikkerhetsprofil/sikkerhetsprofil/docs/sikkerhetsprofil_enmd) for the client credentials grant (also known as machine-to-machine). 
 
-**Warning:** This is still a work in progress, so do not use it in production. You can expect major breaking changes with each update.
+**Warning:** This is still a work in progress, so you can expect some breaking changes.
 
+## To get started with HelseID
 
+See the docs on https://selvbetjening.nhn.no/docs
 
-## How to use:
-A simple setting where the configuration is hard-coded:
+## How to use the library:
 
 You start by installing the NuGet package `HelseID.Library.ClientCredentials`.
+
+The simplest setting is where the configuration is hard-coded:
 
 
 ```csharp
@@ -20,13 +23,15 @@ var helseIdConfiguration = new HelseIdConfiguration
 {
     ClientId = "7e3816ca-7d11-41cd-be55-fb9e8954e058",
     Scope = "nhn:hgd-persontjenesten-api/restricted-access nhn:selvbetjening/client",
-    StsUrl = "https://helseid-sts.test.nhn.no",
+    IssuerUri = "https://helseid-sts.test.nhn.no",
 };
 
 builder.Services
     .AddHelseIdClientCredentials(helseIdConfiguration)
     .AddJwkForClientAuthentication(YOUR_PRIVATE_KEY_HERE);
 
+var host = builder.Build();
+host.Run();
 // The service is now configured
 ```
 
@@ -55,19 +60,19 @@ else
 
 ```
 
-To retrieve a DPoP Proof you can use the `IDPoPProofCreatorForApiCalls`:
+To retrieve a [DPoP Proof](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/dpop/dpop_enmd) you can use the `IDPoPProofCreatorForApiRequests`:
 
 ```csharp
 ...
 // This is constructed by the service locator
-IDPoPProofCreatorForApiCalls dPoPProofCreator;
+IDPoPProofCreatorForApiRequests dPoPProofCreator;
 
 var url = "URL TO THE HTTP ENDPOINT";
-var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiCall(url, "GET", accessTokenResponse);
+var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiRequest(url, "GET", accessTokenResponse);
 ...
 ```
 
-Finally to make a request to an API you can do the following using our SetDPoPTokenAndProof extension method to set both Access Token and DPoP proof on the http request:
+Finally, to make a request to an API you can do the following: using our SetDPoPTokenAndProof extension method to set both Access Token and DPoP proof on the HTTP request:
 ```csharp
 ...
 var apiRequest = new HttpRequestMessage(HttpMethod.Get, url);
