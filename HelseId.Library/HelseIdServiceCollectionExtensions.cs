@@ -59,10 +59,10 @@ public static class HelseIdServiceCollectionExtensions
     }
     
     /// <summary>
-    ///
+    /// Adds a Json Web Key stored in a string as the signing credential 
     /// </summary>
     /// <param name="helseIdBuilder"></param>
-    /// <param name="jsonWebKey"></param>
+    /// <param name="jsonWebKey">The Json Web Key</param>
     /// <returns></returns>
     public static IHelseIdBuilder AddJwkForClientAuthentication(this IHelseIdBuilder helseIdBuilder, string jsonWebKey)
     {
@@ -71,6 +71,12 @@ public static class HelseIdServiceCollectionExtensions
         return helseIdBuilder.AddSigningCredentialForClientAuthentication(signingCredentials);
     }
     
+    /// <summary>
+    /// Adds a Json Web Key stored in a file as the signing credential
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <param name="jwkFileName">The full path of the file containing the Json Web Key</param>
+    /// <returns></returns>
     public static IHelseIdBuilder AddJwkFileForClientAuthentication(this IHelseIdBuilder helseIdBuilder, string jwkFileName)  
     {
         helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
@@ -80,10 +86,10 @@ public static class HelseIdServiceCollectionExtensions
     }
     
     /// <summary>
-    /// 
+    /// Adds a generic signing credential as the signing credential to be used for client authentication
     /// </summary>
     /// <param name="helseIdBuilder"></param>
-    /// <param name="signingCredential"></param>
+    /// <param name="signingCredential">The signing credentials</param>
     /// <returns></returns>
     public static IHelseIdBuilder AddSigningCredentialForClientAuthentication(this IHelseIdBuilder helseIdBuilder, SigningCredentials signingCredential)  
     {
@@ -94,6 +100,13 @@ public static class HelseIdServiceCollectionExtensions
         return helseIdBuilder;
     }
     
+    /// <summary>
+    /// Adds a X509Certificate2 as the signing credential to be used for client authentication
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <param name="certificate">The X509Certificate2 to be used</param>
+    /// <param name="algorithm">The signing algorithm to be used</param>
+    /// <returns></returns>
     public static IHelseIdBuilder AddX509CertificateForForClientAuthentication(this IHelseIdBuilder helseIdBuilder, X509Certificate2 certificate, string algorithm)  
     {
         helseIdBuilder.RemoveServiceRegistrations<ISigningCredentialReference>();
