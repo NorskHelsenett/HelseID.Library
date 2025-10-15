@@ -1,5 +1,5 @@
 # Advanced setup of HelseID.Library
-Configuration of the library is normally done using extension methods on the IServiceCollection interface:
+You can set up the library by using extension methods on the IServiceCollection interface:
 
 
 ```csharp
@@ -21,7 +21,7 @@ var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync();
 
 ```
 
-The library includes support for both single-tenant and multi-tenant setups:
+The library includes support for both [single-tenant and multi-tenant](https://selvbetjening.nhn.no/docs#multitenancy) setups:
 ```csharp
 services 
     .AddHelseIdClientCredentials(helseIdConfiguration)
@@ -37,7 +37,7 @@ services
 
 ```
 
-The library handles caching of tokens and metadata, either in memory of the process or using a distributed cache. Be aware that a distributed cache must be setup elsewhere in your application:
+The library handles caching of tokens and metadata, either in memory, or using [a distributed cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed). Be aware that a distributed cache needs a setup by your application:
 
 ```csharp
 services 

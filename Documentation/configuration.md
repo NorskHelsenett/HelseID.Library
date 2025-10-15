@@ -1,5 +1,5 @@
 # Configuration of HelseID.Library
-When setting up HelseID.Library you must register a configuration with the basic setup of the client:
+When setting up the HelseID.Library you must register a `HelseIdConfiguration` with the basic configuration of the client:
 
 ```csharp
 public class HelseIdConfiguration
@@ -29,14 +29,17 @@ var helseIdConfiguration = new HelseIdConfiguration
 };
 ```
 
-Or it can be setup from your configuration:
+Or it can be setup from your [configuration](https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration):
 
 ```csharp
+IConfiguration configuration;
+...
+
 var configurationSection = configuration.GetSection("HelseID");
 var helseIdConfiguration = HelseIdConfiguration.ConfigurationFromAppSettings(configurationSection);
 ```
 
-With the configuration in place you can setup the Client Credentials-flow:
+With the configuration in place, you can setup the Client Credentials grant:
 
 
 ```csharp

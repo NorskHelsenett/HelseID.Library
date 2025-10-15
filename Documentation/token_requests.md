@@ -1,7 +1,7 @@
 # Requesting Access Tokens using HelseID.Library
 Currently HelseID.Library only supports the Client Credentials grant, the Authorization Code grant will be released in a future version. 
 
-When requesting an Access Token the library always returns a TokenResponse object:
+When requesting an Access Token the library always returns a `TokenResponse` object:
 
 ```csharp
 public abstract class TokenResponse
@@ -15,15 +15,15 @@ var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync();
 
 ## Passing scopes
 
-Per default the library will request an Access Token containing all scopes from the setup. You can request a more narrow token by specifying the scopes from the request:
+Per default the library will request an Access Token containing all scopes from the setup. You can request a more narrow token by specifying one or several scopes in the request:
 
 ```csharp
-var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync("scope");
+var tokenResponse = await helseIdClientCredentialsFlow.GetTokenResponseAsync("scope1 scope2");
 ```
 
 ## Passing organization numbers
 
-The library also handles passing of organization information in the token request. You can always pass a parent unit and a child unit to the library, when using the Single-Tenant setup only the child unit will be used:
+The library also handles passing of organization information in the token request. You can always pass [a parent unit and a child unit](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/tekniske-mekanismer/organisasjonsnumre_enmd) to the library, when using the Single-Tenant setup only the child unit will be used:
 
 ```csharp
 var organizationNumbers = new OrganizationNumbers
