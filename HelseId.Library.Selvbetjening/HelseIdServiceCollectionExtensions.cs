@@ -6,6 +6,11 @@ namespace HelseId.Library.Selvbetjening;
 
 public static class HelseIdServiceCollectionExtensions
 {
+    /// <summary>
+    /// Registers the Selvbetjening key rotation service
+    /// </summary>
+    /// <param name="helseIdBuilder"></param>
+    /// <returns></returns>
     public static IHelseIdBuilder AddSelvbetjeningKeyRotation(this IHelseIdBuilder helseIdBuilder)
     {
         RemoveServiceRegistrations(helseIdBuilder);
