@@ -13,9 +13,18 @@ public class FileBasedSigningCredentialReference : ISigningCredentialReference
     {
         if (_signingCredentials == null)
         {
-            var jsonWebKey = await File.ReadAllTextAsync(_jwkFileName);
-            var securityKey = new JsonWebKey(jsonWebKey);
-            _signingCredentials = new SigningCredentials(securityKey, securityKey.Alg);
+            try
+            {
+                var jsonWebKey = await File.ReadAllTextAsync(_jwkFileName);
+                var securityKey = new JsonWebKey(jsonWebKey);
+                _signingCredentials = new SigningCredentials(securityKey, securityKey.Alg);
+            }
+            catch (Exception exception)
+            {
+                throw new HelseIdException("Invalid Json Web Key",
+                    $"The file {_jwkFileName} does not contain a valid Json Web Key", 
+                    exception);
+            }
         }
         return _signingCredentials;
     }

@@ -21,8 +21,8 @@ sealed class Program
         // Configure the HelseID Client
         var helseIdConfiguration = new HelseIdConfiguration
         {
-            ClientId = "f2778e88-4c3d-44b5-a4ae-8ae8e6ca0692",
-            Scope = "nhn:helseid-testapi/api nhn:selvbetjening/client",
+            ClientId = "CLIENT ID HERE",
+            Scope = "SCOPE1 SCOPE2",
             IssuerUri = "https://helseid-sts.test.nhn.no",
         };
 
@@ -49,18 +49,15 @@ sealed class Program
 public class TestService : IHostedService
 {
     private readonly IHelseIdClientCredentialsFlow _helseIdClientCredentialsFlow;
-    private readonly ISelvbetjeningSecretUpdater _selvbetjeningSecretUpdater;
     private readonly IDPoPProofCreatorForApiRequests _dPoPProofCreator;
     private readonly IHttpClientFactory _httpClientFactory;
 
     public TestService(
         IHelseIdClientCredentialsFlow helseIdClientCredentialsFlow,
-        ISelvbetjeningSecretUpdater selvbetjeningSecretUpdater,
         IDPoPProofCreatorForApiRequests dPoPProofCreator,
         IHttpClientFactory httpClientFactory)
     {
         _helseIdClientCredentialsFlow = helseIdClientCredentialsFlow;
-        _selvbetjeningSecretUpdater = selvbetjeningSecretUpdater;
         _dPoPProofCreator = dPoPProofCreator;
         _httpClientFactory = httpClientFactory;
     }

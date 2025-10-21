@@ -11,6 +11,11 @@ public class HelseIdException : Exception
     {
         Error = error;
     }
-    
+
+    public HelseIdException(string error, string message, Exception innerException) : base(message, innerException)
+    {
+        Error = error;
+    }
+
     public string Error { get; init; }
 }
