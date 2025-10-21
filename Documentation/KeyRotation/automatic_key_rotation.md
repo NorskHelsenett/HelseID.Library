@@ -2,12 +2,26 @@
 
 The package `HelseId.Library.Selvbetjening` allows your client to automatically rotate the signing keys used for client authentication.
 
-The setup is based on the same pattern as other parts of the library, the setup is done by calling the `AddSelvbetjeningKeyRotation()` method:
+The setup is done by calling the `AddSelvbetjeningKeyRotation()` method:
 
 ```csharp
 services.AddHelseIdClientCredentials(helseIdConfiguration)
         .AddSelvbetjeningKeyRotation()
 ```
+
+Configuration is done by modifying the SelvbetjeningConfiguration property of the HelseIdConfiguration object. Note that your client must have access to the `nhn:selvbetjening/client` scope to access the API:
+
+```csharp
+var helseIdConfiguration = // setup earlier
+
+var selvbetjeningConfiguration = new SelvbetjeningConfiguration 
+{
+    UpdateClientSecretEndpoint = "url for testing";
+}
+
+helseidConfiguration.SelvbetjeningConfiguration = selvbetjeningConfiguration;
+```
+
 
 Key rotation is done by calling the `ISelvbetjeningSecretUpdater.UpdateClientSecret()` method:
 
