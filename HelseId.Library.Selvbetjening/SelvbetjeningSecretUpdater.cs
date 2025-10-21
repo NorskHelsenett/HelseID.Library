@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Json;
 using HelseId.Library.Exceptions;
-using HelseId.Library.Interfaces.Configuration;
 using HelseId.Library.Selvbetjening.Interfaces;
 using HelseId.Library.Selvbetjening.Models;
 

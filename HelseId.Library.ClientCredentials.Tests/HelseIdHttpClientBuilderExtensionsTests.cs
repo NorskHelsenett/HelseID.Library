@@ -16,19 +16,17 @@ public class HelseIdHttpClientBuilderExtensionsTests
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
         var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
-        var helseIDHttpClient = httpClientFactory.CreateClient("HelseID");
+        var helseIdHttpClient = httpClientFactory.CreateClient("HelseID");
 
-        var httpMessageHandler = GetHttpMessageHandlerFromClient(helseIDHttpClient);
+        var httpMessageHandler = GetHttpMessageHandlerFromClient(helseIdHttpClient);
         
         HandlerOrInnerHandlerShouldBeOfType<HelseIdDPoPDelegatingHandler>(httpMessageHandler as DelegatingHandler);
     }
 
     private static HttpMessageHandler? GetHttpMessageHandlerFromClient(HttpClient httpClient)
     {
-        var t = httpClient.GetType().BaseType;
-        var f = t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-        var handlerPrivateField = httpClient.GetType().BaseType.GetField("_handler", BindingFlags.NonPublic | BindingFlags.Instance);
-        var handler = handlerPrivateField.GetValue(httpClient);
+        var handlerPrivateField = httpClient.GetType().BaseType!.GetField("_handler", BindingFlags.NonPublic | BindingFlags.Instance);
+        var handler = handlerPrivateField!.GetValue(httpClient);
         return handler as HttpMessageHandler;
     }
 
