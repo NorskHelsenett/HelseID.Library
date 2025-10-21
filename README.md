@@ -88,3 +88,4 @@ var response = await httpClient.SendAsync(apiRequest);
 * [Performing token requests](Documentation/ClientCredentialsUsage/token_requests.md)
 * [Using DPoP](Documentation/ClientCredentialsUsage/dpop.md)
 * [Advanced setup](Documentation/ClientCredentialsUsage/advanced_setup.md)
+* [Automatic key rotation](Documentation/KeyRotation/automatic_key_rotation.md)
