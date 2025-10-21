@@ -1,4 +1,6 @@
-﻿namespace HelseId.Library.Selvbetjening.Interfaces;
+﻿using HelseId.Library.Selvbetjening.Models;
+
+namespace HelseId.Library.Selvbetjening.Interfaces;
 
 public interface ISelvbetjeningSecretUpdater
 {
@@ -7,6 +9,6 @@ public interface ISelvbetjeningSecretUpdater
     /// Storage of the new key must be handled by the client by implementing
     /// the ISigningCredentialReference.UpdateSigningCredential method.
     /// </summary>
-    /// <returns>Returns the expiration date of the new signing key.</returns>
-    Task<DateTime> UpdateClientSecret();
+    /// <returns>Returns a result containing the newly registered private key and its expiration date as a DateTime</returns>
+    Task<ClientSecretResult> UpdateClientSecret();
 }

@@ -2,5 +2,5 @@
 
 public class ClientSecretUpdateResponse
 {
-    public required DateTime Expiration { get; set; }
+    public required DateTimeOffset Expiration { get; set; }
 }

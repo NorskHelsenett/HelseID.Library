@@ -8,24 +8,21 @@ namespace HelseId.Library.Selvbetjening;
 
 public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
 {
-    private readonly ISigningCredentialReference _signingCredentialReference;
     private readonly IClientSecretEndpoint _clientSecretEndpoint;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IKeyManagementService _keyManagementService;
 
     public SelvbetjeningSecretUpdater(
-        ISigningCredentialReference signingCredentialReference,
         IClientSecretEndpoint clientSecretEndpoint,
         IHttpClientFactory httpClientFactory, 
         IKeyManagementService keyManagementService)
     {
-        _signingCredentialReference = signingCredentialReference;
         _clientSecretEndpoint = clientSecretEndpoint;
         _httpClientFactory = httpClientFactory;
         _keyManagementService = keyManagementService;
     }
 
-    public async Task<DateTime> UpdateClientSecret()
+    public async Task<ClientSecretResult> UpdateClientSecret()
     {
         var publicPrivateKeyPair = _keyManagementService.GenerateNewKeyPair();
         
@@ -41,7 +38,11 @@ public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
         }
 
         var result = await response.Content.ReadFromJsonAsync<ClientSecretUpdateResponse>();
-        await _signingCredentialReference.UpdateSigningCredential(publicPrivateKeyPair.PrivateKey);
-        return result!.Expiration;
+
+        return new ClientSecretResult
+        {
+            ExpirationDate = result!.Expiration,
+            PrivateJsonWebKey = publicPrivateKeyPair.PrivateKey
+        };
     }
 }

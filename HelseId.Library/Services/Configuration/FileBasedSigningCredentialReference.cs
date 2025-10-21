@@ -19,10 +19,4 @@ public class FileBasedSigningCredentialReference : ISigningCredentialReference
         }
         return _signingCredentials;
     }
-
-    public async Task UpdateSigningCredential(string jsonWebKey)
-    {
-        await File.WriteAllTextAsync(_jwkFileName, jsonWebKey);
-        _signingCredentials = null;
-    }
 }
