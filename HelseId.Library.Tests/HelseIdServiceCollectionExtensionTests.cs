@@ -17,7 +17,7 @@ public class HelseIdServiceCollectionExtensionTests
         {
             ClientId = "client id",
             Scope = "scope",
-            StsUrl = "sts"
+            IssuerUri = "sts"
         };
     }
 

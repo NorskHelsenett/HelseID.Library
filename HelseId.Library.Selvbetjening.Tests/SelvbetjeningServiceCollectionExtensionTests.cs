@@ -23,7 +23,7 @@ public class SelvbetjeningServiceCollectionExtensionTests
         {
             ClientId = "client id",
             Scope = "scope",
-            StsUrl = "sts"
+            IssuerUri = "sts"
         };
 
         _helseIdBuilder = _serviceCollection.AddHelseIdClientCredentials(_config);

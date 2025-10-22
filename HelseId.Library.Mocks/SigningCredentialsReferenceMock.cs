@@ -12,10 +12,4 @@ public class SigningCredentialsReferenceMock : ISigningCredentialReference
         var jsonWebKey = new JsonWebKey(Jwk);
         return Task.FromResult(new SigningCredentials(jsonWebKey, jsonWebKey.Kid));
     }
-
-    public Task UpdateSigningCredential(string jsonWebKey)
-    {
-        Jwk = jsonWebKey;
-        return Task.CompletedTask;
-    }
 }

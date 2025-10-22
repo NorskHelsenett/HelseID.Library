@@ -24,7 +24,7 @@ public class HelseIdServiceCollectionExtensionTests
     public void SetUp()
     {
         _serviceCollection = new ServiceCollection();
-        _config = new HelseIdConfiguration { ClientId = "client id", Scope = "scope", StsUrl = "sts"};    
+        _config = new HelseIdConfiguration { ClientId = "client id", Scope = "scope", IssuerUri = "sts"};    
     }
 
     [Test]
@@ -35,6 +35,7 @@ public class HelseIdServiceCollectionExtensionTests
         EnsureSingletonRegistration<IHelseIdClientCredentialsFlow, HelseIdClientCredentialsFlow>();
         EnsureSingletonRegistration<IClientCredentialsTokenRequestBuilder, ClientCredentialsTokenRequestBuilder>();
         EnsureSingletonRegistration<IDPoPProofCreator, DPoPProofCreator>();
+        EnsureSingletonRegistration<IDPoPProofCreatorForApiRequests, DPoPProofCreator>();
         EnsureSingletonRegistration<IHelseIdEndpointsDiscoverer, HelseIdEndpointsDiscoverer>();
         EnsureSingletonRegistration<ISigningTokenCreator, SigningTokenCreator>();
         EnsureSingletonRegistration<IPayloadClaimsCreator, ClientAssertionPayloadClaimsCreator>();
@@ -48,7 +49,7 @@ public class HelseIdServiceCollectionExtensionTests
     [Test, Ignore("TODO")]
     public void AddHelseIdClientCredentials_with_configuration_registers_expected_services_with_jwt_private_key()
     {
-        _serviceCollection.AddHelseIdClientCredentials(_config).AddSigningCredential(JwkPrivateKeyAsString);
+        _serviceCollection.AddHelseIdClientCredentials(_config).AddJwkForClientAuthentication(JwkPrivateKeyAsString);
         
         EnsureSingletonRegistration<IHelseIdConfigurationGetter, RegisteredSingletonHelseIdConfigurationGetter>();
         EnsureSingletonRegistration<ISigningCredentialReference, StaticSigningCredentialReference>(); 

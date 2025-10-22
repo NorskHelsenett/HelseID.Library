@@ -11,7 +11,9 @@ public static class HelseIdServiceCollectionExtension
     /// <param name="services"></param>
     /// <param name="helseIdConfiguration">A configuration object that matches the HelseID client to be used</param>
     /// <returns></returns>
-    public static IHelseIdBuilder AddHelseIdClientCredentials(this IServiceCollection services, HelseIdConfiguration helseIdConfiguration)
+    public static IHelseIdBuilder AddHelseIdClientCredentials(
+        this IServiceCollection services,
+        HelseIdConfiguration helseIdConfiguration)
     {
         var helseIdBuilder = new HelseIdBuilder(services);
         helseIdBuilder.Services.AddSingleton(helseIdConfiguration);
@@ -22,6 +24,7 @@ public static class HelseIdServiceCollectionExtension
 
         helseIdBuilder.AddHelseIdSingleTenant();
         helseIdBuilder.AddHelseIdInMemoryCaching();
-        
+
         return helseIdBuilder;
-    }}
+    }
+}

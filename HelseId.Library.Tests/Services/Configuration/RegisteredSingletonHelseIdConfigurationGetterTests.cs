@@ -12,7 +12,7 @@ public class RegisteredSingletonHelseIdConfigurationGetterTests
         {
             ClientId = "client id",
             Scope = "scope",
-            StsUrl = "sts url"
+            IssuerUri = "sts url"
         };
         var configurationGetter = new RegisteredSingletonHelseIdConfigurationGetter(configuration);
 

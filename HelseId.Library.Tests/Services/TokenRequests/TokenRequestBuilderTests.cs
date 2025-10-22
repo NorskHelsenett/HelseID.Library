@@ -9,7 +9,7 @@ public abstract class TokenRequestBuilderTests : ConfigurationTests
     public const string DPoPProof = "dpop proof";
     
     protected SigningTokenCreatorMock SigningTokenCreatorMock { get; set; } = null!;
-    protected DPoPProofCreatorMock DpoPProofCreatorMock { get; set; } = null!;
+    protected IdPoPProofCreatorMock DpoPProofCreatorMock { get; set; } = null!;
     protected HelseIdEndpointsDiscovererMock HelseIdEndpointsDiscovererMock { get; set; } = null!;
     protected PayloadClaimsCreatorMock PayloadClaimsCreatorMock { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public abstract class TokenRequestBuilderTests : ConfigurationTests
     public void SetupForTokenRequestBuilderTest()
     {
         SigningTokenCreatorMock = new SigningTokenCreatorMock();
-        DpoPProofCreatorMock = new DPoPProofCreatorMock(DPoPProof);
+        DpoPProofCreatorMock = new IdPoPProofCreatorMock(DPoPProof);
         HelseIdEndpointsDiscovererMock = new HelseIdEndpointsDiscovererMock();
         PayloadClaimsCreatorMock = new PayloadClaimsCreatorMock();
     }

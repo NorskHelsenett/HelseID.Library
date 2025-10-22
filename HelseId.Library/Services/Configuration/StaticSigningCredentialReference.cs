@@ -13,9 +13,4 @@ public class StaticSigningCredentialReference : ISigningCredentialReference
     {
         return Task.FromResult(_signingCredential);
     }
-
-    public Task UpdateSigningCredential(string jsonWebKey)
-    {
-        throw new NotImplementedException("Static references cannot be updated automatically");
-    }
 }

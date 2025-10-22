@@ -2,9 +2,9 @@
 using HelseId.Library.Configuration;
 using HelseId.Library.ClientCredentials;
 using HelseId.Library.ClientCredentials.Interfaces;
-using HelseId.Library.Models;
+using HelseId.Library.ExtensionMethods;
+using HelseId.Library.Interfaces.JwtTokens;
 using HelseId.Library.Models.DetailsFromClient;
-using HelseId.Library.Selvbetjening;
 using HelseId.Library.Selvbetjening.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,65 +15,97 @@ sealed class Program
 {
     static void Main(string[] args)
     {
+        // Setup the Host that will contain the application
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+        
+        // Configure the HelseID Client
         var helseIdConfiguration = new HelseIdConfiguration
         {
-            ClientId = "f2778e88-4c3d-44b5-a4ae-8ae8e6ca0692",
-            Scope = "nhn:helseid-testapi/api nhn:selvbetjening/client",
-            StsUrl = "https://helseid-sts.test.nhn.no",
+            ClientId = "CLIENT ID HERE",
+            Scope = "SCOPE1 SCOPE2",
+            IssuerUri = "https://helseid-sts.test.nhn.no",
         };
 
+        // Configure the library with the given configuration and a secret contained in a file
+        // In this example we use the multi-tenant pattern
         builder.Services.AddHelseIdClientCredentials(helseIdConfiguration)
-            .AddSelvbetjeningKeyRotation()
-            .AddFileBasedSigningCredential("jwk.json")
+            .AddJwkFileForClientAuthentication("jwk.json")
             .AddHelseIdMultiTenant();
-    
+        
+        // Register a service that will call HelseID
         builder.Services.AddHostedService<TestService>();
 
-        IHost host = builder.Build();
-        host.Run();
+        // Run the application
+        builder.Build().Run();
     }
 }
 
+/// <summary>
+/// This service will run for the lifetime of the application.
+/// It functions as a usage of the Client Credentials flow and the Dpop Proof Creator.
+/// The IHostedService interface in a standard .NET method of running a service inside
+/// a .NET application.
+/// </summary>
 public class TestService : IHostedService
 {
     private readonly IHelseIdClientCredentialsFlow _helseIdClientCredentialsFlow;
-    private readonly ISelvbetjeningSecretUpdater _selvbetjeningSecretUpdater;
+    private readonly IDPoPProofCreatorForApiRequests _dPoPProofCreator;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public TestService(IHelseIdClientCredentialsFlow helseIdClientCredentialsFlow, ISelvbetjeningSecretUpdater selvbetjeningSecretUpdater)
+    public TestService(
+        IHelseIdClientCredentialsFlow helseIdClientCredentialsFlow,
+        IDPoPProofCreatorForApiRequests dPoPProofCreator,
+        IHttpClientFactory httpClientFactory)
     {
         _helseIdClientCredentialsFlow = helseIdClientCredentialsFlow;
-        _selvbetjeningSecretUpdater = selvbetjeningSecretUpdater;
+        _dPoPProofCreator = dPoPProofCreator;
+        _httpClientFactory = httpClientFactory;
     }
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        var organizationNumbersBergen = new OrganizationNumbers
+        var organizationNumbers = new OrganizationNumbers
         {
             ParentOrganization = "994598759", // NHN
             ChildOrganization = "920773230" // NHN Bergen
         };
-        
-        var organizationNumbersTrondheim = new OrganizationNumbers
+
+        var tokenResponse = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbers);
+        if (!tokenResponse.IsSuccessful(out var accessTokenResponse))
         {
-            ParentOrganization = "994598759", // NHN
-            ChildOrganization = "987402105" // NHN Trondheim
+            // Handle an error response from HelseID
+            var errorResponse = tokenResponse.AsError();
+            Console.WriteLine(errorResponse.Error + " " + errorResponse.ErrorDescription); 
+            return;
+        }
+        
+        // Create a DPoP proof for an API request
+        // This can be automated, see our documentation for more examples
+        var dpopProof = await _dPoPProofCreator.CreateDPoPProofForApiRequest(
+            "https://api.example.com/api-endpoint", 
+            "POST", 
+            accessTokenResponse);
+
+        // Build a http request to the API endpoint
+        var apiRequest = new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri("https://api.example.com/api-endpoint"),
         };
 
-        var accessTokenBergen = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersBergen);
-        Console.WriteLine(((AccessTokenResponse)accessTokenBergen).AccessToken);
+        // Set the Authorization- and DPoP-headers using an extension method from the library
+        apiRequest.SetDPoPTokenAndProof(accessTokenResponse, dpopProof);
 
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-    
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-        await _selvbetjeningSecretUpdater.UpdateClientSecret();
-        await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
+        var httpClient = _httpClientFactory.CreateClient();
         
-        var accessTokenTrondheim = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbersTrondheim);
-        Console.WriteLine(((AccessTokenResponse)accessTokenTrondheim).AccessToken);
+        // Perform the request to the API
+        var response = await httpClient.SendAsync(apiRequest, cancellationToken);
+        
+        // Do something with the response...
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
     }
-} 
+}

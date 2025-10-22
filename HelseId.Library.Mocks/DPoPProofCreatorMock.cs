@@ -1,6 +1,6 @@
 namespace HelseId.Library.Mocks;
 
-public class DPoPProofCreatorMock : IDPoPProofCreator
+public class IdPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiRequests
 {
     public string? Url { get; private set; }
     public string? HttpMethod { get; private set; }
@@ -9,7 +9,7 @@ public class DPoPProofCreatorMock : IDPoPProofCreator
 
     private readonly string _dPoPProof;
     
-    public DPoPProofCreatorMock(string dPoPProof)
+    public IdPoPProofCreatorMock(string dPoPProof)
     {
         _dPoPProof = dPoPProof;
     }
@@ -22,11 +22,19 @@ public class DPoPProofCreatorMock : IDPoPProofCreator
         return Task.FromResult(_dPoPProof);
     }
 
-    public Task<string> CreateDPoPProofForApiCall(string url, string httpMethod, string accessToken)
+    public Task<string> CreateDPoPProofForApiRequest(string url, string httpMethod, string accessToken)
     {
         Url = url;
         HttpMethod = httpMethod;
         AccessToken = accessToken;
-        return Task.FromResult(_dPoPProof);;
+        return Task.FromResult(_dPoPProof);
+    }
+
+    public Task<string> CreateDPoPProofForApiRequest(string url, string httpMethod, AccessTokenResponse accessTokenResponse)
+    {
+        Url = url;
+        HttpMethod = httpMethod;
+        AccessToken = accessTokenResponse.AccessToken;
+        return Task.FromResult(_dPoPProof);
     }
 }
