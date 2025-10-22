@@ -17,6 +17,11 @@ jobs:
           dotnet-version: | 
             8.0.x
             9.0.x
+      - name: Build projects
+          dotnet build HelseId.Library/HelseId.Library.csproj -c Release
+          dotnet build HelseId.Library.ClientCredentials/HelseId.Library.ClientCredentials.csproj -c Release
+          dotnet build HelseId.Library.Mocks/HelseId.Library.Mocks.csproj -c Release
+          dotnet build HelseId.Library.Selvbetjening/HelseId.Library.Selvbetjening.csproj -c Release
       - name: Build NuGet Packages
         run: |
           dotnet pack HelseId.Library/HelseId.Library.csproj -c Release
