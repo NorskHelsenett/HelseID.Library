@@ -10,7 +10,7 @@ public class HelseIdDPoPDelegatingHandlerTests
     public async Task SendAsync_requests_AccessToken_and_DPoP_proof()
     {
         var clientCredentialsFlowMock = new HelseIdClientCredentialsFlowMock("access token");
-        var dpopProofCreatorMock = new IdPoPProofCreatorMock("DPoP proof");
+        var dpopProofCreatorMock = new DPoPProofCreatorMock("DPoP proof");
      
         var handler = new HelseIdDPoPDelegatingHandler(clientCredentialsFlowMock,
             dpopProofCreatorMock,

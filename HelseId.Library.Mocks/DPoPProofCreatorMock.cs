@@ -1,6 +1,6 @@
 namespace HelseId.Library.Mocks;
 
-public class IdPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiRequests
+public class DPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiRequests
 {
     public string? Url { get; private set; }
     public string? HttpMethod { get; private set; }
@@ -9,7 +9,7 @@ public class IdPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiR
 
     private readonly string _dPoPProof;
     
-    public IdPoPProofCreatorMock(string dPoPProof)
+    public DPoPProofCreatorMock(string dPoPProof)
     {
         _dPoPProof = dPoPProof;
     }
