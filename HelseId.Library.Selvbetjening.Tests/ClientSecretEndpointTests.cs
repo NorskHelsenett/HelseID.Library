@@ -11,7 +11,7 @@ namespace HelseId.Library.Selvbetjening.Tests;
 public class ClientSecretEndpointTests
 {
     private HelseIdClientCredentialsFlowMock _clientCredentialsFlowMock = null!;
-    private IdPoPProofCreatorMock _dpoPProofCreatorMock = null!;
+    private DPoPProofCreatorMock _dpoPProofCreatorMock = null!;
     private HelseIdConfiguration _helseIdConfiguration = null!;
 
     private ClientSecretEndpoint _clientSecretEndpoint = null!;
@@ -35,7 +35,7 @@ public class ClientSecretEndpointTests
     public void Setup()
     {
         _clientCredentialsFlowMock = new HelseIdClientCredentialsFlowMock(AccessToken);
-        _dpoPProofCreatorMock = new IdPoPProofCreatorMock(DpopProof);
+        _dpoPProofCreatorMock = new DPoPProofCreatorMock(DpopProof);
         _helseIdConfiguration = new HelseIdConfiguration
         {
             ClientId = "client id", Scope = "scope", IssuerUri = "sts",
