@@ -69,7 +69,7 @@ public class TestService : IHostedService
             ParentOrganization = "994598759", // NHN
             ChildOrganization = "920773230" // NHN Bergen
         };
-
+        
         var tokenResponse = await _helseIdClientCredentialsFlow.GetTokenResponseAsync(organizationNumbers);
         if (!tokenResponse.IsSuccessful(out var accessTokenResponse))
         {
@@ -82,8 +82,8 @@ public class TestService : IHostedService
         // Create a DPoP proof for an API request
         // This can be automated, see our documentation for more examples
         var dpopProof = await _dPoPProofCreator.CreateDPoPProofForApiRequest(
-            "https://api.example.com/api-endpoint", 
             "POST", 
+            "https://api.example.com/api-endpoint", 
             accessTokenResponse);
 
         // Build a http request to the API endpoint

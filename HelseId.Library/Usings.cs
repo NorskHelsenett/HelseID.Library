@@ -25,3 +25,7 @@ global using System.Text.Json;
 global using System.Text.Json.Serialization;
 global using System.Security.Cryptography;
 global using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
+[assembly:InternalsVisibleTo("HelseId.Library.ClientCredentials")]
+[assembly:InternalsVisibleTo("HelseId.Library.ClientCredentials.Tests")]
+[assembly:InternalsVisibleTo("HelseId.Library.Tests")]

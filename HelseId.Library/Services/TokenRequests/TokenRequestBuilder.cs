@@ -6,7 +6,7 @@ public abstract class TokenRequestBuilder
     private readonly IDPoPProofCreator _dPoPProofCreator;
     private readonly IHelseIdEndpointsDiscoverer _helseIdEndpointsDiscoverer;
 
-    protected TokenRequestBuilder(
+    internal TokenRequestBuilder(
         ISigningTokenCreator signingTokenCreator,
         IDPoPProofCreator dPoPProofCreator,
         IHelseIdEndpointsDiscoverer helseIdEndpointsDiscoverer)
