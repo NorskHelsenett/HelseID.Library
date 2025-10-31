@@ -1,10 +1,9 @@
 namespace HelseId.Library.Mocks;
 
-public class DPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiRequests
+public class DPoPProofCreatorMock : IDPoPProofCreatorForApiRequests
 {
     public string? Url { get; private set; }
     public string? HttpMethod { get; private set; }
-    public string? DPoPNonce { get; private set; }
     public string? AccessToken { get; private set; }
 
     private readonly string _dPoPProof;
@@ -14,15 +13,7 @@ public class DPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiRe
         _dPoPProof = dPoPProof;
     }
     
-    public Task<string> CreateDPoPProofForTokenRequest(string url, string httpMethod, string? dPoPNonce = null)
-    {
-        Url = url;
-        HttpMethod = httpMethod;
-        DPoPNonce = dPoPNonce;
-        return Task.FromResult(_dPoPProof);
-    }
-
-    public Task<string> CreateDPoPProofForApiRequest(string url, string httpMethod, string accessToken)
+    public Task<string> CreateDPoPProofForApiRequest(string httpMethod, string url, string accessToken)
     {
         Url = url;
         HttpMethod = httpMethod;
@@ -30,7 +21,7 @@ public class DPoPProofCreatorMock : IDPoPProofCreator, IDPoPProofCreatorForApiRe
         return Task.FromResult(_dPoPProof);
     }
 
-    public Task<string> CreateDPoPProofForApiRequest(string url, string httpMethod, AccessTokenResponse accessTokenResponse)
+    public Task<string> CreateDPoPProofForApiRequest(string httpMethod, string url, AccessTokenResponse accessTokenResponse)
     {
         Url = url;
         HttpMethod = httpMethod;

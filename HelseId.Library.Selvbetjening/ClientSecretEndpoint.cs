@@ -34,7 +34,10 @@ public class ClientSecretEndpoint : IClientSecretEndpoint
         }
 
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
-        var dPopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(_selvbetjeningConfiguration.UpdateClientSecretEndpoint, "POST", accessTokenResponse.AccessToken);
+        var dPopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(
+            "POST",
+            _selvbetjeningConfiguration.UpdateClientSecretEndpoint, 
+            accessTokenResponse);
     
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, _selvbetjeningConfiguration.UpdateClientSecretEndpoint);
         httpRequest.Content = new StringContent(publicKey, Encoding.UTF8, mediaType: "application/json");

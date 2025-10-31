@@ -29,8 +29,9 @@ internal class HelseIdDPoPDelegatingHandler : DelegatingHandler
 
         if (tokenResponse.IsSuccessful(out var accessTokenResponse))
         {
-            var dpopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(request.RequestUri.ToString(),
+            var dpopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(
                 request.Method.ToString(),
+                request.RequestUri.ToString(),
                 accessTokenResponse);
 
             request.SetDPoPTokenAndProof(accessTokenResponse, dpopProof);

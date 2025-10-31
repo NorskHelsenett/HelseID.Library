@@ -4,10 +4,8 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
 {
     private readonly ISigningCredentialReference _signingCredentialReference;
     private readonly TimeProvider _timeProvider;
-    
-    public DPoPProofCreator(
-        ISigningCredentialReference signingCredentialReference,
-        TimeProvider timeProvider)
+
+    public DPoPProofCreator(ISigningCredentialReference signingCredentialReference, TimeProvider timeProvider)
     {
         _signingCredentialReference = signingCredentialReference;
         _timeProvider = timeProvider;
@@ -15,12 +13,10 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
 
     public Task<string> CreateDPoPProofForTokenRequest(string url, string httpMethod, string? dPoPNonce = null)
     {
-        return CreateDPoPProofInternal(url,
-            httpMethod,
-            dPoPNonce);
+        return CreateDPoPProofInternal(url, httpMethod, dPoPNonce);
     }
-    
-    public Task<string> CreateDPoPProofForApiRequest(string url, string httpMethod, string accessToken)
+
+    public Task<string> CreateDPoPProofForApiRequest(string httpMethod, string url, string accessToken)
     {
         return CreateDPoPProofInternal(url,
             httpMethod,
@@ -28,7 +24,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             accessToken);
     }
 
-    public Task<string> CreateDPoPProofForApiRequest(string url, string httpMethod, AccessTokenResponse accessTokenResponse)
+    public Task<string> CreateDPoPProofForApiRequest(string httpMethod, string url, AccessTokenResponse accessTokenResponse)
     {
         return CreateDPoPProofInternal(url,
             httpMethod,
@@ -36,20 +32,24 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             accessTokenResponse.AccessToken);
     }
 
-    private async Task<string> CreateDPoPProofInternal(string url, string httpMethod, string? dPoPNonce = null, string? accessToken = null)
+    private async Task<string> CreateDPoPProofInternal(
+        string url,
+        string httpMethod,
+        string? dPoPNonce = null,
+        string? accessToken = null)
     {
         if (!string.IsNullOrEmpty(new Uri(url).Query))
         {
             throw new HelseIdException("Cannot create DPoP proof for url with query string", $"Invalid url: {url}");
-        } 
+        }
 
         var headers = await SetHeaders();
-        var claims = SetClaims(url, httpMethod, dPoPNonce, accessToken);
+        var claims = SetClaims(url,
+            httpMethod,
+            dPoPNonce,
+            accessToken);
 
-        var tokenHandler = new JsonWebTokenHandler
-        {
-            SetDefaultTimesOnTokenCreation = false
-        };
+        var tokenHandler = new JsonWebTokenHandler { SetDefaultTimesOnTokenCreation = false };
 
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
@@ -58,7 +58,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             SigningCredentials = await _signingCredentialReference.GetSigningCredential(),
         };
 
-        return tokenHandler.CreateToken(securityTokenDescriptor);    
+        return tokenHandler.CreateToken(securityTokenDescriptor);
     }
 
     private Dictionary<string, object> SetClaims(string url, string httpMethod, string? dPoPNonce, string? accessToken)
@@ -68,13 +68,12 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
         SetNonceClaim(dPoPNonce, claims);
 
         SetAccessTokenHash(accessToken, claims);
-        
+
         return claims;
     }
 
     private Dictionary<string, object> SetGeneralClaims(string url, string httpMethod)
     {
-        
         return new Dictionary<string, object>()
         {
             [JwtRegisteredClaimNames.Jti] = Guid.NewGuid().ToString(),
@@ -83,7 +82,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             ["iat"] = _timeProvider.GetUtcNow().ToUnixTimeSeconds(),
         };
     }
-    
+
     private static void SetNonceClaim(string? dPoPNonce, Dictionary<string, object> claims)
     {
         // Used when accessing the authentication server (HelseID):
@@ -93,7 +92,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             claims[ClaimTypes.Nonce] = dPoPNonce;
         }
     }
-    
+
     private static void SetAccessTokenHash(string? accessToken, Dictionary<string, object> claims)
     {
         // Used when accessing an API that requires a DPoP token:
@@ -107,7 +106,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             claims[ClaimTypes.AccessTokenHash] = ath;
         }
     }
-    
+
     private async Task<Dictionary<string, object>> SetHeaders()
     {
         return new Dictionary<string, object>()
@@ -116,7 +115,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             [ClaimTypes.JsonWebKey] = await SetJwkForHeader(),
         };
     }
-    
+
     private async Task<Dictionary<string, string>> SetJwkForHeader()
     {
         var signingCredential = await _signingCredentialReference.GetSigningCredential();
