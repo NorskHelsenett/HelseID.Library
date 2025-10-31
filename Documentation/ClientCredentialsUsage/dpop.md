@@ -5,7 +5,7 @@ The library handles creation of DPoP proofs using the `IDPoPProofCreatorForApiRe
 ```csharp
 IDPoPProofCreatorForApiRequests dPopProofCreator = ...;
 
-var dPopProof = await dPopProofCreator.CreateDPoPProofForApiRequest(url, httpMethod, accessTokenResponse);
+var dPopProof = await dPopProofCreator.CreateDPoPProofForApiRequest(httpMethod, url, accessTokenResponse);
 ```
 
 To perform a Http request with the DPoP proof header and the Authorization header set you can either use the supplied extension method for the `HttpRequestMessage` class or you can set the headers manually:
