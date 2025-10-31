@@ -55,7 +55,7 @@ public class ClientCredentialsTokenRequestBuilderTests : TokenRequestBuilderTest
             _clientCredentialsTokenRequestParameters);
 
         DpoPProofCreatorMock.Url.Should().Be(HelseIdEndpointsDiscovererMock.TokenEndpoint);
-        DpoPProofCreatorMock.HttpMethod.Should().Be("POST");
+        DpoPProofCreatorMock.HttpMethod.Should().Be(HttpMethod.Post);
         DpoPProofCreatorMock.DPoPNonce.Should().BeNull();
         DpoPProofCreatorMock.AccessToken.Should().BeNull();
     }

@@ -11,12 +11,12 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
         _timeProvider = timeProvider;
     }
 
-    public Task<string> CreateDPoPProofForTokenRequest(string url, string httpMethod, string? dPoPNonce = null)
+    public Task<string> CreateDPoPProofForTokenRequest(HttpMethod httpMethod, string url, string? dPoPNonce = null)
     {
         return CreateDPoPProofInternal(url, httpMethod, dPoPNonce);
     }
 
-    public Task<string> CreateDPoPProofForApiRequest(string httpMethod, string url, string accessToken)
+    public Task<string> CreateDPoPProofForApiRequest(HttpMethod httpMethod, string url, string accessToken)
     {
         return CreateDPoPProofInternal(url,
             httpMethod,
@@ -24,7 +24,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
             accessToken);
     }
 
-    public Task<string> CreateDPoPProofForApiRequest(string httpMethod, string url, AccessTokenResponse accessTokenResponse)
+    public Task<string> CreateDPoPProofForApiRequest(HttpMethod httpMethod, string url, AccessTokenResponse accessTokenResponse)
     {
         return CreateDPoPProofInternal(url,
             httpMethod,
@@ -34,7 +34,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
 
     private async Task<string> CreateDPoPProofInternal(
         string url,
-        string httpMethod,
+        HttpMethod httpMethod,
         string? dPoPNonce = null,
         string? accessToken = null)
     {
@@ -61,7 +61,7 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
         return tokenHandler.CreateToken(securityTokenDescriptor);
     }
 
-    private Dictionary<string, object> SetClaims(string url, string httpMethod, string? dPoPNonce, string? accessToken)
+    private Dictionary<string, object> SetClaims(string url, HttpMethod httpMethod, string? dPoPNonce, string? accessToken)
     {
         var claims = SetGeneralClaims(url, httpMethod);
 
@@ -72,12 +72,12 @@ public class DPoPProofCreator : IDPoPProofCreator, IDPoPProofCreatorForApiReques
         return claims;
     }
 
-    private Dictionary<string, object> SetGeneralClaims(string url, string httpMethod)
+    private Dictionary<string, object> SetGeneralClaims(string url, HttpMethod httpMethod)
     {
         return new Dictionary<string, object>()
         {
             [JwtRegisteredClaimNames.Jti] = Guid.NewGuid().ToString(),
-            ["htm"] = httpMethod,
+            ["htm"] = httpMethod.Method,
             ["htu"] = url,
             ["iat"] = _timeProvider.GetUtcNow().ToUnixTimeSeconds(),
         };

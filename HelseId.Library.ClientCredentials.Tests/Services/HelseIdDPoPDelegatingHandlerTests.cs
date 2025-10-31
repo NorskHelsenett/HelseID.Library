@@ -34,6 +34,6 @@ public class HelseIdDPoPDelegatingHandlerTests
         clientCredentialsFlowMock.Scope.Should().Be("scope");
         dpopProofCreatorMock.AccessToken.Should().Be("access token");
         dpopProofCreatorMock.Url.Should().StartWith("https://helseid.no");
-        dpopProofCreatorMock.HttpMethod.Should().Be("GET");
+        dpopProofCreatorMock.HttpMethod.Should().Be(HttpMethod.Get);
     }
 }

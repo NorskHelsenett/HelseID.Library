@@ -82,7 +82,7 @@ public class TestService : IHostedService
         // Create a DPoP proof for an API request
         // This can be automated, see our documentation for more examples
         var dpopProof = await _dPoPProofCreator.CreateDPoPProofForApiRequest(
-            "POST", 
+            HttpMethod.Post, 
             "https://api.example.com/api-endpoint", 
             accessTokenResponse);
 
