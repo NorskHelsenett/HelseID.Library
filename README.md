@@ -68,7 +68,7 @@ To retrieve a [DPoP Proof](https://utviklerportal.nhn.no/informasjonstjenester/h
 IDPoPProofCreatorForApiRequests dPoPProofCreator;
 
 var url = "URL TO THE HTTP ENDPOINT";
-var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiRequest(url, "GET", accessTokenResponse);
+var dPoPProof = await dPoPProofCreator.CreateDPoPProofForApiRequest(HttpMethod.Get, url, accessTokenResponse);
 ...
 ```
 
