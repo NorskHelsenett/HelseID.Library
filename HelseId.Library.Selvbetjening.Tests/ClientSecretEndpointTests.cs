@@ -92,7 +92,7 @@ public class ClientSecretEndpointTests
         await _clientSecretEndpoint.GetClientSecretRequest(PublicKey);
 
         _dpoPProofCreatorMock.Url.Should().Be(UpdateClientSecretEndpoint);
-        _dpoPProofCreatorMock.HttpMethod.Should().Be("POST");
+        _dpoPProofCreatorMock.HttpMethod.Should().Be(HttpMethod.Post);
         _dpoPProofCreatorMock.AccessToken.Should().Be(AccessToken);
     }
 }

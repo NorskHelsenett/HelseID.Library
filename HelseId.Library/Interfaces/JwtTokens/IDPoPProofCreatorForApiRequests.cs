@@ -10,7 +10,7 @@ public interface IDPoPProofCreatorForApiRequests
     /// <param name="accessToken">The Access Token the DPoP proof should be bound to</param>
     /// <returns></returns>
     Task<string> CreateDPoPProofForApiRequest(
-        string httpMethod,
+        HttpMethod httpMethod,
         string url,
         string accessToken);
     
@@ -22,7 +22,7 @@ public interface IDPoPProofCreatorForApiRequests
     /// <param name="accessTokenResponse">The Access Token Response the DPoP proof should be bound to</param>
     /// <returns></returns>
     Task<string> CreateDPoPProofForApiRequest(
-        string httpMethod,
+        HttpMethod httpMethod,
         string url,
         AccessTokenResponse accessTokenResponse);
 }

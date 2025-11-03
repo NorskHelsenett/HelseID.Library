@@ -29,6 +29,6 @@ public abstract class TokenRequestBuilder
 
     protected Task<string> CreateDPoPProof(string tokenEndpoint, string? dPoPNonce = null)
     {
-        return _dPoPProofCreator.CreateDPoPProofForTokenRequest(tokenEndpoint, "POST", dPoPNonce: dPoPNonce);
+        return _dPoPProofCreator.CreateDPoPProofForTokenRequest(HttpMethod.Post, tokenEndpoint, dPoPNonce: dPoPNonce);
     }
 }

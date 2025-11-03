@@ -27,7 +27,7 @@ public abstract class TokenRequestBuilderTests : ConfigurationTests
 public class DPoPProofCreatorForTokenRequestMock : IDPoPProofCreator
 {
     public string? Url { get; private set; }
-    public string? HttpMethod { get; private set; }
+    public HttpMethod? HttpMethod { get; private set; }
     public string? DPoPNonce { get; private set; }
     public string? AccessToken { get; private set; }
 
@@ -38,7 +38,7 @@ public class DPoPProofCreatorForTokenRequestMock : IDPoPProofCreator
         _dPoPProof = dPoPProof;
     }
     
-    public Task<string> CreateDPoPProofForTokenRequest(string url, string httpMethod, string? dPoPNonce = null)
+    public Task<string> CreateDPoPProofForTokenRequest(HttpMethod httpMethod, string url, string? dPoPNonce = null)
     {
         Url = url;
         HttpMethod = httpMethod;

@@ -35,7 +35,7 @@ public class ClientSecretEndpoint : IClientSecretEndpoint
 
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
         var dPopProof = await _idPoPProofCreator.CreateDPoPProofForApiRequest(
-            "POST",
+            HttpMethod.Post, 
             _selvbetjeningConfiguration.UpdateClientSecretEndpoint, 
             accessTokenResponse);
     
