@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HelseId.Library.Selvbetjening.Services;
 
-public class KeyManagementService : IKeyManagementService
+internal class KeyManagementService : IKeyManagementService
 {
     
     

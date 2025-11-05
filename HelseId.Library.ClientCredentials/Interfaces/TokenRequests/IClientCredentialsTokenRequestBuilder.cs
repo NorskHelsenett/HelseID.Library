@@ -1,4 +1,4 @@
 namespace HelseId.Library.ClientCredentials.Interfaces.TokenRequests;
 
-public interface IClientCredentialsTokenRequestBuilder 
+internal interface IClientCredentialsTokenRequestBuilder 
     : ITokenRequestBuilder<ClientCredentialsTokenRequestParameters> { }

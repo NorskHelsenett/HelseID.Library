@@ -20,3 +20,6 @@ global using System.Text.Json;
 global using HelseId.Library.ClientCredentials;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.IdentityModel.Tokens;
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("HelseId.Library.ClientCredentials.Tests")]

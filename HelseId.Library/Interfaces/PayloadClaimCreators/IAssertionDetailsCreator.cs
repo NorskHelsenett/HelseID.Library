@@ -1,6 +1,6 @@
 namespace HelseId.Library.Interfaces.PayloadClaimCreators;
 
-public interface IAssertionDetailsCreator
+internal interface IAssertionDetailsCreator
 {
     PayloadClaim CreateAssertionDetails(PayloadClaimParameters payloadClaimParameters);
 }

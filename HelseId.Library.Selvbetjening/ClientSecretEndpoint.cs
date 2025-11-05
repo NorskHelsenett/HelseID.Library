@@ -8,7 +8,7 @@ using HelseId.Library.Selvbetjening.Interfaces;
 
 namespace HelseId.Library.Selvbetjening;
 
-public class ClientSecretEndpoint : IClientSecretEndpoint
+internal class ClientSecretEndpoint : IClientSecretEndpoint
 {
     private readonly IHelseIdClientCredentialsFlow _clientCredentialsFlow;
     private readonly IDPoPProofCreatorForApiRequests _idPoPProofCreator;

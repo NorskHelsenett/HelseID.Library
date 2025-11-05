@@ -1,7 +1,7 @@
 ﻿namespace HelseId.Library.Models;
 
 
-public class HelseIdTokenRequest
+internal class HelseIdTokenRequest
 {
     public required string GrantType { get; init; }
     

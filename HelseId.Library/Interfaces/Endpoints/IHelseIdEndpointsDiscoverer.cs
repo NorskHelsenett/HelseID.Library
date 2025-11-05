@@ -1,6 +1,6 @@
 namespace HelseId.Library.Interfaces.Endpoints;
 
-public interface IHelseIdEndpointsDiscoverer
+internal interface IHelseIdEndpointsDiscoverer
 {
     Task<string> GetTokenEndpointFromHelseId();
 }

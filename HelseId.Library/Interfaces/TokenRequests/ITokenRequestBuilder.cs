@@ -1,6 +1,6 @@
 namespace HelseId.Library.Interfaces.TokenRequests;
 
-public interface ITokenRequestBuilder<T> 
+internal interface ITokenRequestBuilder<T> 
     where T : TokenRequestParameters
 {
     Task<HelseIdTokenRequest> CreateTokenRequest(

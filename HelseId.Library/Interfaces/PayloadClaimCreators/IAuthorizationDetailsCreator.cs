@@ -1,6 +1,6 @@
 namespace HelseId.Library.Interfaces.PayloadClaimCreators;
 
-public interface IAuthorizationDetailsCreator
+internal interface IAuthorizationDetailsCreator
 {
     PayloadClaim CreateAuthorizationDetails(PayloadClaimParameters payloadClaimParameters);
 }
