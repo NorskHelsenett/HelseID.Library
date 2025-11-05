@@ -5,7 +5,7 @@ using HelseId.Library.Selvbetjening.Models;
 
 namespace HelseId.Library.Selvbetjening;
 
-public class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
+internal class SelvbetjeningSecretUpdater : ISelvbetjeningSecretUpdater
 {
     private readonly IClientSecretEndpoint _clientSecretEndpoint;
     private readonly IHttpClientFactory _httpClientFactory;

@@ -3,6 +3,7 @@ using FluentAssertions;
 using HelseId.Library.Exceptions;
 using HelseId.Library.Mocks;
 using HelseId.Library.Selvbetjening.Models;
+using HelseId.Library.Selvbetjening.Tests.Mocks;
 using HelseId.Library.Tests.Mocks;
 using NUnit.Framework;
 using RichardSzalay.MockHttp;

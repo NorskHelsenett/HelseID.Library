@@ -1,4 +1,4 @@
 namespace HelseId.Library.ClientCredentials.Interfaces.PayloadClaimCreators;
 
 // Instances of this interface create a payload for use in a client assertion
-public interface IPayloadClaimsCreatorForClientAssertion : IPayloadClaimsCreator { }
+internal interface IPayloadClaimsCreatorForClientAssertion : IPayloadClaimsCreator { }

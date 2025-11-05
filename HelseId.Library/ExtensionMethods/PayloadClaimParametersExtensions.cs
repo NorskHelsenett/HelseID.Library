@@ -1,6 +1,6 @@
 namespace HelseId.Library.ExtensionMethods;
 
-public static class PayloadClaimParametersExtensions
+internal static class PayloadClaimParametersExtensions
 {
     public static bool HasUseOfClientDetails(this PayloadClaimParameters claimParameters)
     {

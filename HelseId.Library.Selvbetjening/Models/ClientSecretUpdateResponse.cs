@@ -1,6 +1,6 @@
 ﻿namespace HelseId.Library.Selvbetjening.Models;
 
-public class ClientSecretUpdateResponse
+internal class ClientSecretUpdateResponse
 {
     public required DateTimeOffset Expiration { get; set; }
 }

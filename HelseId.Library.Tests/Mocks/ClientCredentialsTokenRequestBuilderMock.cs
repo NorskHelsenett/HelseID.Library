@@ -3,9 +3,9 @@ using HelseId.Library.ClientCredentials.Models.TokenRequests;
 
 namespace HelseId.Library.Tests.Mocks;
 
-public class ClientCredentialsTokenRequestBuilderMock : IClientCredentialsTokenRequestBuilder
+internal sealed class ClientCredentialsTokenRequestBuilderMock : IClientCredentialsTokenRequestBuilder
 {
-    public ClientCredentialsTokenRequestParameters? TokenRequestParameters { get; private set; }
+    internal ClientCredentialsTokenRequestParameters? TokenRequestParameters { get; private set; }
     
     public Task<HelseIdTokenRequest> CreateTokenRequest(
         IPayloadClaimsCreator payloadClaimsCreator,

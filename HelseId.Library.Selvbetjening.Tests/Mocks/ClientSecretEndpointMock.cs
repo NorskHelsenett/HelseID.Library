@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using HelseId.Library.Selvbetjening.Interfaces;
 
-namespace HelseId.Library.Mocks;
+namespace HelseId.Library.Selvbetjening.Tests.Mocks;
 
-public class ClientSecretEndpointMock : IClientSecretEndpoint
+internal sealed class ClientSecretEndpointMock : IClientSecretEndpoint
 {
     private readonly string _uri;
     public string PublicKey { get; set; } = string.Empty;

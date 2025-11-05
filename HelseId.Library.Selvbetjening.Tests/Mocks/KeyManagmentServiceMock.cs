@@ -1,9 +1,9 @@
 ﻿using HelseId.Library.Selvbetjening.Interfaces;
 using HelseId.Library.Selvbetjening.Models;
 
-namespace HelseId.Library.Mocks;
+namespace HelseId.Library.Selvbetjening.Tests.Mocks;
 
-public class KeyManagmentServiceMock : IKeyManagementService
+internal sealed class KeyManagmentServiceMock : IKeyManagementService
 {
     public int GenerateSet { get; set; }
 
