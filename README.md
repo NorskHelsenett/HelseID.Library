@@ -59,6 +59,8 @@ else
 }
 
 ```
+If you have a [multi-tenant client](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/klientinstanser/bruk_av_multitenante_klienter_enmd/), you will probably need to setup organization numbers; see the document [Performing token requests](Documentation/ClientCredentialsUsage/token_requests.md) for this scenario.
+
 
 To retrieve a [DPoP Proof](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/dpop/dpop_enmd) you can use the `IDPoPProofCreatorForApiRequests`:
 
