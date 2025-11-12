@@ -1,8 +1,6 @@
 # HelseId.Library
 The easiest way to integrate with HelseID! This library conforms to the requirements from the HelseID [security profile](https://utviklerportal.nhn.no/informasjonstjenester/helseid/protokoller-og-sikkerhetsprofil/sikkerhetsprofil/docs/sikkerhetsprofil_enmd) for the client credentials grant (also known as machine-to-machine). 
 
-**Warning:** This is still a work in progress, so you can expect some breaking changes.
-
 ## To get started with HelseID
 
 See the docs on https://selvbetjening.nhn.no/docs
