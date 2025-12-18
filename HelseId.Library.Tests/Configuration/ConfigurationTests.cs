@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using HelseId.Library.Services.Configuration;
 
@@ -82,16 +81,5 @@ public abstract class ConfigurationTests
         {
             UseSfmId = true,
         };
-    }
-}
-
-public static class X509CertificateGenerator
-{
-    public static X509Certificate2 GenerateSelfSignedCertificate(string subjectName, X509KeyUsageFlags keyUsageFlag)
-    {
-        var rsa = RSA.Create();
-        var certRequest = new CertificateRequest($"CN={subjectName}", rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        certRequest.CertificateExtensions.Add(new X509KeyUsageExtension(keyUsageFlag, false));
-        return certRequest.CreateSelfSigned(DateTimeOffset.Now.AddDays(-1), DateTimeOffset.Now.AddYears(10));
     }
 }

@@ -1,5 +1,7 @@
-﻿using HelseId.Library.Interfaces.Configuration;
+﻿using System.Security.Cryptography.X509Certificates;
+using HelseId.Library.Interfaces.Configuration;
 using Helseid.Library.SharedTests;
+using HelseId.Library.Tests.Configuration;
 
 namespace HelseId.Library.Tests;
 
@@ -37,6 +39,23 @@ public class HelseIdServiceCollectionExtensionTests
 
         _serviceCollection.EnsureSingletonRegistration<ITokenCache, DistributedTokenCache>();
         _serviceCollection.EnsureSingletonRegistration<IDiscoveryDocumentCache, DistributedDiscoveryDocumentCache>();
+    }
+
+    [Test]
+    public void AddX509CertificateForForClientAuthentication_throws_exception_when_private_key_from_certificate_is_unreadable()
+    {
+        var certificate = X509CertificateGenerator.GenerateSelfSignedCertificate(
+            "Self signed with unavailable private key",
+            X509KeyUsageFlags.NonRepudiation, onlyPublicKey: true);
+
+        Func<IHelseIdBuilder> addCertificate = () => _serviceCollection.AddHelseIdClientCredentials(_config)
+            .AddX509CertificateForForClientAuthentication(certificate, "RS256");
+
+        addCertificate.Should().
+            Throw<ArgumentException>()
+            .Where(ae => 
+                ae.ParamName == "certificate" &&
+                ae.Message.StartsWith("There is no private key available in the certificate with thumbprint"));
     }
     
     private sealed class TestConfigurationGetter : IHelseIdConfigurationGetter
