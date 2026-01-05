@@ -13,6 +13,12 @@ public class AccessTokenResponse : TokenResponse
 
     [JsonPropertyName(JsonProperties.ExpiresIn)]
     public required int ExpiresIn { get; init; }
+
+    [JsonPropertyName(JsonProperties.RejectedScope)]
+    public string RejectedScope { get; set; } = "";
+
+    [JsonPropertyName(JsonProperties.Scope)]
+    public required string Scope { get; set; }
 }
 
 public class TokenErrorResponse : TokenResponse

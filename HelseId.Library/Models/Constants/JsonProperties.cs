@@ -6,4 +6,6 @@ public static class JsonProperties
     public const string AuthorizationEndpoint = "authorization_endpoint";
     public const string AccessToken = "access_token";
     public const string ExpiresIn = "expires_in";
+    public const string Scope = "scope";
+    public const string RejectedScope = "rejected_scope";
 }

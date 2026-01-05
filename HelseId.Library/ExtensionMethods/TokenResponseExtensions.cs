@@ -20,6 +20,7 @@ public static class TokenResponseExtensions
         {
             AccessToken = string.Empty,
             ExpiresIn = 0,
+            Scope = string.Empty
         };
         
         return false;

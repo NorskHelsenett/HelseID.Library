@@ -10,7 +10,9 @@ public class HttpRequestMessageExtensionsTests
         var accessTokenResponse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 1
+            ExpiresIn = 1,
+            Scope = "scope",
+            RejectedScope = ""
         };
         
         httpRequestMessage.SetDPoPTokenAndProof(accessTokenResponse, "dpopProof");
@@ -27,7 +29,9 @@ public class HttpRequestMessageExtensionsTests
         var accessTokenResponse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 1
+            ExpiresIn = 1,
+            Scope = "scope", 
+            RejectedScope = ""
         };
         
         httpRequestMessage.SetDPoPTokenAndProof(accessTokenResponse, "proof");
@@ -46,7 +50,9 @@ public class HttpRequestMessageExtensionsTests
         var accessTokenResponse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 1
+            ExpiresIn = 1,
+            Scope = "scope",
+            RejectedScope = ""
         };
         
         httpRequestMessage.SetDPoPTokenAndProof(accessTokenResponse, "proof");
