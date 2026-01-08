@@ -17,6 +17,8 @@ public class TokenResponseExtensionsTests
         accessTokenResponse.Should().NotBeSameAs(tokenErrorResponse);
         accessTokenResponse.AccessToken.Should().BeEmpty();
         accessTokenResponse.ExpiresIn.Should().Be(0);
+        accessTokenResponse.Scope.Should().BeEmpty();
+        accessTokenResponse.RejectedScope.Should().BeEmpty();
         response.Should().BeFalse();
     }
     
@@ -27,6 +29,8 @@ public class TokenResponseExtensionsTests
         {
             AccessToken = "sdf",
             ExpiresIn = 1,
+            Scope = "scope",
+            RejectedScope = "rejected scope"
         };
 
         var response = tokenResponse.IsSuccessful(out var accessTokenResponse);
@@ -55,6 +59,7 @@ public class TokenResponseExtensionsTests
         {
             AccessToken = "sdf",
             ExpiresIn = 1,
+            Scope = "scope"
         };
 
         var response = tokenResponse.AsError();

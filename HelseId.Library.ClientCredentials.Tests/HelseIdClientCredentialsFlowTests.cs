@@ -79,7 +79,9 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
             .Respond(JsonContent.Create(new
             {
                 access_token = "access token from endpoint",
-                expires_in = 60
+                expires_in = 60,
+                scope = "scope",
+                rejected_scope = "rejected scope"
             }));
     }
 
@@ -116,6 +118,8 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         
         accessTokenResponse.AccessToken.Should().Be("access token from endpoint");
         accessTokenResponse.ExpiresIn.Should().Be(60);
+        accessTokenResponse.Scope.Should().Be("scope");
+        accessTokenResponse.RejectedScope.Should().Be("rejected scope");
     }
 
     [Test]
@@ -193,7 +197,9 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         _cacheMock.SetCachedDataFromObject(new AccessTokenResponse
         {
             AccessToken = "cached access token",
-            ExpiresIn = 123
+            ExpiresIn = 123,
+            Scope = "scope",
+            RejectedScope = ""
         });
         
         var firstTokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync() as AccessTokenResponse;
@@ -211,7 +217,9 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         _cacheMock.SetCachedDataFromObject(new AccessTokenResponse()
         {
             AccessToken = "cached access token",
-            ExpiresIn = 123
+            ExpiresIn = 123,
+            Scope = "cached scope",
+            RejectedScope = "cached rejected scope"
         });
         
         var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync() as AccessTokenResponse;
@@ -219,6 +227,8 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         tokenResponse.Should().NotBeNull();
         tokenResponse.AccessToken.Should().Be("cached access token");
         tokenResponse.ExpiresIn.Should().Be(123);
+        tokenResponse.Scope.Should().Be("cached scope");
+        tokenResponse.RejectedScope.Should().Be("cached rejected scope");
     }
 
     [Test]
@@ -314,7 +324,7 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         tokenResponse.Should().BeOfType<AccessTokenResponse>();
         var accessTokenResponse = (AccessTokenResponse)tokenResponse;
         accessTokenResponse.AccessToken.Should().Be("access token from endpoint");
-        accessTokenResponse.RawResponse.Should().Be("{\"access_token\":\"access token from endpoint\",\"expires_in\":60}");
+        accessTokenResponse.RawResponse.Should().Be("{\"access_token\":\"access token from endpoint\",\"expires_in\":60,\"scope\":\"scope\",\"rejected_scope\":\"rejected scope\"}");
     }
     
     [Test]
@@ -356,7 +366,9 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         _cacheMock.SetCachedDataFromObject(new AccessTokenResponse
         {
             AccessToken = "cached access token",
-            ExpiresIn = 123
+            ExpiresIn = 123,
+            Scope = "scope",
+            RejectedScope = ""
         });
         
         await _clientCredentialsFlow.GetTokenResponseAsync();
@@ -374,14 +386,18 @@ public class HelseIdClientCredentialsFlowTests : IDisposable
         _cacheMock.SetCachedDataFromObject(new AccessTokenResponse()
         {
             AccessToken = "cached access token",
-            ExpiresIn = 123
+            ExpiresIn = 123,
+            Scope = "cached scope",
+            RejectedScope = "cached rejected scope"
         });
         
         var tokenResponse = await _clientCredentialsFlow.GetTokenResponseAsync();
         tokenResponse.Should().BeOfType<AccessTokenResponse>();
-        var accsessTokenResponse = (AccessTokenResponse)tokenResponse;
+        var accessTokenResponse = (AccessTokenResponse)tokenResponse;
 
-        accsessTokenResponse.AccessToken.Should().Be("cached access token");
+        accessTokenResponse.AccessToken.Should().Be("cached access token");
+        accessTokenResponse.Scope.Should().Be("cached scope");
+        accessTokenResponse.RejectedScope.Should().Be("cached rejected scope");
     }
 
 

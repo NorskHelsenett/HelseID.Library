@@ -21,7 +21,9 @@ public class InMemoryTokenCacheTests
         var expectedTokenRepsonse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 1234
+            ExpiresIn = 1234,
+            Scope = "scope",
+            RejectedScope = ""
         };
 
         await _tokenCache.AddTokenToCache("cachekey", expectedTokenRepsonse);
@@ -42,7 +44,9 @@ public class InMemoryTokenCacheTests
         var expectedTokenRepsonse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 60
+            ExpiresIn = 60,
+            Scope = "scope",
+            RejectedScope = ""
         };
 
         await _tokenCache.AddTokenToCache("cachekey", expectedTokenRepsonse);

@@ -114,8 +114,16 @@ public static class HelseIdServiceCollectionExtensions
         var x509SigningCredentials = new X509SigningCredentials(certificate, algorithm);
         var key = x509SigningCredentials.Key as X509SecurityKey;
         var jsonWebKey = JsonWebKeyConverter.ConvertFromX509SecurityKey(key, representAsRsaKey: true);
-        var signingCredental = new SigningCredentials(jsonWebKey, algorithm);
 
+        if (!jsonWebKey.HasPrivateKey)
+        {
+            throw new ArgumentException(
+                $"There is no private key available in the certificate with thumbprint {certificate.Thumbprint}",
+                nameof(certificate));
+        }
+        
+        var signingCredental = new SigningCredentials(jsonWebKey, algorithm);
+        
         helseIdBuilder.Services.AddSingleton<ISigningCredentialReference>(new StaticSigningCredentialReference(signingCredental));
         return helseIdBuilder;
     }

@@ -21,7 +21,9 @@ public class DistributedTokenCacheTests
         var expectedTokenRepsonse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 123
+            ExpiresIn = 123,
+            Scope = "scope",
+            RejectedScope = ""
         };
 
         _distributedMemoryCacheMock.SetCachedDataFromObject(expectedTokenRepsonse);
@@ -38,7 +40,9 @@ public class DistributedTokenCacheTests
         var expectedTokenRepsonse = new AccessTokenResponse
         {
             AccessToken = "access token",
-            ExpiresIn = 123
+            ExpiresIn = 123,
+            Scope = "scope",
+            RejectedScope = ""
         };
 
         await _tokenCache.AddTokenToCache("cachekey", expectedTokenRepsonse);

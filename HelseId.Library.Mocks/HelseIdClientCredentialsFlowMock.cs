@@ -13,10 +13,14 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
     public int CallCount { get; private set; }
 
     private readonly string _accessToken;
+    private readonly string _scope;
+    private readonly string _rejectedScope;
 
-    public HelseIdClientCredentialsFlowMock(string accessToken)
+    public HelseIdClientCredentialsFlowMock(string accessToken, string scope, string rejectedScope = "")
     {
         _accessToken = accessToken;
+        _scope = scope;
+        _rejectedScope = rejectedScope;
     }
 
     public Task<TokenResponse> GetTokenResponseAsync()
@@ -62,7 +66,9 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
         return new AccessTokenResponse
         {
             AccessToken = _accessToken,
-            ExpiresIn = 60
+            ExpiresIn = 60,
+            Scope = _scope,
+            RejectedScope = _rejectedScope,
         };
     }
 

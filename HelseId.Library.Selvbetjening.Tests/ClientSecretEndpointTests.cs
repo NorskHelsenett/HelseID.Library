@@ -20,6 +20,8 @@ public class ClientSecretEndpointTests
     private const string SelvbetjeningScope = "2934692346932468932";
     private const string UpdateClientSecretEndpoint = "https://selvbetjening/keyupdater";
     private const string AccessToken = "349857349857435oihj3o4rjeruf9u3r9uf934uf90u";
+    private const string Scope = "scope";
+    private const string RejectedScope = "rejected scope";
     private const string PublicKey = """
                                      {
                                          "kty": "RSA",
@@ -34,7 +36,7 @@ public class ClientSecretEndpointTests
     [SetUp]
     public void Setup()
     {
-        _clientCredentialsFlowMock = new HelseIdClientCredentialsFlowMock(AccessToken);
+        _clientCredentialsFlowMock = new HelseIdClientCredentialsFlowMock(AccessToken, Scope, RejectedScope);
         _dpoPProofCreatorMock = new DPoPProofCreatorMock(DpopProof);
         _helseIdConfiguration = new HelseIdConfiguration
         {
