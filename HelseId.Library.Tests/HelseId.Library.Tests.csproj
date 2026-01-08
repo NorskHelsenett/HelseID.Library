@@ -1,13 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <IsPackable>false</IsPackable>
-        <RootNamespace>HelseId.Library.Tests</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>HelseId.Library.Tests</RootNamespace>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.4">
@@ -26,15 +27,15 @@
         <PackageReference Include="RichardSzalay.MockHttp" Version="7.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Using Include="NUnit.Framework"/>
-    </ItemGroup>
+  <ItemGroup>
+    <Using Include="NUnit.Framework"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\HelseId.Library.ClientCredentials\HelseId.Library.ClientCredentials.csproj" />
-      <ProjectReference Include="..\HelseId.Library.Mocks\HelseId.Library.Mocks.csproj" />
-      <ProjectReference Include="..\HelseId.Library.SharedTests\HelseId.Library.SharedTests.csproj" />
-      <ProjectReference Include="..\HelseId.Library\HelseId.Library.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HelseId.Library.ClientCredentials\HelseId.Library.ClientCredentials.csproj"/>
+    <ProjectReference Include="..\HelseId.Library.Mocks\HelseId.Library.Mocks.csproj"/>
+    <ProjectReference Include="..\HelseId.Library.SharedTests\HelseId.Library.SharedTests.csproj"/>
+    <ProjectReference Include="..\HelseId.Library\HelseId.Library.csproj"/>
+  </ItemGroup>
 
 </Project>
