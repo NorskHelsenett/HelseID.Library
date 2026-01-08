@@ -42,16 +42,20 @@ The TokenResponse will always be an instance of *either* `AccessTokenResponse` *
 ```csharp
 public class AccessTokenResponse : TokenResponse
 {
-    public required string AccessToken { get; init; }
-    public required int ExpiresIn { get; init; }
+    public string AccessToken { get; init; }
+    public int ExpiresIn { get; init; }
+    public string Scope { get; set; }
+    public string RejectedScope { get; set; }
 }
 
 public class TokenErrorResponse : TokenResponse
 {
-    public required string Error { get; set; }
+    public string Error { get; set; }
     public string ErrorDescription { get; set; } = "";
 }
 ```
+
+The `AccessTokenResponse` type has parameters matchig the relevant return values for the Client Credentials flow. The `RejectedScope` parameter is only set when using a multi-tenant client representing an organization that has not signed the required terms of use. More details can be found in the [NHN Utviklerportal](https://utviklerportal.nhn.no/informasjonstjenester/helseid/bruksmoenstre-og-eksempelkode/bruk-av-helseid/docs/teknisk-referanse/endepunkt/token-endepunktet_enmd).
 
 To check if a Client Credentials token request was successful, you either check the type of the `TokenResponse` object:
 
