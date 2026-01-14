@@ -16,7 +16,7 @@ public class HelseIdClientCredentialsFlowMock : IHelseIdClientCredentialsFlow
     private readonly string _scope;
     private readonly string _rejectedScope;
 
-    public HelseIdClientCredentialsFlowMock(string accessToken, string scope, string rejectedScope = "")
+    public HelseIdClientCredentialsFlowMock(string accessToken, string scope = "", string rejectedScope = "")
     {
         _accessToken = accessToken;
         _scope = scope;
