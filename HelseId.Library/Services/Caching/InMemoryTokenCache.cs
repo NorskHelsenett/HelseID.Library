@@ -1,8 +1,10 @@
+using System.Collections.Concurrent;
+
 namespace HelseId.Library.Services.Caching;
 
 public class InMemoryTokenCache : ITokenCache
 {
-    private readonly Dictionary<string, TokenResponseContainer?> _cache = new();
+    private readonly ConcurrentDictionary<string, TokenResponseContainer?> _cache = new();
     private readonly TimeProvider _timeProvider;
 
     public InMemoryTokenCache(TimeProvider timeProvider)
@@ -24,7 +26,7 @@ public class InMemoryTokenCache : ITokenCache
                 return Task.FromResult<AccessTokenResponse?>(cachedTokenResponse.TokenResponse);
             }
 
-            _cache.Remove(cacheKey);
+            _cache.Remove(cacheKey, out _);
         }
 
         return Task.FromResult<AccessTokenResponse?>(null);
