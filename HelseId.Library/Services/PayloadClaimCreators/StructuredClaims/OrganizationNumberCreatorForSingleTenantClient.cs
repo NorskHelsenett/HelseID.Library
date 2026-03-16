@@ -12,7 +12,7 @@ public class OrganizationNumberCreatorForSingleTenantClient : IStructuredClaimsC
         
         if (string.IsNullOrEmpty(payloadClaimParameters.ChildOrganizationNumber))
         {
-            throw new MissingParentOrganizationNumberException();
+            throw new MissingChildOrganizationNumberException();
         }
         
         // When the client is of the multi-tenancy type, it will require a parent organization number claim.
