@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using FluentAssertions;
 using HelseId.Library.Exceptions;
-using HelseId.Library.Mocks;
 using HelseId.Library.Selvbetjening.Models;
 using HelseId.Library.Selvbetjening.Tests.Mocks;
 using HelseId.Library.Tests.Mocks;
@@ -77,7 +76,7 @@ public class SelvbetjeningSecretUpdaterTests
     }
 
     [Test]
-    public void UpdateClientSecret_throws_HelseIdException_when_updateclientsecret_response_is_not_success()
+    public async Task UpdateClientSecret_throws_HelseIdException_when_updateclientsecret_response_is_not_success()
     {
         var mockHttpMessageHandler = new MockHttpMessageHandlerWithCount();
 
@@ -90,7 +89,7 @@ public class SelvbetjeningSecretUpdaterTests
             httpClientFactoryMock,
             _keyManagmentServiceMock);
 
-        var exception = Assert.ThrowsAsync<HelseIdException>(async () => await selvbetjeningSecretUpdater.UpdateClientSecret());
+        var exception = await Assert.ThrowsAsync<HelseIdException>(async () => await selvbetjeningSecretUpdater.UpdateClientSecret());
         exception!.Message.Should().Be("{\"error\": \"invalid_request\"}");
         exception.Error.Should().Be("Error from Selvbetjening");
     }
