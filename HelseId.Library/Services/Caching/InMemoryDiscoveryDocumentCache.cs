@@ -2,9 +2,7 @@
 
 public class InMemoryDiscoveryDocumentCache : IDiscoveryDocumentCache
 {
-    private const string DiscoveryDocumentKey = "DiscoveryDocument";
-
-    private readonly Dictionary<string, DiscoveryDocumentContainer?> _cache = new();
+    private DiscoveryDocumentContainer? _discoveryDocumentContainer;
     private readonly TimeProvider _timeProvider;
 
     public InMemoryDiscoveryDocumentCache(TimeProvider timeProvider)
@@ -14,17 +12,14 @@ public class InMemoryDiscoveryDocumentCache : IDiscoveryDocumentCache
 
     public Task<DiscoveryDocument?> GetDiscoveryDocument()
     {
-        if (_cache.TryGetValue(DiscoveryDocumentKey, out DiscoveryDocumentContainer? discoveryDocumentContainer))
+        if (_discoveryDocumentContainer == null)
         {
-            if (discoveryDocumentContainer == null)
-            {
-                return Task.FromResult<DiscoveryDocument?>(null);
-            }
+            return Task.FromResult<DiscoveryDocument?>(null);
+        }
 
-            if (discoveryDocumentContainer.Expires > _timeProvider.GetUtcNow())
-            {
-                return Task.FromResult<DiscoveryDocument?>(discoveryDocumentContainer.DiscoveryDocument);
-            }
+        if (_discoveryDocumentContainer.Expires > _timeProvider.GetUtcNow())
+        {
+            return Task.FromResult<DiscoveryDocument?>(_discoveryDocumentContainer.DiscoveryDocument);
         }
 
         return Task.FromResult<DiscoveryDocument?>(null);
@@ -32,7 +27,7 @@ public class InMemoryDiscoveryDocumentCache : IDiscoveryDocumentCache
 
     public Task AddDiscoveryDocumentToCache(DiscoveryDocument discoveryDocument)
     {
-        _cache[DiscoveryDocumentKey] = new DiscoveryDocumentContainer(discoveryDocument, _timeProvider);
+        _discoveryDocumentContainer = new DiscoveryDocumentContainer(discoveryDocument, _timeProvider);
         return Task.CompletedTask;
     }
 
